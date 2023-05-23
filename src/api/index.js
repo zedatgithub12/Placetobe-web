@@ -1,0 +1,53 @@
+const Connections ={
+api: "https://app.p2b-ethiopia.com/placetobe/",
+signUp: "Signup.php",
+  signIn: "Signin.php",
+  googleSignUp: "GoogleSignUp.php",
+  googleSignIn: "GoogleSignIn.php",
+  AddEvent: "AddEvent.php",
+  TodayEvents: "TodayEvents.php",
+  follow: "follow.php",
+  followers: "followers.php",
+  following: "following.php",
+  upload: "uploadimage.php",
+  assets: "assets/",
+  organizer: "organizer.php", //updated
+  search: "search.php",
+  notification: "notification.php",
+  profile: "UserProfile.php",
+  updateProfile: "updateProfile.php",
+  userInfo: "userInfo.php",
+  MetaData: "MetaData.php",
+  updateUserInfo: "updateUserInfo.php",
+  ChangePassword: "changePassword.php",
+  WeekEvents: "WeekEvents.php",
+  UpcomingEvents: "UpcomingEvents.php",
+  categoryFilter: "categoryFilter.php",
+  YourEvents: "YourEvents.php",
+  OrganizerFollowCounter: "organizerFollowers.php",
+  organizerEvents: "OrganizerEvents.php",
+  FeedBacks: "FeedBacks.php",
+  forgotPassword: "forgotPassword.php",
+  status: "status.php",
+  Images: "Images.php",
+  appInfo: "appInfo.php",
+
+
+
+  // second version connnections
+  AddTicket: "AddTicket.php",
+  myTickets: "MyTickets.php",
+  Soldout: "SoldOut.php",
+  EventPoster: "EventPoster.php",
+  UpdateTicket: "UpdateTicket.php",
+  updateEvent: "UpdateEvent.php",
+  Cancelled: "Cancelled.php",
+  eventTicket: "EventTicket.php",
+  Payment: "Payment.php",
+  Event: "SingleEvent.php", // a file to retrive single event by its event ID
+  reservation: "Reservation.php",
+  AvailableTickets: "AvailableTickets.php",
+  FeaturedEvent: "FeaturedEvent.php",
+  boughtTickets: "boughtTickets.php",
+}
+export default Connections;

@@ -11,7 +11,7 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 // ==============================|| APP ||============================== //
 
 const App = () => {
