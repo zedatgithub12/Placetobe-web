@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Tabs, Tab, Paper, IconButton, ListItemIcon, Avatar, Skeleton } from '@mui/material';
-import {
-    IconMusic,
-    IconSportBillard,
-    IconArtboard,
-    IconMeat,
-    IconTree,
-    IconCalendar,
-    IconMap,
-    IconTicket,
-    IconClockHour7,
-    IconLocation,
-    IconMapPin
-} from '@tabler/icons';
+import { Typography, Box, Tabs, Tab, Paper, IconButton, ListItemIcon, Skeleton } from '@mui/material';
+import { IconCalendar, IconTicket, IconClockHour7, IconMapPin } from '@tabler/icons';
 import { useTheme } from '@mui/material/styles';
 
-import { Grid, Card, CardMedia, CardContent, CardActionArea, List } from '@mui/material';
-import { Event, AccessTime, LocationOn, AttachMoney } from '@mui/icons-material';
+import { Grid, Card, CardContent, CardActionArea } from '@mui/material';
+
 import PropTypes from 'prop-types';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 // project imports
@@ -80,9 +68,8 @@ const Events = () => {
 
     return (
         <>
-            <Box>
-                <ImageCarousel />
-            </Box>
+            <ImageCarousel />
+
             <Box
                 sx={{
                     display: 'flex',
@@ -129,15 +116,22 @@ const Events = () => {
                         >
                             {category.icon}
                         </IconButton>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 500, textTransform: 'capitalize', textAlign: 'center' }}>
+                        <Typography
+                            variant="subtitle2"
+                            sx={{
+                                fontWeight: 500,
+                                textTransform: 'capitalize',
+                                textAlign: 'center'
+                            }}
+                        >
                             {category.title}
                         </Typography>
                     </Box>
                 ))}
             </Box>
 
-            <div>
-                <Paper sx={{ marginBottom: theme.spacing(2) }}>
+            <>
+                <Paper paddingX={3} sx={{ marginBottom: theme.spacing(2) }}>
                     <Tabs
                         value={filter}
                         onChange={handleTabChange}
@@ -154,7 +148,7 @@ const Events = () => {
                     </Tabs>
                 </Paper>
                 {loading ? (
-                    <Grid container spacing={2} alignItems="center" style={{ paddingLeft: 20 }}>
+                    <Grid container spacing={2} alignItems="center">
                         <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
                             <ProductPlaceholder />
                         </Grid>
@@ -176,7 +170,7 @@ const Events = () => {
                 )}
 
                 {/* filteredEventsByFilter.slice(currentPage, currentPage + eventsPerPage) */}
-            </div>
+            </>
         </>
     );
 };
@@ -204,7 +198,7 @@ const EventCard = ({ events }) => {
     };
 
     return (
-        <Grid container spacing={2} alignItems="center" style={{ paddingLeft: 20 }}>
+        <Grid container spacing={2} alignItems="center">
             {events &&
                 events.map((event, index) => (
                     <Grid
