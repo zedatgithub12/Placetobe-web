@@ -55,7 +55,6 @@ function Dashboard() {
             </Grid> */
         // </Grid>
         <>
-            <Eventcard />
             <br /> <br />
             <TotalIncomeLightCard isLoading={isLoading} />
         </>

@@ -46,6 +46,42 @@ const EventsData = [
         venue: 'Venue 3',
         price: '$30',
         category: 'food'
+    },
+    {
+        id: 2,
+        image: 'https://picsum.photos/150/150',
+        name: 'Event 2',
+        startDate: '2022-11-12',
+        startTime: '1:00 PM',
+        endDate: '2022-11-12',
+        endTime: '5:00 PM',
+        venue: 'Venue 2',
+        price: '$20',
+        category: 'sports'
+    },
+    {
+        id: 3,
+        image: 'https://picsum.photos/150/150',
+        name: 'Event 3',
+        startDate: '2023-11-13',
+        startTime: '2:00 PM',
+        endDate: '2022-11-13',
+        endTime: '6:00 PM',
+        venue: 'Venue 3',
+        price: '$30',
+        category: 'food'
+    },
+    {
+        id: 4,
+        image: 'https://picsum.photos/150/150',
+        name: 'Event 3',
+        startDate: '2022-11-13',
+        startTime: '2:00 PM',
+        endDate: '2022-11-13',
+        endTime: '6:00 PM',
+        venue: 'Venue 3',
+        price: '$30',
+        category: 'food'
     }
 ];
 

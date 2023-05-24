@@ -41,14 +41,14 @@ const dashboard = {
     // cancelling title: 'Dashboard',
     type: 'group',
     children: [
-        {
-            id: 'default',
-            title: 'Home',
-            type: 'item',
-            url: '/home/default',
-            icon: icons.IconHome,
-            breadcrumbs: false
-        },
+        // {
+        // //     id: 'default',
+        // //     title: 'Events',
+        // //     type: 'item',
+        // //     url: '/events',
+        // //     icon: icons.IconHome,
+        // //     breadcrumbs: false
+        // // },
         {
             id: 'events',
             title: 'Events',
