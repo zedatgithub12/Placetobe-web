@@ -57,31 +57,6 @@ const dashboard = {
             icon: icons.IconCalendarEvent,
             breadcrumbs: false
         }
-
-        // {
-        //     id: 'sales',
-        //     title: 'Venue',
-        //     type: 'item',
-        //     url: '/sample-page',
-        //     icon: icons.IconBuildingWarehouse,
-        //     breadcrumbs: false
-        // },
-        // {
-        //     id: 'customers',
-        //     title: 'Blog',
-        //     type: 'item',
-        //     url: '/sample-page',
-        //     icon: icons.IconNews,
-        //     breadcrumbs: false
-        // },
-        // {
-        //     id: 'sales',
-        //     title: 'Event Organizers',
-        //     type: 'item',
-        //     url: '/sample-page',
-        //     icon: icons.IconMan,
-        //     breadcrumbs: false
-        // }
     ]
 };
 

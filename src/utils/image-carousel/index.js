@@ -9,8 +9,8 @@ import 'swiper/swiper-bundle.css';
 SwiperCore.use([Autoplay, Pagination]);
 
 const settings = {
-    slidesPerView: 1,
-    spaceBetween: 30,
+    slidesPerView: 2,
+    spaceBetween: 20,
     loop: true,
     autoplay: {
         delay: 7000,
@@ -50,7 +50,7 @@ function ImageCarousel() {
                                     src={Connections.api + Connections.assets + image.image}
                                     alt=""
                                     className="img-fluid rounded-4"
-                                    style={{ height: '80%', width: '100%', borderRadius: 2 }}
+                                    style={{ width: '100%', borderRadius: 2 }}
                                 />
                             </SwiperSlide>
                         ))}

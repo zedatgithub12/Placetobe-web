@@ -12,6 +12,7 @@ import Connections from 'api';
 import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
 import categories from 'data/categories';
 import ImageCarousel from 'utils/image-carousel';
+import { useNavigate } from 'react-router-dom';
 
 // ==============================|| EVENTS PAGE ||============================== //
 
@@ -25,7 +26,11 @@ const Events = () => {
     const [rowsPerPage, setRowsPerPage] = useState(12);
 
     const handleCategoryClick = (category) => {
-        setActiveCategory(category.title);
+        if (activeCategory === category.title) {
+            setActiveCategory('All');
+        } else {
+            setActiveCategory(category.title);
+        }
     };
 
     const handleChangePage = (event, newPage) => {
@@ -38,7 +43,6 @@ const Events = () => {
     };
     const handleTabChange = (event, value) => {
         setFilter(value);
-        setActiveCategory('All');
     };
 
     useEffect(() => {
@@ -68,8 +72,6 @@ const Events = () => {
 
     return (
         <>
-            <ImageCarousel />
-
             <Box
                 sx={{
                     display: 'flex',
@@ -92,13 +94,11 @@ const Events = () => {
                             alignItems: 'center',
                             margin: '0 12px',
                             cursor: 'pointer',
-
                             marginY: 4
                         }}
                         onClick={() => handleCategoryClick(category)}
                     >
                         <IconButton
-                            className={`${activeCategory && activeCategory.title === category.title ? 'bg-success' : ''}`}
                             sx={{
                                 width: 64,
                                 height: 64,
@@ -108,10 +108,10 @@ const Events = () => {
                                 borderRadius: '50%',
                                 marginBottom: theme.spacing(1),
 
-                                background: theme.palette.background.default,
-                                '&.active': {
-                                    color: theme.palette.warning.dark
-                                }
+                                background:
+                                    activeCategory && activeCategory === category.title
+                                        ? theme.palette.warning.dark
+                                        : theme.palette.background.default
                             }}
                         >
                             {category.icon}
@@ -166,10 +166,36 @@ const Events = () => {
                         </Grid>
                     </Grid>
                 ) : (
-                    <EventCard events={paginatedData} />
+                    <EventCard events={paginatedData.slice(0, 5)} />
                 )}
 
-                {/* filteredEventsByFilter.slice(currentPage, currentPage + eventsPerPage) */}
+                {paginatedData.length >= 4 && (
+                    <Box marginY={4}>
+                        <ImageCarousel />
+                    </Box>
+                )}
+
+                {loading ? (
+                    <Grid container spacing={2} alignItems="center" marginTop={1}>
+                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                            <ProductPlaceholder />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                            <ProductPlaceholder />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                            <ProductPlaceholder />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                            <ProductPlaceholder />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                            <ProductPlaceholder />
+                        </Grid>
+                    </Grid>
+                ) : (
+                    <EventCard events={paginatedData.slice(5, paginatedData.length)} />
+                )}
             </>
         </>
     );
@@ -177,7 +203,7 @@ const Events = () => {
 
 const EventCard = ({ events }) => {
     const theme = useTheme();
-
+    const navigate = useNavigate();
     //a function which arrange a time to human readable format
     const TimeFun = (eventTime) => {
         var time = eventTime;
@@ -210,7 +236,7 @@ const EventCard = ({ events }) => {
                         xl={2.4}
                         key={index}
                         onClick={() =>
-                            navigate('/view-event', {
+                            navigate('/event-detail', {
                                 state: { ...event }
                             })
                         }

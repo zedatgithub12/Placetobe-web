@@ -3,10 +3,10 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Events = Loadable(lazy(() => import('views/events')));
+const EventDetail = Loadable(lazy(() => import('views/event-detail')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -25,14 +25,14 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <DashboardDefault />
+            element: <Events />
         },
         {
             path: 'home',
             children: [
                 {
                     path: 'default',
-                    element: <DashboardDefault />
+                    element: <Events />
                 }
             ]
         },
@@ -103,6 +103,10 @@ const MainRoutes = {
         {
             path: 'events',
             element: <Events />
+        },
+        {
+            path: 'event-detail',
+            element: <EventDetail />
         }
     ]
 };
