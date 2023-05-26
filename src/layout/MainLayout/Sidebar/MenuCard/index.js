@@ -18,6 +18,7 @@ import {
 
 // assets
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import { IconApps } from '@tabler/icons';
 
 // styles
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -33,7 +34,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const CardStyle = styled(Card)(({ theme }) => ({
-    background: theme.palette.primary.light,
+    background: theme.palette.warning.light,
     marginBottom: '22px',
     overflow: 'hidden',
     position: 'relative',
@@ -42,7 +43,7 @@ const CardStyle = styled(Card)(({ theme }) => ({
         position: 'absolute',
         width: '157px',
         height: '157px',
-        background: theme.palette.primary[200],
+        background: theme.palette.warning.dark,
         borderRadius: '50%',
         top: '-105px',
         right: '-96px'
@@ -87,7 +88,13 @@ const MenuCard = () => {
     return (
         <CardStyle>
             <CardContent sx={{ p: 2 }}>
-                <List sx={{ p: 0, m: 0 }}>
+                <List
+                    sx={{ p: 0, m: 0 }}
+                    component="a"
+                    href="https://play.google.com/store/apps/details?id=com.afromina.placetobe&hl=en&gl=US"
+                    target="_blank"
+                    className="text-decoration-none"
+                >
                     <ListItem alignItems="flex-start" disableGutters sx={{ p: 0 }}>
                         <ListItemAvatar sx={{ mt: 0 }}>
                             <Avatar
@@ -95,28 +102,46 @@ const MenuCard = () => {
                                 sx={{
                                     ...theme.typography.commonAvatar,
                                     ...theme.typography.largeAvatar,
-                                    color: theme.palette.primary.main,
+                                    color: theme.palette.warning.dark,
                                     border: 'none',
-                                    borderColor: theme.palette.primary.main,
+                                    borderColor: theme.palette.warning.dark,
                                     background: '#fff',
                                     marginRight: '12px'
                                 }}
                             >
-                                <TableChartOutlinedIcon fontSize="inherit" />
+                                <IconApps fontSize="inherit" />
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText
                             sx={{ mt: 0 }}
                             primary={
-                                <Typography variant="subtitle1" sx={{ color: theme.palette.primary[800] }}>
-                                    Get Extra Space
+                                <>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{ color: theme.palette.grey[900] }}
+                                        component="a"
+                                        href="https://play.google.com/store/apps/details?id=com.afromina.placetobe&hl=en&gl=US"
+                                        target="_blank"
+                                        className="text-decoration-none"
+                                    >
+                                        Download Our App
+                                    </Typography>
+                                </>
+                            }
+                            secondary={
+                                <Typography
+                                    variant="caption"
+                                    component="a"
+                                    href="https://play.google.com/store/apps/details?id=com.afromina.placetobe&hl=en&gl=US"
+                                    target="_blank"
+                                    className="text-decoration-none"
+                                >
+                                    From Google Play Store
                                 </Typography>
                             }
-                            secondary={<Typography variant="caption"> 28/23 GB</Typography>}
                         />
                     </ListItem>
                 </List>
-                <LinearProgressWithLabel value={80} />
             </CardContent>
         </CardStyle>
     );

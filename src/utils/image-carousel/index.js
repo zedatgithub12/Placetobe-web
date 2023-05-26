@@ -2,27 +2,30 @@ import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import Connections from 'api';
 import { useEffect, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 import SwiperCore, { Autoplay, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 
 SwiperCore.use([Autoplay, Pagination]);
 
-const settings = {
-    slidesPerView: 2,
-    spaceBetween: 20,
-    loop: true,
-    autoplay: {
-        delay: 7000,
-        disableOnInteraction: false
-    },
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-    }
-};
-
 function ImageCarousel() {
+    const isXsSmMd = useMediaQuery('(max-width:960px)');
+    const isXl = useMediaQuery('(min-width:1920px)');
+
+    const settings = {
+        slidesPerView: isXsSmMd ? 1 : isXl ? 3 : 2,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 7000,
+            disableOnInteraction: false
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        }
+    };
     const [images, setImages] = useState([]);
 
     useEffect(() => {

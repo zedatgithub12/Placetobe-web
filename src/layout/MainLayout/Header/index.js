@@ -6,12 +6,12 @@ import { Avatar, Box, ButtonBase } from '@mui/material';
 
 // project imports
 import LogoSection from '../LogoSection';
-import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
-import NotificationSection from './NotificationSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
+import AddEvent from './AddEvent';
+import NotificationSection from './NotificationSection';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -40,11 +40,11 @@ const Header = ({ handleLeftDrawerToggle }) => {
                             ...theme.typography.commonAvatar,
                             ...theme.typography.mediumAvatar,
                             transition: 'all .2s ease-in-out',
-                            background: theme.palette.secondary.light,
-                            color: theme.palette.secondary.dark,
+                            background: theme.palette.warning.dark,
+                            color: theme.palette.grey[800],
                             '&:hover': {
-                                background: theme.palette.secondary.dark,
-                                color: theme.palette.secondary.light
+                                background: theme.palette.warning.dark,
+                                color: theme.palette.grey[800]
                             }
                         }}
                         onClick={handleLeftDrawerToggle}
@@ -54,14 +54,12 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     </Avatar>
                 </ButtonBase>
             </Box>
-
             {/* header search */}
-            <SearchSection />
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ flexGrow: 1 }} />
-
-            {/* notification & profile */}
-            <NotificationSection />
+            {/* add event, notification & profile */}
+            <AddEvent />
+            {/* <NotificationSection /> */}
             <ProfileSection />
         </>
     );

@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ffbb00;
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}

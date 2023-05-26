@@ -31,6 +31,11 @@ const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme 
     marginLeft: 16,
     paddingLeft: 16,
     paddingRight: 16,
+
+    '&:focus': {
+        borderColor: '#ffbb00'
+    },
+
     '& input': {
         background: 'transparent !important',
         paddingLeft: '4px !important'
@@ -48,11 +53,11 @@ const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme 
 const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => ({
     ...theme.typography.commonAvatar,
     ...theme.typography.mediumAvatar,
-    background: theme.palette.secondary.light,
-    color: theme.palette.secondary.dark,
+    background: theme.palette.warning.light,
+    color: theme.palette.warning.dark,
     '&:hover': {
-        background: theme.palette.secondary.dark,
-        color: theme.palette.secondary.light
+        background: theme.palette.warning.dark,
+        color: theme.palette.warning.light
     }
 }));
 
@@ -74,11 +79,11 @@ const MobileSearch = ({ value, setValue, popupState }) => {
             }
             endAdornment={
                 <InputAdornment position="end">
-                    <ButtonBase sx={{ borderRadius: '12px' }}>
+                    {/* <ButtonBase sx={{ borderRadius: '12px' }}>
                         <HeaderAvatarStyle variant="rounded">
                             <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
                         </HeaderAvatarStyle>
-                    </ButtonBase>
+                    </ButtonBase> */}
                     <Box sx={{ ml: 2 }}>
                         <ButtonBase sx={{ borderRadius: '12px' }}>
                             <Avatar
@@ -175,9 +180,10 @@ const SearchSection = () => {
                     endAdornment={
                         <InputAdornment position="end">
                             <ButtonBase sx={{ borderRadius: '12px' }}>
-                                <HeaderAvatarStyle variant="rounded">
+                                {/* a component to filter the events */}
+                                {/* <HeaderAvatarStyle variant="rounded">
                                     <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                                </HeaderAvatarStyle>
+                                </HeaderAvatarStyle> */}
                             </ButtonBase>
                         </InputAdornment>
                     }
