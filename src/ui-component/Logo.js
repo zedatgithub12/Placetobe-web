@@ -6,7 +6,7 @@
 
  *
  */
-import logo from 'assets/images/logo.png';
+import p2blogo from 'assets/images/p2blogo.png';
 // ==============================|| LOGO SVG ||============================== //
 
 const Logo = () => {
@@ -14,7 +14,7 @@ const Logo = () => {
         /**
          * if you want to use image instead of svg uncomment following, and comment out <svg> element.
          */
-        <img src={logo} alt="Place to be" width="116" height="50" />
+        <img src={p2blogo} alt="Place to be" width="116" height="50" />
 
         // <svg width="92" height="32" viewBox="0 0 92 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         //     <path
