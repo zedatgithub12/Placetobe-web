@@ -1,8 +1,10 @@
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, ButtonBase } from '@mui/material';
 import { IconPlus } from '@tabler/icons';
+// import { useNavigate } from 'react-router-dom';
 
 const AddEvent = () => {
+    // const navigate = useNavigate();
     const theme = useTheme();
     return (
         <Box
