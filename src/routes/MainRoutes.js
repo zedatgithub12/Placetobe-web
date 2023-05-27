@@ -4,7 +4,7 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+// const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Events = Loadable(lazy(() => import('views/events')));
 const EventDetail = Loadable(lazy(() => import('views/event-detail')));
 // utilities routing
@@ -16,7 +16,7 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
-const SamplePage2 = Loadable(lazy(() => import('views/sample-page2')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -94,11 +94,6 @@ const MainRoutes = {
         {
             path: 'sample-page',
             element: <SamplePage />
-        },
-
-        {
-            path: 'sample-page2',
-            element: <SamplePage2 />
         },
         {
             path: 'events',

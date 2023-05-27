@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Typography,
     Box,
@@ -13,9 +13,8 @@ import {
     ButtonBase
 } from '@mui/material';
 import { IconCalendar, IconTicket, IconClockHour7, IconMapPin, IconSearch } from '@tabler/icons';
-import { useTheme, styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { Grid, Card, CardContent, CardActionArea } from '@mui/material';
-import { shouldForwardProp } from '@mui/system';
 import PropTypes from 'prop-types';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 // project imports
@@ -34,8 +33,8 @@ const Events = () => {
     const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
     const [filter, setFilter] = useState('TodayEvents.php');
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(12);
+    const [page] = useState(0);
+    const [rowsPerPage] = useState(12);
 
     const handleCategoryClick = (category) => {
         if (activeCategory === category.title) {
@@ -48,14 +47,14 @@ const Events = () => {
         setSearchText(event.target.value);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    // const handleChangePage = (event, newPage) => {
+    //     setPage(newPage);
+    // };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+    // const handleChangeRowsPerPage = (event) => {
+    //     setRowsPerPage(parseInt(event.target.value, 10));
+    //     setPage(0);
+    // };
     const handleTabChange = (event, value) => {
         setFilter(value);
         setSearchText('');

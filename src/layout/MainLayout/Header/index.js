@@ -11,7 +11,6 @@ import ProfileSection from './ProfileSection';
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import AddEvent from './AddEvent';
-import NotificationSection from './NotificationSection';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 

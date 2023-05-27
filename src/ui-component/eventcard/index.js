@@ -1,10 +1,8 @@
-import { Typography, Grid, Box, Card, CardMedia, CardContent, CardActionArea, List, ListItemIcon } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { Event, CalendarToday, AccessTime, LocationOn, AttachMoney } from '@mui/icons-material';
+import { Typography, Grid, Box, Card, CardMedia, CardContent, CardActionArea, ListItemIcon } from '@mui/material';
+import { Event, AccessTime, LocationOn, AttachMoney } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 
 function EventCard({ events }) {
-    const theme = useTheme();
     return (
         <Grid container spacing={5} alignItems="center" style={{ paddingLeft: 20 }}>
             {events &&

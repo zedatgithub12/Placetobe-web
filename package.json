@@ -2,7 +2,7 @@
     "name": "place-to-be-ethiopia",
     "version": "1.0.0",
     "private": true,
-    "homepage": "https://berrydashboard.io/free",
+    "homepage": "https://www.p2b-ethiopia.com",
     "dependencies": {
         "@emotion/cache": "^11.9.3",
         "@emotion/react": "^11.9.3",

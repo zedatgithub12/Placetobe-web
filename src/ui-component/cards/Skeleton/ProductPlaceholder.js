@@ -16,35 +16,34 @@ const ProductPlaceholder = () => (
                 </Grid>
                 <Grid item xs={12}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="rounded" height={20} width={330} />
+                        <Skeleton variant="circular" height={24} width={24} />
+                        <Skeleton variant="rounded" height={18} width="84%" />
                     </Stack>
                 </Grid>
                 <Grid item xs={12} sx={{ pt: '8px !important' }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="rounded" height={20} width={330} />
+                        <Skeleton variant="circular" height={24} width={24} />
+                        <Skeleton variant="rounded" height={18} width="84%" />
                     </Stack>
                 </Grid>
                 <Grid item xs={12} sx={{ pt: '8px !important' }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="rounded" height={20} width={330} />
+                        <Skeleton variant="circular" height={24} width={24} />
+                        <Skeleton variant="rounded" height={18} width="84%" />
                     </Stack>
                 </Grid>
 
                 <Grid item xs={12} sx={{ pt: '8px !important' }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="rounded" height={20} width={330} />
+                        <Skeleton variant="circular" height={24} width={24} />
+                        <Skeleton variant="rounded" height={18} width="84%" />
                     </Stack>
                 </Grid>
                 <Grid item xs={12}>
                     <Stack direction="row" justifyContent="flex-end" alignItems="center">
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="circular" height={28} width={30} />
-                        <Skeleton variant="circular" height={28} width={30} />
+                        <Skeleton variant="circular" height={24} width={24} className="me-1" />
+                        <Skeleton variant="circular" height={24} width={24} className="me-1" />
+                        <Skeleton variant="circular" height={24} width={24} className="me-1" />
                     </Stack>
                 </Grid>
             </Grid>

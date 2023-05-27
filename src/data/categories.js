@@ -1,6 +1,5 @@
 import {
     IconMusic,
-    IconMeat,
     IconAerialLift,
     IconHeartHandshake,
     IconMoonStars,

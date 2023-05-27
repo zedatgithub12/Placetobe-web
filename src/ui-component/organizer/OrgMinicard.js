@@ -1,8 +1,8 @@
 import { Box, Typography, Avatar } from '@mui/material';
 import { useTheme } from '@mui/system';
 import Connections from 'api';
-import React from 'react';
 import OrganizerMiniSkeleton from 'ui-component/skeleton/organizermini';
+import PropTypes from 'prop-types';
 
 const OrgMinicard = ({ isLoading, profile, name, category }) => {
     const theme = useTheme();
@@ -34,5 +34,10 @@ const OrgMinicard = ({ isLoading, profile, name, category }) => {
         </>
     );
 };
-
+OrgMinicard.propTypes = {
+    isLoading: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    profile: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired
+};
 export default OrgMinicard;

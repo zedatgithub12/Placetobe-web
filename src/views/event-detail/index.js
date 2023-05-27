@@ -201,7 +201,7 @@ const EventDetail = () => {
                 </Grid>
 
                 <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 4 }}>
-                    <Grid item xs={10}>
+                    <Grid item xs={12} md={12} sm={12} lg={10} xl={10}>
                         <Box>
                             {FilterCategory.length >= 1 && (
                                 <Typography variant="h2" marginTop={4} marginBottom={2}>

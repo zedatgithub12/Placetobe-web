@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Skeleton, Box } from '@mui/material';
 import { useTheme } from '@mui/system';
 

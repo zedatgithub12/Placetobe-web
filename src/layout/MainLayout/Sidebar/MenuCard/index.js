@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 
 // assets
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import { IconApps } from '@tabler/icons';
 
 // styles
