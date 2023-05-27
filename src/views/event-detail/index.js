@@ -7,7 +7,18 @@ import { useTheme } from '@mui/material/styles';
 import OrgMinicard from 'ui-component/organizer/OrgMinicard';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Connections from 'api';
-import { IconCalendar, IconTicket, IconClockHour7, IconMapPin, IconCategory, IconPhone, IconLink } from '@tabler/icons';
+import {
+    IconCalendar,
+    IconTicket,
+    IconClockHour7,
+    IconMapPin,
+    IconCategory,
+    IconPhone,
+    IconLink,
+    IconCircleCheck,
+    IconCalendarDue,
+    IconCalendarEvent
+} from '@tabler/icons';
 import PropTypes from 'prop-types';
 import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
 const EventDetail = () => {
@@ -35,6 +46,29 @@ const EventDetail = () => {
         }
 
         return postMeridian + separator + minute + ' ' + globalTime;
+    };
+    const renderStatus = (startingDate, endingDate) => {
+        var currentStatus;
+        var Happening = 'Happening';
+        var Upcoming = 'Upcoming';
+        var Passed = 'Expired';
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        if (startingDate == today || (startingDate < today && endingDate >= today)) {
+            currentStatus = Happening;
+        } else if (startingDate > today) {
+            currentStatus = Upcoming;
+        } else {
+            currentStatus = Passed;
+        }
+
+        return currentStatus;
     };
 
     useEffect(() => {
@@ -106,47 +140,77 @@ const EventDetail = () => {
 
                             <Box display="flex" alignItems="center" marginBottom={1} marginTop={3}>
                                 <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconCalendar />
+                                    <IconCalendarEvent />
                                 </ListItemIcon>
-                                <Typography variant="body2" className="fw-semibold">
-                                    {new Date(state.start_date).toDateString()} - {new Date(state.end_date).toDateString()}
-                                </Typography>
+
+                                <Box>
+                                    <Typography variant="body2" className="fw-semibold">
+                                        {new Date(state.start_date).toDateString().slice(0, 10)} @{TimeFun(state.start_time)}
+                                    </Typography>
+                                    <Typography variant="subtitle2">Start date and time</Typography>
+                                </Box>
                             </Box>
 
                             <Box display="flex" alignItems="center" marginBottom={1}>
                                 <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconClockHour7 />
+                                    <IconCalendarDue />
                                 </ListItemIcon>
-                                <Typography variant="body2" className="fw-semibold">
-                                    {TimeFun(state.start_time)} - {TimeFun(state.end_time)}
-                                </Typography>
-                            </Box>
 
+                                <Box>
+                                    <Typography variant="body2" className="fw-semibold">
+                                        {new Date(state.end_date).toDateString().slice(0, 10)} @{TimeFun(state.end_time)}
+                                    </Typography>
+                                    <Typography variant="subtitle2">End date and time</Typography>
+                                </Box>
+                            </Box>
+                            <Box display="flex" alignItems="center" marginBottom={1}>
+                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                    <IconCircleCheck />
+                                </ListItemIcon>
+                                <Box>
+                                    <Typography variant="body2" className="fw-semibold">
+                                        {renderStatus(state.start_date, state.end_date)}
+                                    </Typography>
+                                    <Typography variant="subtitle2">Status</Typography>
+                                </Box>
+                            </Box>
                             <Box display="flex" alignItems="center" marginBottom={1}>
                                 <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
                                     <IconMapPin />
                                 </ListItemIcon>
-                                <Typography variant="body2" className="fw-semibold">
-                                    {state.event_address}
-                                </Typography>
+
+                                <Box>
+                                    <Typography variant="body2" className="fw-semibold">
+                                        {state.event_address}
+                                    </Typography>
+                                    <Typography variant="subtitle2">Event Address</Typography>
+                                </Box>
                             </Box>
 
                             <Box display="flex" alignItems="center">
                                 <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
                                     <IconCategory />
                                 </ListItemIcon>
-                                <Typography variant="body2" className="fw-semibold">
-                                    {state.category}
-                                </Typography>
+
+                                <Box>
+                                    <Typography variant="body2" className="fw-semibold">
+                                        {state.category}
+                                    </Typography>
+                                    <Typography variant="subtitle2">Category</Typography>
+                                </Box>
                             </Box>
 
                             <Box display="flex" alignItems="center">
                                 <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
                                     <IconTicket />
                                 </ListItemIcon>
-                                <Typography variant="body2" className="fw-semibold">
-                                    {state.event_entrance_fee === '0' ? 'Free' : state.event_entrance_fee + ' ETB'}
-                                </Typography>
+
+                                <Box>
+                                    <Typography variant="body2" className="fw-semibold">
+                                        {state.event_entrance_fee === '0' ? 'Free' : state.event_entrance_fee + ' ETB'}
+                                    </Typography>
+                                    <Typography variant="subtitle2">Entrance fee</Typography>
+                                </Box>
                             </Box>
                             {state.contact_phone && (
                                 <Box display="flex" alignItems="center">
@@ -310,6 +374,7 @@ const EventCard = ({ events }) => {
                                             {TimeFun(event.start_time)}
                                         </Typography>
                                     </Box>
+
                                     <Box display="flex" alignItems="center" marginBottom={1}>
                                         <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
                                             <IconMapPin />
