@@ -143,7 +143,10 @@ const Events = () => {
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
+
+                    [theme.breakpoints.up('sm')]: {
+                        justifyContent: 'center'
+                    },
                     overflowX: 'auto',
                     '&::-webkit-scrollbar': {
                         display: 'none'
@@ -161,7 +164,7 @@ const Events = () => {
                             alignItems: 'center',
                             margin: '0 12px',
                             cursor: 'pointer',
-                            marginY: 4
+                            marginY: 2
                         }}
                         onClick={() => handleCategoryClick(category)}
                     >
@@ -190,6 +193,7 @@ const Events = () => {
                                 textTransform: 'capitalize',
                                 textAlign: 'center'
                             }}
+                            className="categoryname"
                         >
                             {category.title}
                         </Typography>
@@ -202,8 +206,8 @@ const Events = () => {
                     <Tabs
                         value={filter}
                         onChange={handleTabChange}
-                        indicatorColor="secondary"
-                        textColor="blue"
+                        textColor="inherit"
+                        TabIndicatorProps={{ style: { backgroundColor: '#ffbb00' } }}
                         centered
                         xs={6}
                         sm={6}
