@@ -23,8 +23,8 @@ const AddEvent = () => {
                         ...theme.typography.commonAvatar,
                         ...theme.typography.mediumAvatar,
                         transition: 'all .2s ease-in-out',
-                        background: theme.palette.grey[200],
-                        color: theme.palette.grey[700],
+                        background: theme.palette.warning.light,
+                        color: theme.palette.warning.dark,
                         '&[aria-controls="menu-list-grow"],&:hover': {
                             background: theme.palette.warning.dark,
                             color: theme.palette.grey[700]

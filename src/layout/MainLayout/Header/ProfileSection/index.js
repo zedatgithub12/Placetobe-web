@@ -27,10 +27,8 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 
-import User1 from 'assets/images/users/user-round.svg';
-
 // assets
-import { IconLogout, IconSettings } from '@tabler/icons';
+import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -84,11 +82,11 @@ const ProfileSection = () => {
     return (
         <>
             <Avatar
-                src={User1}
                 sx={{
                     ...theme.typography.mediumAvatar,
                     margin: '8px 0 8px 8px !important',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    background: theme.palette.warning.light
                 }}
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
@@ -96,7 +94,9 @@ const ProfileSection = () => {
                 color="inherit"
                 aria-haspopup="true"
                 onClick={handleToggle}
-            />
+            >
+                <IconUser color={theme.palette.warning.dark} />
+            </Avatar>
 
             <Popper
                 placement="bottom-end"
