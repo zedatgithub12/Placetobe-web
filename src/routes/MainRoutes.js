@@ -18,6 +18,7 @@ const AddEvent = Loadable(lazy(() => import('views/add-event')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const Faq = Loadable(lazy(() => import('views/faq')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -108,6 +109,10 @@ const MainRoutes = {
         {
             path: 'add-event',
             element: <AddEvent />
+        },
+        {
+            path: 'faq',
+            element: <Faq />
         }
     ]
 };
