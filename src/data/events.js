@@ -2,7 +2,7 @@ const EventsData = [
     {
         id: 1,
         image: 'https://picsum.photos/150/150',
-        name: 'Event 1',
+        name: 'Event 1 fgfghgfhfgh',
         startDate: '2023-07-21',
         startTime: '12:00 PM',
         endDate: '2022-11-11',
@@ -40,9 +40,9 @@ const EventsData = [
         image: 'https://picsum.photos/150/150',
         name: 'Event 3',
         startDate: '2022-11-13',
-        startTime: '2:00 PM',
+        startTime: '19:00:00.000000',
         endDate: '2022-11-13',
-        endTime: '6:00 PM',
+        endTime: '19:00:00.000000',
         venue: 'Venue 3',
         price: '$30',
         category: 'food'

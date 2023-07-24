@@ -9,14 +9,16 @@ import { useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import dayLocaleData from 'dayjs/plugin/localeData';
-import { Calendar, Col, Radio, Row, Select } from 'antd';
+import { Calendar, Col, Radio, Row, Select, ConfigProvider } from 'antd';
 
-// project imports
+// component imports
 import MainCard from 'ui-component/cards/MainCard';
 import CalenderEventCard from './event-cards';
 
 //dummy data
 import EventsData from '../../data/events';
+
+//stylesheet to customize the calendar
 import './calendar.css';
 
 // ==============================|| Event Calendar PAGE ||============================== //

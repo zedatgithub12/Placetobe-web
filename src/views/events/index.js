@@ -23,6 +23,7 @@ import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
 import categories from 'data/categories';
 import ImageCarousel from 'utils/image-carousel';
 import { useNavigate } from 'react-router-dom';
+import { TimeFun } from 'utils/functions';
 
 // ==============================|| EVENTS PAGE ||============================== //
 
@@ -276,23 +277,6 @@ const EventCard = ({ events }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     //a function which arrange a time to human readable format
-    const TimeFun = (eventTime) => {
-        var time = eventTime;
-        var result = time.slice(0, 2);
-        var minute = time.slice(3, 5);
-        var globalTime;
-        var postMeridian;
-        var separator = ':';
-        if (result > 12) {
-            postMeridian = result - 12;
-            globalTime = 'PM';
-        } else {
-            postMeridian = result;
-            globalTime = 'AM';
-        }
-
-        return postMeridian + separator + minute + ' ' + globalTime;
-    };
 
     return (
         <Grid container spacing={2} alignItems="center">

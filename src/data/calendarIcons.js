@@ -17,8 +17,8 @@ const categories = [
     {
         id: 1,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#007bc2' }}>
-                <IconMusic size={16} />
+            <Avatar style={{ background: '#f3f3f3', color: '#007bc2', width: '24px', height: '24px' }}>
+                <IconMusic size={14} />
             </Avatar>
         ),
         title: 'Entertainment'
@@ -26,8 +26,8 @@ const categories = [
     {
         id: 2,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#0c790c' }}>
-                <IconAerialLift />
+            <Avatar style={{ background: '#f3f3f3', color: '#0c790c', width: '24px', height: '24px' }}>
+                <IconAerialLift size={14} />
             </Avatar>
         ),
         title: 'Travelling'
@@ -35,8 +35,8 @@ const categories = [
     {
         id: 3,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#ff3700' }}>
-                <IconHeartHandshake />
+            <Avatar style={{ background: '#f3f3f3', color: '#ff3700', width: '24px', height: '24px' }}>
+                <IconHeartHandshake size={14} />
             </Avatar>
         ),
         title: 'Community'
@@ -44,8 +44,8 @@ const categories = [
     {
         id: 4,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#58b000' }}>
-                <IconMovie />
+            <Avatar style={{ background: '#f3f3f3', color: '#58b000', width: '24px', height: '24px' }}>
+                <IconMovie size={14} />
             </Avatar>
         ),
         title: 'Cinema & Theater'
@@ -53,8 +53,8 @@ const categories = [
     {
         id: 5,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#5e3d08' }}>
-                <IconMoonStars />
+            <Avatar style={{ background: '#f3f3f3', color: '#5e3d08', width: '24px', height: '24px' }}>
+                <IconMoonStars size={14} />
             </Avatar>
         ),
         title: 'Nightlife'
@@ -62,8 +62,8 @@ const categories = [
     {
         id: 6,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#f57a00' }}>
-                <IconAffiliate />
+            <Avatar style={{ background: '#f3f3f3', color: '#f57a00', width: '24px', height: '24px' }}>
+                <IconAffiliate size={14} />
             </Avatar>
         ),
         title: 'Trade Fairs & Expo'
@@ -71,8 +71,8 @@ const categories = [
     {
         id: 7,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#2c2e27' }}>
-                <IconBriefcase />
+            <Avatar style={{ background: '#f3f3f3', color: '#2c2e27', width: '24px', height: '24px' }}>
+                <IconBriefcase size={14} />
             </Avatar>
         ),
         title: 'Professional'
@@ -80,8 +80,8 @@ const categories = [
     {
         id: 8,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#9306c2' }}>
-                <IconShoppingCart />
+            <Avatar style={{ background: '#f3f3f3', color: '#9306c2', width: '24px', height: '24px' }}>
+                <IconShoppingCart size={14} />
             </Avatar>
         ),
         title: 'Shopping'
@@ -90,8 +90,8 @@ const categories = [
     {
         id: 9,
         icon: (
-            <Avatar style={{ background: '#fff', color: '#ff0571' }}>
-                <IconSoccerField />
+            <Avatar style={{ background: '#f3f3f3', color: '#ff0571', width: '24px', height: '24px' }}>
+                <IconSoccerField size={14} />
             </Avatar>
         ),
         title: 'sports'
@@ -99,7 +99,7 @@ const categories = [
     {
         id: 10,
         icon: (
-            <Avatar sx={{ background: '#fff', color: '#00ba8f', width: '24px', height: '24px' }}>
+            <Avatar sx={{ background: '#f3f3f3', color: '#00ba8f', width: '24px', height: '24px' }}>
                 <IconCategory2 size={14} />
             </Avatar>
         ),

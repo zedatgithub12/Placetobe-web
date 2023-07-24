@@ -1,10 +1,13 @@
-.ant-picker-calendar-date:hover {
-    background-color: red;
+/* custom-antd-theme.css */
+.ant-picker-cell-selected > div {
+    background-color: rgba(255, 187, 0, 0.1) !important; /* Change this color to your desired theme */
+    color: #000 !important; /* Change the text color to match the background */
 }
 
-.ant-picker-calendar-date-content {
-    color: white;
+.ant-picker-cell-selected > .ant-picker-cell-inner > .ant-picker-calendar-date-value {
+    color: #000 !important;
 }
-.ant-picker-cell-selected > .ant-picker-cell-inner > .ant-picker-calendar-date {
-    background-color: blue;
+
+.ant-picker-cell-today .ant-picker-cell-inner {
+    border-color: rgb(255, 187, 0) !important;
 }
