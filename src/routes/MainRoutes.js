@@ -8,6 +8,7 @@ import Loadable from 'ui-component/Loadable';
 // const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Events = Loadable(lazy(() => import('views/events')));
 const EventDetail = Loadable(lazy(() => import('views/event-detail')));
+const EventCalendar = Loadable(lazy(() => import('views/event-calendar')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -108,6 +109,10 @@ const MainRoutes = {
         {
             path: 'add-event',
             element: <AddEvent />
+        },
+        {
+            path: 'event-calendar',
+            element: <EventCalendar />
         }
     ]
 };

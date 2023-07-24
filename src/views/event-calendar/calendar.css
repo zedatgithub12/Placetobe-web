@@ -1,0 +1,10 @@
+.ant-picker-calendar-date:hover {
+    background-color: red;
+}
+
+.ant-picker-calendar-date-content {
+    color: white;
+}
+.ant-picker-cell-selected > .ant-picker-cell-inner > .ant-picker-calendar-date {
+    background-color: blue;
+}

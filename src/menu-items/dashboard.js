@@ -56,6 +56,14 @@ const dashboard = {
             url: '/events',
             icon: icons.IconCalendarEvent,
             breadcrumbs: false
+        },
+        {
+            id: 'calendar',
+            title: 'Calendar',
+            type: 'item',
+            url: '/event-calendar',
+            icon: icons.IconCalendarEvent,
+            breadcrumbs: false
         }
     ]
 };
