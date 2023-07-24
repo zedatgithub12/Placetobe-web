@@ -1,7 +1,6 @@
-/* custom-antd-theme.css */
 .ant-picker-cell-selected > div {
-    background-color: rgba(255, 187, 0, 0.1) !important; /* Change this color to your desired theme */
-    color: #000 !important; /* Change the text color to match the background */
+    background-color: rgba(255, 187, 0, 0.1) !important; 
+    color: #000 !important; 
 }
 
 .ant-picker-cell-selected > .ant-picker-cell-inner > .ant-picker-calendar-date-value {
