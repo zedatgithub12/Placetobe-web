@@ -21,12 +21,15 @@ import {
 } from '@tabler/icons';
 import PropTypes from 'prop-types';
 import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
+import EventDetailTab from '../ticket/index';
+
 const EventDetail = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [related, setRelated] = useState([]);
     const { state } = useLocation();
     const theme = useTheme();
+    console.log(related);
 
     const FilterCategory = related.filter((event) => event.category === state.category && event.event_id !== state.event_id);
 
@@ -262,6 +265,10 @@ const EventDetail = () => {
                             </Typography>
                         </Box>
                     </Grid>
+                </Grid>
+
+                <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 4 }}>
+                    <EventDetailTab event={state} />
                 </Grid>
 
                 <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 4 }}>
