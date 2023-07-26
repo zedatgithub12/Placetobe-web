@@ -64,6 +64,14 @@ const dashboard = {
             url: '/event-calendar',
             icon: icons.IconCalendarEvent,
             breadcrumbs: false
+        },
+        {
+            id: 'ticket-detail',
+            title: 'Ticket Detail',
+            type: 'item',
+            url: '/ticket-detail',
+            icon: icons.IconTimelineEvent,
+            breadcrumbs: false
         }
     ]
 };
