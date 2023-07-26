@@ -27,7 +27,7 @@ const TicketsData = [
         quantity: 1,
         price: '500',
         date: '2023-08-10',
-        status: 'upcoming',
+        status: 'attended',
         p_gateway: 'ticketmaster',
         transactionId: 2,
         username: 'john_doe',
