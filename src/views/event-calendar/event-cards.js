@@ -10,7 +10,7 @@ function CalenderEventCard(props) {
     const category = categories.find((cat) => cat.title === event.category)
         ? categories.find((cat) => cat.title === event.category)
         : categories.find((cat) => cat.title === 'Others');
-    const name = event.name.length > 17 ? event.name.slice(0, 17) + '...' : event.name;
+    const name = event.name.length > 17 ? event.name.slice(0, 15) + '...' : event.name;
 
     return (
         <Box
@@ -21,7 +21,7 @@ function CalenderEventCard(props) {
                 })
             }
         >
-            <Grid container alignItems="center" spacing={1}>
+            <Grid container wrap alignItems="center" spacing={1}>
                 <Grid item>{category.icon}</Grid>
                 <Grid item fontWeight={'medium'}>
                     {name}

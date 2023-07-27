@@ -61,7 +61,7 @@ const TicketDetail = () => {
     };
 
     return (
-        <Grid item xs={12} sm={5} md={5} lg={4} xl={4} style={{ textDecoration: 'none' }}>
+        <Grid style={{ textDecoration: 'none' }}>
             <Grid container display={'flex'} alignItems={'center'} mb={1}>
                 <Grid item marginRight={'10px'}>
                     <IconButton

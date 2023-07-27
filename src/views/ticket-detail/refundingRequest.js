@@ -21,8 +21,9 @@ const RefundingRequest = ({ onClose, ticket }) => {
         <Card variant="outlined" sx={{ minWidth: 480 }}>
             <CardHeader
                 sx={{
-                    padding: '12px 24px'
+                    padding: '6px 24px'
                 }}
+                titleTypographyProps={{ fontSize: theme.typography.h1 }}
                 title={'Ticket Info'}
                 action={
                     <IconButton aria-label="close" onClick={onClose}>
@@ -30,8 +31,8 @@ const RefundingRequest = ({ onClose, ticket }) => {
                     </IconButton>
                 }
             ></CardHeader>
-            <Divider sx={{ margin: '5px 0px' }} />
-            <CardContent>
+            <Divider />
+            <CardContent sx={{ padding: '12px 24px', paddingBottom: '0px !important' }}>
                 <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
                     <Typography>Event Name</Typography>
                     <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.event_name}</Typography>
@@ -40,12 +41,12 @@ const RefundingRequest = ({ onClose, ticket }) => {
                     <Typography>Ticket Type</Typography>
                     <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.tickettype}</Typography>
                 </Grid>
-                <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
+                <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 2.5 }}>
                     <Typography>Total</Typography>
                     <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.price + ' ETB'}</Typography>
                 </Grid>
                 <Grid sx={{ mb: 1.5 }}>
-                    <Typography fontSize={theme.typography.h3} fontWeight={theme.typography.fontWeightBold} sx={{ mb: 1.5 }}>
+                    <Typography fontSize={theme.typography.h4} fontWeight={theme.typography.fontWeightBold} sx={{ mb: 1.5 }}>
                         Refunding Reason
                     </Typography>
                     <Divider sx={{ margin: '10px 0px' }} />
@@ -86,7 +87,7 @@ const RefundingRequest = ({ onClose, ticket }) => {
                         }}
                         onClick={handleSendButtonClick}
                     >
-                        <Typography variant="h4">Send</Typography>
+                        <Typography variant="h4">Submit</Typography>
                     </Box>
                 </Grid>
                 <Grid>
