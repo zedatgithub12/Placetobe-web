@@ -61,7 +61,7 @@ const TicketDetail = () => {
     };
 
     return (
-        <Grid style={{ textDecoration: 'none' }}>
+        <Grid container style={{ textDecoration: 'none' }}>
             <Grid container display={'flex'} alignItems={'center'} mb={1}>
                 <Grid item marginRight={'10px'}>
                     <IconButton
@@ -79,121 +79,133 @@ const TicketDetail = () => {
                 </Grid>
             </Grid>
             <Grid container mb={1} style={{ display: 'flex', justifyContent: 'center' }}>
-                <Card variant="outlined" sx={{ minWidth: 480 }}>
-                    <CardHeader
-                        sx={{
-                            padding: '12px'
-                        }}
-                        action={
-                            <div>
-                                <IconButton aria-label="more options" aria-controls="options-menu" onClick={handleMenuOpen}>
-                                    <MoreVert />
-                                </IconButton>
-                                <Menu
-                                    id="options-menu"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left'
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right'
-                                    }}
-                                    keepMounted
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleMenuClose}
-                                >
-                                    <MenuItem onClick={() => handleOptionClick('request refunding')}>Request Refunding</MenuItem>
-                                    <MenuItem onClick={() => handleOptionClick('refunding policy')}>Refunding Policy</MenuItem>
-                                    <MenuItem onClick={() => handleOptionClick('terms')}>Terms and Agreement</MenuItem>
-                                </Menu>
-                                {showRefundingPage && ( //this div will create the popup window effect
-                                    <div
-                                        style={{
-                                            position: 'fixed',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            height: '100%',
-                                            background: 'rgba(0, 0, 0, 0.5)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            zIndex: 1000
+                <Grid item xs={12} sm={12} md={8} lg={5} xl={5}>
+                    <Card variant="outlined">
+                        <CardHeader
+                            sx={{
+                                padding: '12px'
+                            }}
+                            action={
+                                <div>
+                                    <IconButton aria-label="more options" aria-controls="options-menu" onClick={handleMenuOpen}>
+                                        <MoreVert />
+                                    </IconButton>
+                                    <Menu
+                                        id="options-menu"
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left'
                                         }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right'
+                                        }}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleMenuClose}
                                     >
-                                        <RefundingRequest onClose={handleRefundingPageClose} ticket={ticket} />
-                                    </div>
-                                )}
-                            </div>
-                        }
-                        subheader={
-                            <Box sx={{ color: statusColor }}>
-                                <IconButton>
-                                    <Circle style={{ fontSize: 12, color: statusColor }} aria-label="status" />
-                                </IconButton>
-                                {ticket.status}
-                            </Box>
-                        }
-                    ></CardHeader>
-                    <CardContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
-                        <Box border={0.2} borderColor={'black'} borderRadius={'5px'} style={{ display: 'inline-flex', padding: '32px' }}>
-                            <QRCode size={192} value={ticket.id.toString()} style={{ display: 'inline-block' }} />
-                        </Box>
-                    </CardContent>
-                </Card>
-            </Grid>
-            <Grid container mb={1} style={{ display: 'flex', justifyContent: 'center' }}>
-                {/* second box which contain buyer info */}
-                <Card variant="outlined" sx={{ minWidth: 480 }}>
-                    <CardContent>
-                        <Grid sx={{ mb: 2 }}>
-                            <Typography fontWeight={theme.typography.fontWeightBold}>Buyer Info</Typography>
-                            <Divider sx={{ margin: '5px 0px' }} />
-                        </Grid>
-                        <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
-                            <Typography>Full Name</Typography>
-                            <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.username}</Typography>
-                        </Grid>
-                        <Grid display={'flex'} justifyContent={'space-between'}>
-                            <Typography>Phone</Typography>
-                            <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.phone}</Typography>
-                        </Grid>
-                    </CardContent>
-                </Card>
-            </Grid>
-            <Grid container style={{ display: 'flex', justifyContent: 'center' }}>
-                {/* third box which contain the ticket info */}
-                <Card variant="outlined" sx={{ minWidth: 480 }}>
-                    <CardContent>
-                        <Grid sx={{ mb: 2 }}>
-                            <Grid display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-                                <Typography fontWeight={theme.typography.fontWeightBold}>Ticket Info</Typography>
+                                        <MenuItem onClick={() => handleOptionClick('request refunding')}>Request Refunding</MenuItem>
+                                        <MenuItem onClick={() => handleOptionClick('refunding policy')}>Refunding Policy</MenuItem>
+                                        <MenuItem onClick={() => handleOptionClick('terms')}>Terms and Agreement</MenuItem>
+                                    </Menu>
+                                    {showRefundingPage && ( //this div will create the popup window effect
+                                        <Grid
+                                            container
+                                            style={{
+                                                position: 'fixed',
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                height: '100%',
+                                                background: 'rgba(0, 0, 0, 0.5)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                zIndex: 1000
+                                            }}
+                                        >
+                                            <RefundingRequest onClose={handleRefundingPageClose} ticket={ticket} />
+                                        </Grid>
+                                    )}
+                                </div>
+                            }
+                            subheader={
                                 <Box sx={{ color: statusColor }}>
                                     <IconButton>
-                                        <Circle style={{ color: statusColor, fontSize: 12 }} aria-label="status" />
+                                        <Circle style={{ fontSize: 12, color: statusColor }} aria-label="status" />
                                     </IconButton>
                                     {ticket.status}
                                 </Box>
+                            }
+                        ></CardHeader>
+                        <CardContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
+                            <Box
+                                border={0.2}
+                                borderColor={'black'}
+                                borderRadius={'5px'}
+                                style={{ display: 'inline-flex', padding: '32px' }}
+                            >
+                                <QRCode size={192} value={ticket.id.toString()} style={{ display: 'inline-block' }} />
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+            <Grid container mb={1} style={{ display: 'flex', justifyContent: 'center' }}>
+                {/* second box which contain buyer info */}
+                <Grid item xs={12} sm={12} md={8} lg={5} xl={5}>
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Grid sx={{ mb: 2 }}>
+                                <Typography fontWeight={theme.typography.fontWeightBold}>Buyer Info</Typography>
+                                <Divider sx={{ margin: '5px 0px' }} />
                             </Grid>
-                            <Divider sx={{ margin: '5px 0px' }} />
-                        </Grid>
+                            <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
+                                <Typography>Full Name</Typography>
+                                <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.username}</Typography>
+                            </Grid>
+                            <Grid display={'flex'} justifyContent={'space-between'}>
+                                <Typography>Phone</Typography>
+                                <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.phone}</Typography>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+            <Grid container style={{ display: 'flex', justifyContent: 'center' }}>
+                {/* third box which contain the ticket info */}
+                <Grid item xs={12} sm={12} md={8} lg={5} xl={5}>
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Grid sx={{ mb: 2 }}>
+                                <Grid display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                                    <Typography fontWeight={theme.typography.fontWeightBold}>Ticket Info</Typography>
+                                    <Box sx={{ color: statusColor }}>
+                                        <IconButton>
+                                            <Circle style={{ color: statusColor, fontSize: 12 }} aria-label="status" />
+                                        </IconButton>
+                                        {ticket.status}
+                                    </Box>
+                                </Grid>
+                                <Divider sx={{ margin: '5px 0px' }} />
+                            </Grid>
 
-                        <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
-                            <Typography>Event Name</Typography>
-                            <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.event_name}</Typography>
-                        </Grid>
-                        <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
-                            <Typography>Ticket Type</Typography>
-                            <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.tickettype}</Typography>
-                        </Grid>
-                        <Grid display={'flex'} justifyContent={'space-between'}>
-                            <Typography>Quantity</Typography>
-                            <Typography fontWeight={theme.typography.fontWeightBold}>{quantityNumeral}</Typography>
-                        </Grid>
-                    </CardContent>
-                </Card>
+                            <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
+                                <Typography>Event Name</Typography>
+                                <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.event_name}</Typography>
+                            </Grid>
+                            <Grid display={'flex'} justifyContent={'space-between'} sx={{ mb: 1.5 }}>
+                                <Typography>Ticket Type</Typography>
+                                <Typography fontWeight={theme.typography.fontWeightBold}>{ticket.tickettype}</Typography>
+                            </Grid>
+                            <Grid display={'flex'} justifyContent={'space-between'}>
+                                <Typography>Quantity</Typography>
+                                <Typography fontWeight={theme.typography.fontWeightBold}>{quantityNumeral}</Typography>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
         </Grid>
     );
