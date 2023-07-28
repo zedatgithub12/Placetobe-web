@@ -12,6 +12,9 @@ import { IconSearch } from '@tabler/icons';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import faq from 'data/faq';
+import { useState } from 'react';
+import Popup from 'ui-component/faq/popUp';
+import ContactUs from 'ui-component/faq/contactUs';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
@@ -26,7 +29,7 @@ const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} s
 const AccordionSummary = styled((props) => (
     <MuiAccordionSummary expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />} {...props} />
 ))(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, .05)' : 'rgba(0, 0, 0, .03)',
+    backgroundColor: 'white',
     flexDirection: 'row-reverse',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
         transform: 'rotate(90deg)'
@@ -37,13 +40,23 @@ const AccordionSummary = styled((props) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, .05)' : 'rgba(0, 0, 0, .03)',
     padding: theme.spacing(3),
     paddingLeft: theme.spacing(9),
     borderTop: '1px solid rgba(0, 0, 0, .125)'
 }));
 
+const ColorButton = styled(Button)(({ theme }) => ({
+    color: 'black',
+    backgroundColor: theme.palette.warning.dark,
+    '&:hover': {
+        backgroundColor: theme.palette.warning.dark
+    }
+}));
+
 export default function Faq() {
     const theme = useTheme();
+    const [openPopup, setOpenPopup] = useState(false);
 
     const [expanded, setExpanded] = React.useState('');
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -99,7 +112,7 @@ export default function Faq() {
                         </Paper>
                     </Grid>
                 </Grid>
-                <Grid item md={9} mt={2} sx={{ borderRadius: '3%', overflow: 'hidden', border: '0.5px solid rgba(0, 0, 0, 0.125)' }}>
+                <Grid item md={9} mt={2} sx={{ borderRadius: '3%', overflow: 'hidden' }}>
                     {filteredAccordionData.map((data, index) => (
                         <Accordion key={index} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
                             <AccordionSummary aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
@@ -117,16 +130,20 @@ export default function Faq() {
                         <Typography variant="body1">If you don't get what you are asking for please contact us.</Typography>
                     </Grid>
                     <Grid md={2} sm={2} xs={8}>
-                        <Button variant="contained" sx={{ background: theme.palette.warning.dark }}>
+                        <ColorButton variant="contained" onClick={() => setOpenPopup(true)}>
                             {' '}
                             contact us
-                        </Button>
+                        </ColorButton>
                     </Grid>
                 </Grid>
                 <Grid item md={11} mt={6} sx={{ borderRadius: '5%', padding: '20px', overflow: 'hidden' }}>
                     <Footer />
                 </Grid>
             </Grid>
+
+            <Popup openPopup={openPopup} setOpenPopup={setOpenPopup} sx={{ width: '100%', height: '100%' }}>
+                <ContactUs />
+            </Popup>
         </div>
     );
 }

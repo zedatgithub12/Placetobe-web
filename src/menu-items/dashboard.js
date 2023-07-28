@@ -59,7 +59,7 @@ const dashboard = {
         },
         {
             id: 'faq',
-            title: 'Faq',
+            title: 'FAQ',
             type: 'item',
             url: '/faq',
             icon: icons.IconCalendarEvent,
