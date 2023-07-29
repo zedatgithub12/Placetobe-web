@@ -20,6 +20,7 @@ const AddEvent = Loadable(lazy(() => import('views/add-event')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const Faq = Loadable(lazy(() => import('views/faq')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -112,12 +113,17 @@ const MainRoutes = {
             element: <AddEvent />
         },
         {
+<<<<<<< HEAD
             path: 'event-calendar',
             element: <EventCalendar />
         },
         {
             path: 'ticket-detail',
             element: <TicketDetail />
+=======
+            path: 'faq',
+            element: <Faq />
+>>>>>>> zelalem-branch
         }
     ]
 };
