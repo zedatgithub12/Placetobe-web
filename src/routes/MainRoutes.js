@@ -113,17 +113,16 @@ const MainRoutes = {
             element: <AddEvent />
         },
         {
-<<<<<<< HEAD
             path: 'event-calendar',
             element: <EventCalendar />
         },
         {
             path: 'ticket-detail',
             element: <TicketDetail />
-=======
+        },
+        {
             path: 'faq',
             element: <Faq />
->>>>>>> zelalem-branch
         }
     ]
 };

@@ -58,7 +58,6 @@ const dashboard = {
             breadcrumbs: false
         },
         {
-<<<<<<< HEAD
             id: 'calendar',
             title: 'Calendar',
             type: 'item',
@@ -73,14 +72,14 @@ const dashboard = {
             url: '/ticket-detail',
             icon: icons.IconTimelineEvent,
             breadcrumbs: false
-=======
+        },
+        {
             id: 'faq',
             title: 'Faq',
             type: 'item',
             url: '/faq',
             icon: icons.IconCalendarEvent,
             breadcrumbs: false
->>>>>>> zelalem-branch
         }
     ]
 };

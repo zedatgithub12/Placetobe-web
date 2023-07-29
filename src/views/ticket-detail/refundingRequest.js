@@ -5,6 +5,7 @@ import { IconCircleCheck, IconAlertCircle, IconAlertOctagon } from '@tabler/icon
 import { Card, CardContent } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 // ==============================|| REQUEST REFUNDING PAGE ||============================== //
 
@@ -13,12 +14,13 @@ const RefundingRequest = ({ onClose, ticket }) => {
     const [refundingReason, setRefundingReason] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmitButtonClick = () => {
         const inputRef = document.getElementById('refunding-reason');
         if (inputRef) {
             setRefundingReason(inputRef.value);
-            const isRefundSuccessful = true; // Replace this with a condition that correspods with the actual response from the backend
+            const isRefundSuccessful = false; // Replace this with a condition that correspods with the actual response from the backend
 
             setIsSubmitted(true);
             setIsSuccess(isRefundSuccessful);
@@ -92,6 +94,9 @@ const RefundingRequest = ({ onClose, ticket }) => {
                                             <Typography>Retry after a minute. If the issue</Typography>
                                             <Typography> persist contact us</Typography>
                                             <Link
+                                                onClick={() => {
+                                                    navigate('/faq');
+                                                }}
                                                 m={2}
                                                 color={theme.palette.warning.dark}
                                                 fontWeight={theme.typography.fontWeightMedium}
