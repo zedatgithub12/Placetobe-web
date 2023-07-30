@@ -58,6 +58,22 @@ const dashboard = {
             breadcrumbs: false
         },
         {
+            id: 'calendar',
+            title: 'Calendar',
+            type: 'item',
+            url: '/event-calendar',
+            icon: icons.IconCalendarEvent,
+            breadcrumbs: false
+        },
+        {
+            id: 'ticket-detail',
+            title: 'Ticket Detail',
+            type: 'item',
+            url: '/ticket-detail',
+            icon: icons.IconTimelineEvent,
+            breadcrumbs: false
+        },
+        {
             id: 'faq',
             title: 'FAQ',
             type: 'item',

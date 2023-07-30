@@ -1,0 +1,12 @@
+.ant-picker-cell-selected > div {
+    background-color: rgba(255, 187, 0, 0.1) !important; 
+    color: #000 !important; 
+}
+
+.ant-picker-cell-selected > .ant-picker-cell-inner > .ant-picker-calendar-date-value {
+    color: #000 !important;
+}
+
+.ant-picker-cell-today .ant-picker-cell-inner {
+    border-color: rgb(255, 187, 0) !important;
+}
