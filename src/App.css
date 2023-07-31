@@ -1,58 +1,175 @@
+:root {
+    --primary: #ffbb00;
+    --secondary: #ffe090;
+}
+input[type='file'] {
+    display: none;
+}
+.profilePictureContainer {
+    position: relative;
+    width: 9rem;
+    height: 100%;
+    margin-top: -5rem;
+    left: 30%;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.profilePictureContainer:hover .custom-file-upload {
+    bottom: -0.5rem;
+    transition: all 0.5s;
+}
+.custom-file-upload {
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(5px);
+    border: none;
+    text-align: center;
+    padding: 1rem;
+    bottom: -4.5rem;
+    left: 0rem;
+    width: 9rem;
+    height: 4.5rem;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+.uploadProfile {
+    overflow: hidden;
+    width: 5rem;
+}
+.img-wrap {
+    position: relative;
+    height: 30px;
+    border-radius: 50%;
+}
+.img-upload:hover:before {
+    opacity: 1;
+}
+label {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #676767;
+}
+
+.inputProfileImage {
+    border-radius: 20px;
+    border: 1px solid #b7b7b7;
+    padding: 5px 5px 5px 10px;
+    font-size: 1rem;
+    transition: 0.2s;
+    height: 2.5rem;
+}
+.inputProfileImage:focus {
+    outline: none;
+    border: 1px solid var(--primary);
+}
+.saveProfilePicture {
+    width: 60%;
+    height: 2.5rem;
+    border-radius: 20px;
+    padding: 5px 5px 5px 10px;
+    margin: auto;
+    display: block;
+    position: relative;
+    top: 2rem;
+    border: none;
+    font-size: 1rem;
+    background-color: var(--secondary);
+    transition: all 0.5s;
+}
+.saveProfilePicture:hover {
+    background-color: var(--primary);
+}
+.saveProfilePicture:active {
+    transition: all 0.5s;
+    transform: translateY(0.5rem);
+}
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #ffbb00;
-  opacity: 0.5;
-  transition: opacity 0.2s ease-in-out;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .swiper-pagination-bullet-active {
-  opacity: 1;
+    opacity: 1;
 }
 
 .categoryname {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.profileContainer {
+    padding: 2rem 0rem 2rem 5rem;
+}
+.profileNavigationButton {
+    width: 25%;
+    height: 80px;
+    border: none;
+}
+.bookmarkContainer {
+    padding: 2rem 0rem 8rem 1rem;
+}
+@media (max-width: 1200px) {
+    .profileContainer {
+        padding: 1rem 0rem 2rem 0rem;
+    }
+    .profilePictureContainer {
+        margin-left: 5rem;
+    }
+}
+@media (max-width: 768px) {
+    .profilePictureContainer {
+        margin-left: 0rem;
+    }
 }
