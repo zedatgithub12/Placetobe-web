@@ -15,7 +15,8 @@ const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 const AddEvent = Loadable(lazy(() => import('views/add-event')));
-
+const Profile = Loadable(lazy(() => import('views/profile')));
+const OrganizerProfile = Loadable(lazy(() => import('views/organizer-profile')));
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
@@ -108,6 +109,14 @@ const MainRoutes = {
         {
             path: 'add-event',
             element: <AddEvent />
+        },
+        {
+            path: 'profile',
+            element: <Profile />
+        },
+        {
+            path: 'organizer-profile',
+            element: <OrganizerProfile />
         }
     ]
 };
