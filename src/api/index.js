@@ -1,5 +1,7 @@
 const Connections = {
+    // api: 'https://app.p2b-ethiopia.com/placetobe-dev/',
     api: 'https://app.p2b-ethiopia.com/placetobe/',
+    assets: 'assets/',
     signUp: 'Signup.php',
     signIn: 'Signin.php',
     googleSignUp: 'GoogleSignUp.php',
@@ -10,7 +12,6 @@ const Connections = {
     followers: 'followers.php',
     following: 'following.php',
     upload: 'uploadimage.php',
-    assets: 'assets/',
     organizer: 'organizer.php', //updated
     search: 'search.php',
     notification: 'notification.php',

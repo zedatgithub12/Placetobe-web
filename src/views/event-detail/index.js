@@ -73,7 +73,8 @@ const EventDetail = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('https://app.p2b-ethiopia.com/placetobe/search.php', {
+        var Api = Connections.api + Connections.search;
+        fetch(Api, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         })

@@ -92,7 +92,6 @@ const ProfileSection = () => {
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 color="inherit"
-                aria-haspopup="true"
                 onClick={handleToggle}
             >
                 <IconUser color={theme.palette.warning.dark} />
