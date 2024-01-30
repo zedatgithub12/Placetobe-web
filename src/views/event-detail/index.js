@@ -21,71 +21,70 @@ import {
 } from '@tabler/icons';
 import PropTypes from 'prop-types';
 import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
+import { TimeFun, renderStatus } from 'utils/function';
+
 const EventDetail = () => {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [related, setRelated] = useState([]);
     const { state } = useLocation();
     const theme = useTheme();
+    const navigate = useNavigate();
 
-    const FilterCategory = related.filter((event) => event.category === state.category && event.event_id !== state.event_id);
+    //states in event detail page
+    const [eventid, setEventid] = useState(state.id);
 
-    const TimeFun = (eventTime) => {
-        var time = eventTime;
-        var result = time.slice(0, 2);
-        var minute = time.slice(3, 5);
-        var globalTime;
-        var postMeridian;
-        var separator = ':';
-        if (result > 12) {
-            postMeridian = result - 12;
-            globalTime = 'PM';
-        } else {
-            postMeridian = result;
-            globalTime = 'AM';
-        }
+    const [loading, setLoading] = useState(false);
+    const [eventDetail, setEventDetail] = useState([]);
+    const [organizer, setOrganizer] = useState([]);
+    const [related, setRelated] = useState([]);
 
-        return postMeridian + separator + minute + ' ' + globalTime;
-    };
-    const renderStatus = (startingDate, endingDate) => {
-        var currentStatus;
-        var Happening = 'Happening';
-        var Upcoming = 'Upcoming';
-        var Passed = 'Expired';
+    const FilterCategory = related.filter((event) => event.category === eventDetail.category && event.id != state.id);
 
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
+    const FetchAdditionalInfo = async () => {
+        const controller = new AbortController();
+        const signal = controller.signal;
 
-        today = yyyy + '-' + mm + '-' + dd;
+        var ApiUrl = Connections.api + Connections.events;
 
-        if (startingDate == today || (startingDate < today && endingDate >= today)) {
-            currentStatus = Happening;
-        } else if (startingDate > today) {
-            currentStatus = Upcoming;
-        } else {
-            currentStatus = Passed;
-        }
+        // header type for text data to be send to server
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        };
+        fetch(ApiUrl, {
+            method: 'GET',
+            headers: headers,
+            signal: signal
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.success) {
+                    setRelated(response.data.data);
+                }
+            });
 
-        return currentStatus;
+        return () => {
+            controller.abort();
+        };
     };
 
     useEffect(() => {
         setLoading(true);
-        var Api = Connections.api + Connections.search;
+        var Api = Connections.api + Connections.eventDetails + eventid;
         fetch(Api, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         })
             .then((response) => response.json())
             .then((response) => {
-                setRelated(response[0].Filtered);
-                setLoading(false);
+                if (response.success) {
+                    setEventDetail(response.data);
+                    setOrganizer(response.organizer);
+                    setLoading(false);
+                    FetchAdditionalInfo();
+                }
             });
 
         return () => {};
-    }, []);
+    }, [eventid]);
     return (
         <>
             <Box>
@@ -101,19 +100,14 @@ const EventDetail = () => {
                 <Grid container marginX="auto">
                     <Grid item xs={12} sm={5} md={5} lg={4} xl={4} marginLeft="auto" marginRight="auto">
                         <Box>
-                            <OrgMinicard
-                                isLoading={loading}
-                                name={state.event_organizer}
-                                category={state.category}
-                                profile={state.event_image}
-                            />
+                            <OrgMinicard isLoading={loading} name={organizer.business_name} profile={organizer.business_logo} />
                             <Box>
-                                {state.event_image ? (
+                                {eventDetail.event_image ? (
                                     <LazyLoadImage
                                         component="img"
                                         effect="blur"
                                         delayTime={500}
-                                        src={Connections.api + Connections.assets + state.event_image}
+                                        src={Connections.api + Connections.assets + eventDetail.event_image}
                                         className="img-fluid rounded m-auto me-2"
                                     />
                                 ) : (
@@ -129,14 +123,14 @@ const EventDetail = () => {
                                 background: theme.palette.background.default,
                                 borderRadius: 3,
                                 width: '100%',
-                                padding: 1,
+                                padding: 2,
                                 '& > *': {
                                     margin: theme.spacing(2)
                                 }
                             }}
                         >
                             <Typography gutterBottom variant="h3">
-                                {state.event_name}
+                                {eventDetail.event_name}
                             </Typography>
 
                             <Box display="flex" alignItems="center" marginBottom={1} marginTop={3}>
@@ -145,9 +139,11 @@ const EventDetail = () => {
                                 </ListItemIcon>
 
                                 <Box>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {new Date(state.start_date).toDateString().slice(0, 10)} @{TimeFun(state.start_time)}
-                                    </Typography>
+                                    {eventDetail.start_date && eventDetail.start_time && (
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {new Date(eventDetail.start_date).toDateString()} @ {TimeFun(eventDetail.start_time)}
+                                        </Typography>
+                                    )}
                                     <Typography variant="subtitle2">Start date and time</Typography>
                                 </Box>
                             </Box>
@@ -158,9 +154,11 @@ const EventDetail = () => {
                                 </ListItemIcon>
 
                                 <Box>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {new Date(state.end_date).toDateString().slice(0, 10)} @{TimeFun(state.end_time)}
-                                    </Typography>
+                                    {eventDetail.end_date && eventDetail.end_time && (
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {new Date(eventDetail.end_date).toDateString()} @{TimeFun(eventDetail.end_time)}
+                                        </Typography>
+                                    )}
                                     <Typography variant="subtitle2">End date and time</Typography>
                                 </Box>
                             </Box>
@@ -170,7 +168,7 @@ const EventDetail = () => {
                                 </ListItemIcon>
                                 <Box>
                                     <Typography variant="body2" className="fw-semibold">
-                                        {renderStatus(state.start_date, state.end_date)}
+                                        {renderStatus(eventDetail.start_date, eventDetail.end_date)}
                                     </Typography>
                                     <Typography variant="subtitle2">Status</Typography>
                                 </Box>
@@ -182,7 +180,7 @@ const EventDetail = () => {
 
                                 <Box>
                                     <Typography variant="body2" className="fw-semibold">
-                                        {state.event_address}
+                                        {eventDetail.event_address}
                                     </Typography>
                                     <Typography variant="subtitle2">Event Address</Typography>
                                 </Box>
@@ -195,7 +193,7 @@ const EventDetail = () => {
 
                                 <Box>
                                     <Typography variant="body2" className="fw-semibold">
-                                        {state.category}
+                                        {eventDetail.category}
                                     </Typography>
                                     <Typography variant="subtitle2">Category</Typography>
                                 </Box>
@@ -208,23 +206,24 @@ const EventDetail = () => {
 
                                 <Box>
                                     <Typography variant="body2" className="fw-semibold">
-                                        {state.event_entrance_fee === '0' ? 'Free' : state.event_entrance_fee + ' ETB'}
+                                        {eventDetail.event_entrance_fee == null ? 'Free' : eventDetail.event_entrance_fee + ' ETB'}
                                     </Typography>
-                                    <Typography variant="subtitle2">Entrance fee</Typography>
+
+                                    {eventDetail.event_entrance_fee && <Typography variant="subtitle2">Entrance fee</Typography>}
                                 </Box>
                             </Box>
-                            {state.contact_phone && (
+                            {eventDetail.contact_phone && (
                                 <Box display="flex" alignItems="center">
                                     <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
                                         <IconPhone />
                                     </ListItemIcon>
                                     <Typography variant="body2" className="fw-semibold">
-                                        {state.contact_phone}
+                                        {eventDetail.contact_phone}
                                     </Typography>
                                 </Box>
                             )}
 
-                            {state.redirectUrl && (
+                            {eventDetail.redirectUrl && (
                                 <Box display="flex" alignItems="center">
                                     <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
                                         <IconLink />
@@ -233,11 +232,11 @@ const EventDetail = () => {
                                         variant="body2"
                                         className="fw-semibold"
                                         component="a"
-                                        href={state.redirectUrl}
+                                        href={eventDetail.redirectUrl}
                                         target="_blank"
                                         rel="noopener"
                                     >
-                                        {state.redirectUrl}
+                                        {eventDetail.redirectUrl}
                                     </Typography>
                                 </Box>
                             )}
@@ -259,7 +258,7 @@ const EventDetail = () => {
                                 Description
                             </Typography>
                             <Typography gutterBottom variant="body2" lineHeight={1.5}>
-                                {state.event_description}
+                                {eventDetail.event_description}
                             </Typography>
                         </Box>
                     </Grid>
@@ -289,7 +288,7 @@ const EventDetail = () => {
                                     </Grid>
                                 </Grid>
                             ) : (
-                                <EventCard events={FilterCategory.slice(0, 8)} />
+                                <EventCard events={FilterCategory.slice(0, 8)} onPress={(id) => setEventid(id)} />
                             )}
                         </Box>
                     </Grid>
@@ -299,10 +298,9 @@ const EventDetail = () => {
     );
 };
 
-const EventCard = ({ events }) => {
-    const navigate = useNavigate();
+const EventCard = ({ events, onPress }) => {
     const theme = useTheme();
-    //a function which arrange a time to human readable format
+
     const TimeFun = (eventTime) => {
         var time = eventTime;
         var result = time.slice(0, 2);
@@ -333,11 +331,7 @@ const EventCard = ({ events }) => {
                         lg={3}
                         xl={3}
                         key={index}
-                        onClick={() =>
-                            navigate('', {
-                                state: { ...event }
-                            })
-                        }
+                        onClick={() => onPress(event.id)}
                         style={{ textDecoration: 'none' }}
                     >
                         <Card variant="outlined">
@@ -389,7 +383,7 @@ const EventCard = ({ events }) => {
                                             <IconTicket />
                                         </ListItemIcon>
                                         <Typography variant="body2" className="fw-semibold">
-                                            {event.event_entrance_fee === '0' ? 'Free' : event.event_entrance_fee + ' ETB'}
+                                            {event.event_entrance_fee == null ? 'Free' : event.event_entrance_fee + ' ETB'}
                                         </Typography>
                                     </Box>
                                 </CardContent>
@@ -412,7 +406,8 @@ EventCard.propTypes = {
             event_address: PropTypes.string.isRequired,
             event_entrance_fee: PropTypes.string.isRequired
         })
-    )
+    ),
+    onPress: PropTypes.func
 };
 
 export default EventDetail;

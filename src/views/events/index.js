@@ -32,7 +32,7 @@ const Events = () => {
     const [activeCategory, setActiveCategory] = useState('All');
     const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
-    const [filter, setFilter] = useState('TodayEvents.php');
+    const [filter, setFilter] = useState('today-events');
     const [page] = useState(0);
     const [rowsPerPage] = useState(12);
 
@@ -43,6 +43,7 @@ const Events = () => {
             setActiveCategory(category.title);
         }
     };
+
     const handleSearchTextChange = (event) => {
         setSearchText(event.target.value);
     };
@@ -53,16 +54,22 @@ const Events = () => {
     };
 
     useEffect(() => {
-        setLoading(true);
-        fetch(Connections.api + filter, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                setEvents(response[0].Events);
-                setLoading(false);
-            });
+        const handleFetchingDetail = () => {
+            setLoading(true);
+            fetch(Connections.api + filter, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then((response) => response.json())
+                .then((response) => {
+                    if (response.success) {
+                        setEvents(response.data);
+                        setLoading(false);
+                    }
+                });
+        };
+
+        handleFetchingDetail();
 
         return () => {};
     }, [filter]);
@@ -207,9 +214,9 @@ const Events = () => {
                                 TabIndicatorProps={{ style: { backgroundColor: '#ffbb00' } }}
                                 sx={{ paddingTop: 1 }}
                             >
-                                <Tab label="Today" value="TodayEvents.php" />
-                                <Tab label="This Week" value="WeekEvents.php" />
-                                <Tab label="Upcoming" value="UpcomingEvents.php" />
+                                <Tab label="Today" value="today-events" />
+                                <Tab label="This Week" value="week-events" />
+                                <Tab label="Upcoming" value="upcoming-events" />
                             </Tabs>
                         </Paper>
                     </Grid>
@@ -246,7 +253,11 @@ const Events = () => {
 
                 {paginatedData.length >= 4 && (
                     <Box marginY={4}>
-                        <ImageCarousel />
+                        <Grid container justifyContent="center">
+                            <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
+                                <ImageCarousel />
+                            </Grid>
+                        </Grid>
                     </Box>
                 )}
 
@@ -373,7 +384,7 @@ const EventCard = ({ events }) => {
                                             <IconTicket />
                                         </ListItemIcon>
                                         <Typography variant="body2" className="fw-semibold">
-                                            {event.event_entrance_fee === '0' ? 'Free' : event.event_entrance_fee + ' ETB'}
+                                            {event.event_entrance_fee == null ? 'Free' : event.event_entrance_fee + ' ETB'}
                                         </Typography>
                                     </Box>
                                 </CardContent>

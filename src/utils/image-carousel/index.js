@@ -1,10 +1,9 @@
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import Connections from 'api';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from '@mui/material';
-import SwiperCore, { Autoplay, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Autoplay, Pagination } from 'swiper';
 import 'swiper/swiper-bundle.css';
 
 SwiperCore.use([Autoplay, Pagination]);
@@ -50,7 +49,7 @@ function ImageCarousel() {
                         {images.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img
-                                    src={Connections.api + Connections.assets + image.image}
+                                    src={'https://app.p2b-ethiopia.com/placetobe/assets' + image.image}
                                     alt=""
                                     className="img-fluid rounded-4"
                                     style={{ width: '100%', borderRadius: 2 }}

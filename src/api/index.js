@@ -1,52 +1,91 @@
 const Connections = {
     // api: 'https://app.p2b-ethiopia.com/placetobe-dev/',
-    api: 'https://app.p2b-ethiopia.com/placetobe/',
-    assets: 'assets/',
-    signUp: 'Signup.php',
-    signIn: 'Signin.php',
-    googleSignUp: 'GoogleSignUp.php',
-    googleSignIn: 'GoogleSignIn.php',
-    AddEvent: 'AddEvent.php',
-    TodayEvents: 'TodayEvents.php',
-    follow: 'follow.php',
-    followers: 'followers.php',
-    following: 'following.php',
+    // api: 'https://app.p2b-ethiopia.com/placetobe/',
+    api: 'https://backend.placetobeethiopia.com/api/',
+    assets: 'images/',
+
+    signUp: 'signup',
+    signIn: 'signin',
+    googleSignUp: 'continue-with-google',
+    googleSignIn: 'signin-with-google',
+    profile: 'profile/',
+    changeprofile: 'changeprofile/',
+    userInfo: 'user-info/',
+    MetaData: 'meta-info/',
+    updateUserInfo: 'update/',
+    ChangePassword: 'changepassword',
+
+    //event related api's
+    events: 'events',
+    eventDetails: 'single-event/',
+    moreEventDetails: 'event-more-detail',
+    relatedEvents: 'related-events',
+    AddEvent: 'add-event',
+    TodayEvents: 'today-events',
+    WeekEvents: 'week-events',
+    UpcomingEvents: 'upcoming-events',
+    categoryFilter: 'search-category/',
+    search: 'search-event',
+    YourEvents: 'your-events/',
+
+    follow: 'follow',
+    followers: 'followers/',
+    following: 'following/',
     upload: 'uploadimage.php',
-    organizer: 'organizer.php', //updated
-    search: 'search.php',
-    notification: 'notification.php',
-    profile: 'UserProfile.php',
-    updateProfile: 'updateProfile.php',
-    userInfo: 'userInfo.php',
-    MetaData: 'MetaData.php',
-    updateUserInfo: 'updateUserInfo.php',
-    ChangePassword: 'changePassword.php',
-    WeekEvents: 'WeekEvents.php',
-    UpcomingEvents: 'UpcomingEvents.php',
-    categoryFilter: 'categoryFilter.php',
-    YourEvents: 'YourEvents.php',
-    OrganizerFollowCounter: 'organizerFollowers.php',
-    organizerEvents: 'OrganizerEvents.php',
-    FeedBacks: 'FeedBacks.php',
-    forgotPassword: 'forgotPassword.php',
-    status: 'status.php',
-    Images: 'Images.php',
-    appInfo: 'appInfo.php',
+
+    //business api end points
+    organizer: 'organizer',
+    singleBusiness: 'singleBusiness',
+
+    //notification end points
+    notification: 'notification',
+    getNotification: 'fetchNotifications/',
+    notified: 'notified-users',
+    newNotifications: 'newNotifications',
+
+    OrganizerFollowCounter: 'organizer-followers/',
+    organizerEvents: 'organizer-event/',
+    organizerUpcomings: 'organizer-upcoming-event/',
+    createfeedback: 'create-feedback',
+    forgotPassword: 'forgotPassword',
+    status: 'status',
+    Images: 'Images',
+    appInfo: 'appinfo',
 
     // second version connnections
-    AddTicket: 'AddTicket.php',
-    myTickets: 'MyTickets.php',
-    Soldout: 'SoldOut.php',
-    EventPoster: 'EventPoster.php',
-    UpdateTicket: 'UpdateTicket.php',
-    updateEvent: 'UpdateEvent.php',
-    Cancelled: 'Cancelled.php',
-    eventTicket: 'EventTicket.php',
-    Payment: 'Payment.php',
-    Event: 'SingleEvent.php', // a file to retrive single event by its event ID
-    reservation: 'Reservation.php',
-    AvailableTickets: 'AvailableTickets.php',
-    FeaturedEvent: 'FeaturedEvent.php',
-    boughtTickets: 'boughtTickets.php'
+    AddTicket: 'create-ticket',
+    myTickets: 'mytickets/',
+    Soldout: 'soldout/',
+    EventPoster: 'events-poster',
+    UpdateTicket: 'update-ticket/',
+    updateEvent: 'update-event/',
+    Cancelled: 'cancel-event/',
+    eventTicket: 'eventticket/',
+    detailTicket: 'event-detail-ticket/',
+    Payment: 'payment',
+    Event: 'single-event/', // a file to retrive single event by its event ID
+    createReservation: 'create-reservation',
+    AvailableTickets: 'tickets',
+    FeaturedEvent: 'featured-event',
+    boughtTickets: 'soldticket/',
+    singleTicket: 'single-ticket/',
+
+    //refunding related api's
+    requestRrefunding: 'refunding-request',
+
+    //rating end points
+    addRating: 'add-ratings',
+    getRating: 'get-ratings/',
+    updateRating: 'update-ratings/',
+
+    //ads endpoints
+    fetchAds: 'display-ads',
+
+    //viewed ads end points
+    adViewed: 'consumed-create',
+
+    //tickets endpoints
+    requestRefunding: 'ticket-refunds',
+    refundingInfo: 'ticket-refunds/'
 };
 export default Connections;
