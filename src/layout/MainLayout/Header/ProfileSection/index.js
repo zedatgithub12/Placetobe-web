@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -17,7 +17,8 @@ import {
     Paper,
     Popper,
     Stack,
-    Typography
+    Typography,
+    Button
 } from '@mui/material';
 
 // third-party
@@ -28,7 +29,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 
 // assets
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { IconBookmarks, IconLogout, IconSettings, IconUser } from '@tabler/icons';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -42,7 +43,7 @@ const ProfileSection = () => {
     // const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
-    const [isLogged] = useState(false);
+    const [isLogged] = useState(true);
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -125,15 +126,15 @@ const ProfileSection = () => {
                                             <Stack>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
                                                     <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        Johne Doe
+                                                        John Doe
                                                     </Typography>
                                                 </Stack>
-                                                <Typography variant="subtitle2">Project Admin</Typography>
+                                                <Typography variant="subtitle2">johndoe@gmail.com</Typography>
                                             </Stack>
                                         </Box>
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
-                                            <Box sx={{ p: 2 }}>
-                                                <Divider />
+                                            <Divider />
+                                            <Box sx={{ p: 1 }}>
                                                 <List
                                                     component="nav"
                                                     sx={{
@@ -163,13 +164,24 @@ const ProfileSection = () => {
 
                                                     <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        selected={selectedIndex === 0}
+                                                        onClick={(event) => handleListItemClick(event, 0, '/bookmarks')}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <IconBookmarks stroke={1.5} size="1.3rem" />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={<Typography variant="body2">Bookmarks</Typography>} />
+                                                    </ListItemButton>
+
+                                                    <ListItemButton
+                                                        sx={{ borderRadius: `${customization.borderRadius}px`, marginTop: 6 }}
                                                         selected={selectedIndex === 4}
                                                         onClick={handleLogout}
                                                     >
                                                         <ListItemIcon>
                                                             <IconLogout stroke={1.5} size="1.3rem" />
                                                         </ListItemIcon>
-                                                        <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                                                        <ListItemText primary={<Typography variant="body2">Sign out</Typography>} />
                                                     </ListItemButton>
                                                 </List>
                                             </Box>
@@ -178,11 +190,44 @@ const ProfileSection = () => {
                                 ) : (
                                     <MainCard>
                                         <Box sx={{ textAlign: 'center' }}>
-                                            <Typography variant="body" sx={{ mb: 4 }}>
-                                                We are baking a profile page
+                                            <Typography sx={{ color: theme.palette.grey[500], fontSize: 36 }}>****</Typography>
+                                            <Typography variant="h4" sx={{ mb: 2 }}>
+                                                Please signin first
                                             </Typography>
-                                            <Typography variant="subtitle2">Check this after a while</Typography>
-                                            {/* <Button sx={{ mt: 2, color: theme.palette.warning.dark }}>Sign In</Button> */}
+
+                                            <Typography variant="subtitle2">
+                                                For better exprience of the platform, stay signed in
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                            <Button
+                                                sx={{ mt: 2, backgroundColor: theme.palette.warning.dark, color: theme.palette.dark.main }}
+                                            >
+                                                Sign In
+                                            </Button>
+                                            <Button sx={{ mt: 2, color: theme.palette.dark.main, border: 0.3 }}>
+                                                Continue with Google
+                                            </Button>
+                                            <Button sx={{ mt: 1, color: theme.palette.grey[500], fontSize: theme.typography.body1 }}>
+                                                Create an account
+                                            </Button>
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                marginTop: 2
+                                            }}
+                                        >
+                                            <Link to="/" style={{ fontSize: 10, marginRight: 2, textDecoration: 'none' }}>
+                                                Privacy policy |
+                                            </Link>
+                                            <Divider orientation="vertical" sx={{ width: 3 }} />
+                                            <Link to="/" style={{ fontSize: 10, textDecoration: 'none' }}>
+                                                Terms
+                                            </Link>
                                         </Box>
                                     </MainCard>
                                 )}

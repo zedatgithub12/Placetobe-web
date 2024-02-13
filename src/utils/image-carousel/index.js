@@ -49,7 +49,7 @@ function ImageCarousel() {
                         {images.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img
-                                    src={'https://app.p2b-ethiopia.com/placetobe/assets' + image.image}
+                                    src={'https://app.p2b-ethiopia.com/placetobe/assets/' + image.image}
                                     alt=""
                                     className="img-fluid rounded-4"
                                     style={{ width: '100%', borderRadius: 2 }}
