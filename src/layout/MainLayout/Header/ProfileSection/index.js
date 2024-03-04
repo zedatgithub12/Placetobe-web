@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -17,8 +17,7 @@ import {
     Paper,
     Popper,
     Stack,
-    Typography,
-    Button
+    Typography
 } from '@mui/material';
 
 // third-party
@@ -30,6 +29,7 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconBookmarks, IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import SigninPrompt from 'ui-component/auth/SigninPrompt';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -43,7 +43,7 @@ const ProfileSection = () => {
     // const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
-    const [isLogged] = useState(true);
+    const [isLogged] = useState(false);
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -189,46 +189,7 @@ const ProfileSection = () => {
                                     </MainCard>
                                 ) : (
                                     <MainCard>
-                                        <Box sx={{ textAlign: 'center' }}>
-                                            <Typography sx={{ color: theme.palette.grey[500], fontSize: 36 }}>****</Typography>
-                                            <Typography variant="h4" sx={{ mb: 2 }}>
-                                                Please signin first
-                                            </Typography>
-
-                                            <Typography variant="subtitle2">
-                                                For better exprience of the platform, stay signed in
-                                            </Typography>
-                                        </Box>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                            <Button
-                                                sx={{ mt: 2, backgroundColor: theme.palette.warning.dark, color: theme.palette.dark.main }}
-                                            >
-                                                Sign In
-                                            </Button>
-                                            <Button sx={{ mt: 2, color: theme.palette.dark.main, border: 0.3 }}>
-                                                Continue with Google
-                                            </Button>
-                                            <Button sx={{ mt: 1, color: theme.palette.grey[500], fontSize: theme.typography.body1 }}>
-                                                Create an account
-                                            </Button>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                marginTop: 2
-                                            }}
-                                        >
-                                            <Link to="/" style={{ fontSize: 10, marginRight: 2, textDecoration: 'none' }}>
-                                                Privacy policy |
-                                            </Link>
-                                            <Divider orientation="vertical" sx={{ width: 3 }} />
-                                            <Link to="/" style={{ fontSize: 10, textDecoration: 'none' }}>
-                                                Terms
-                                            </Link>
-                                        </Box>
+                                        <SigninPrompt />
                                     </MainCard>
                                 )}
                             </ClickAwayListener>

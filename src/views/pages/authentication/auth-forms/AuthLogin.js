@@ -26,7 +26,6 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
-import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
@@ -34,12 +33,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import Connections from 'api';
+import { useNavigate } from 'react-router';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
-    const scriptedRef = useScriptRef();
+    const navigate = useNavigate();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
@@ -55,6 +56,11 @@ const FirebaseLogin = ({ ...others }) => {
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
+    };
+
+    const handleSessions = (token, data) => {
+        localStorage.setItem('token', token);
+        checked ? localStorage.setItem('user', data) : sessionStorage.setItem('user', data);
     };
 
     return (
@@ -120,8 +126,8 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -129,25 +135,48 @@ const FirebaseLogin = ({ ...others }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
+                    setSubmitting(true);
+                    var Api = Connections.api + Connections.signIn;
+                    var headers = {
+                        accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    };
+
+                    var Data = {
+                        email: values.email,
+                        password: values.password
+                    };
+
+                    fetch(Api, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(Data)
+                    })
+                        .then((response) => response.json())
+                        .then((response) => {
+                            if (response.success) {
+                                setSubmitting(false);
+                                handleSessions(response.access_token, response.data);
+                                navigate('/');
+                            } else {
+                                setStatus({ success: false });
+                                setErrors({ submit: response.message });
+                                setSubmitting(false);
+                            }
+                        })
+                        .catch((err) => {
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
                             setSubmitting(false);
-                        }
-                    }
+                        });
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-login" color="secondary">
+                                Email Address
+                            </InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -155,7 +184,8 @@ const FirebaseLogin = ({ ...others }) => {
                                 name="email"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                label="Email Address / Username"
+                                label="Email Address"
+                                color="secondary"
                                 inputProps={{}}
                             />
                             {touched.email && errors.email && (
@@ -170,7 +200,9 @@ const FirebaseLogin = ({ ...others }) => {
                             error={Boolean(touched.password && errors.password)}
                             sx={{ ...theme.typography.customInput }}
                         >
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-password-login" color="secondary">
+                                Password
+                            </InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
@@ -191,6 +223,7 @@ const FirebaseLogin = ({ ...others }) => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
+                                color="secondary"
                                 label="Password"
                                 inputProps={{}}
                             />
@@ -207,7 +240,7 @@ const FirebaseLogin = ({ ...others }) => {
                                         checked={checked}
                                         onChange={(event) => setChecked(event.target.checked)}
                                         name="checked"
-                                        color="primary"
+                                        color="secondary"
                                     />
                                 }
                                 label="Remember me"
