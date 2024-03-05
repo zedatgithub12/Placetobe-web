@@ -32,16 +32,15 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
 import Connections from 'api';
 import { useNavigate } from 'react-router';
+import { GoogleLogin } from '@react-oauth/google';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const navigate = useNavigate();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
 
@@ -60,7 +59,7 @@ const FirebaseLogin = ({ ...others }) => {
 
     const handleSessions = (token, data) => {
         localStorage.setItem('token', token);
-        checked ? localStorage.setItem('user', data) : sessionStorage.setItem('user', data);
+        checked ? localStorage.setItem('user', JSON.stringify(data)) : sessionStorage.setItem('user', JSON.stringify(data));
     };
 
     return (
@@ -68,23 +67,18 @@ const FirebaseLogin = ({ ...others }) => {
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
                     <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            onClick={googleHandler}
-                            size="large"
-                            variant="outlined"
-                            sx={{
-                                color: 'grey.700',
-                                backgroundColor: theme.palette.grey[50],
-                                borderColor: theme.palette.grey[100]
+                        <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                                console.log(credentialResponse);
                             }}
-                        >
-                            <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-                            </Box>
-                            Sign in with Google
-                        </Button>
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                            useOneTap
+                            ux_mode="popup"
+                            context="signin"
+                            auto_select={false}
+                        />
                     </AnimateButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -95,7 +89,6 @@ const FirebaseLogin = ({ ...others }) => {
                         }}
                     >
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
                         <Button
                             variant="outlined"
                             sx={{

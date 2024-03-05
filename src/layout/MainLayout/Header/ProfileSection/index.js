@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -38,19 +38,15 @@ const ProfileSection = () => {
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
 
-    // const [sdm, setSdm] = useState(true);
-    // const [value, setValue] = useState('');
-    // const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
-    const [isLogged] = useState(false);
+    const [isLogged, setIsLoged] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
+
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
     const anchorRef = useRef(null);
-    const handleLogout = async () => {
-        console.log('Logout');
-    };
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -68,7 +64,16 @@ const ProfileSection = () => {
         }
     };
     const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+        if (isLogged) {
+            setOpen((prevOpen) => !prevOpen);
+        } else {
+            navigate('/signin');
+        }
+    };
+
+    const handleLogout = (event) => {
+        localStorage.clear();
+        handleClose(event);
     };
 
     const prevOpen = useRef(open);
@@ -79,6 +84,16 @@ const ProfileSection = () => {
 
         prevOpen.current = open;
     }, [open]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+
+        if (token && user) {
+            setIsLoged(true);
+        }
+        return () => {};
+    }, []);
 
     return (
         <>
@@ -120,16 +135,18 @@ const ProfileSection = () => {
                     <Transitions in={open} {...TransitionProps}>
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
-                                {isLogged ? (
+                                {isLogged && (
                                     <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                                         <Box sx={{ p: 2 }}>
                                             <Stack>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
-                                                    <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        John Doe
-                                                    </Typography>
+                                                    <Link to="/user/profile" component="span" variant="h4" sx={{ fontWeight: 400 }}>
+                                                        {user?.firstName} {user?.middleName}
+                                                    </Link>
                                                 </Stack>
-                                                <Typography variant="subtitle2">johndoe@gmail.com</Typography>
+                                                <Link to="/user/profile" variant="subtitle2" style={{ textDecoration: 'none' }}>
+                                                    {user?.email}
+                                                </Link>
                                             </Stack>
                                         </Box>
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
@@ -176,7 +193,7 @@ const ProfileSection = () => {
                                                     <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px`, marginTop: 6 }}
                                                         selected={selectedIndex === 4}
-                                                        onClick={handleLogout}
+                                                        onClick={(event) => handleLogout(event)}
                                                     >
                                                         <ListItemIcon>
                                                             <IconLogout stroke={1.5} size="1.3rem" />
@@ -186,10 +203,6 @@ const ProfileSection = () => {
                                                 </List>
                                             </Box>
                                         </PerfectScrollbar>
-                                    </MainCard>
-                                ) : (
-                                    <MainCard>
-                                        <SigninPrompt />
                                     </MainCard>
                                 )}
                             </ClickAwayListener>

@@ -3,18 +3,15 @@ import { useSelector } from 'react-redux';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-
 // routing
 import Routes from 'routes';
-
 // defaultTheme
 import themes from 'themes';
-
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router';
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 // ==============================|| APP ||============================== //
 
 const App = () => {
@@ -45,14 +42,16 @@ const App = () => {
         };
     }, [navigate]);
     return (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes(customization)}>
-                <CssBaseline />
-                <NavigationScroll>
-                    <Routes />
-                </NavigationScroll>
-            </ThemeProvider>
-        </StyledEngineProvider>
+        <GoogleOAuthProvider clientId="799616009286-ck594ue3589h93vq4hlqcsmrg71uuekd.apps.googleusercontent.com">
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={themes(customization)}>
+                    <CssBaseline />
+                    <NavigationScroll>
+                        <Routes />
+                    </NavigationScroll>
+                </ThemeProvider>
+            </StyledEngineProvider>
+        </GoogleOAuthProvider>
     );
 };
 
