@@ -1,9 +1,13 @@
-import { Typography, Grid, Box, Card, CardContent, CardActionArea, ListItemIcon, useTheme, Skeleton } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { Typography, Box, ListItemIcon, Skeleton } from '@mui/material';
+import { IconCalendar, IconTicket, IconClockHour7, IconMapPin } from '@tabler/icons';
+import { useTheme } from '@mui/material/styles';
+import { Grid, Card, CardContent, CardActionArea } from '@mui/material';
 import PropTypes from 'prop-types';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+
+// project imports
 import Connections from 'api';
-import { IconCalendar, IconTicket, IconClockHour7, IconMapPin, IconSearch } from '@tabler/icons';
+import { useNavigate } from 'react-router-dom';
 
 const EventCard = ({ events }) => {
     const theme = useTheme();
@@ -119,5 +123,3 @@ EventCard.propTypes = {
         })
     )
 };
-
-export default EventCard;

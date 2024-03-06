@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid, Box, IconButton, Typography, ListItemIcon, Skeleton } from '@mui/material';
 import { Card, CardContent, CardActionArea } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, Bookmark, BookmarkBorderOutlined, Share } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import OrgMinicard from 'ui-component/organizer/OrgMinicard';
@@ -17,24 +17,32 @@ import {
     IconLink,
     IconCircleCheck,
     IconCalendarDue,
-    IconCalendarEvent
+    IconCalendarEvent,
+    IconBookmark,
+    IconShare
 } from '@tabler/icons';
 import PropTypes from 'prop-types';
 import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
 import { TimeFun, renderStatus } from 'utils/function';
+import { useSelector, useDispatch } from 'react-redux';
+import { bookmarkEvent, unBookmark } from 'store/newstore/bookmarkSlice';
 
 const EventDetail = () => {
-    const { state } = useLocation();
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { state } = useLocation();
+    const bookmarks = useSelector((state) => state.bookmark.bookmarks);
+    const token = localStorage.getItem('token');
 
-    //states in event detail page
     const [eventid, setEventid] = useState(state.id);
-
     const [loading, setLoading] = useState(false);
     const [eventDetail, setEventDetail] = useState([]);
     const [organizer, setOrganizer] = useState([]);
     const [related, setRelated] = useState([]);
+    const [ismarked, setIsMarked] = useState(false);
+    const [bookmarkBtnColor, setBookmarkBtnColor] = useState(theme.palette.grey[500]);
+    const [bookmarkBtnBackground, setBookmarkBtnBackground] = useState(theme.palette.background.default);
 
     const FilterCategory = related.filter((event) => event.category === eventDetail.category && event.id != state.id);
 
@@ -66,6 +74,16 @@ const EventDetail = () => {
         };
     };
 
+    const bookmarked = () => {
+        const found = bookmarks.some((event) => event.id === state.id);
+        if (found) {
+            setBookmarkBtnColor(theme.palette.primary.dark);
+            setIsMarked(true);
+            return true;
+        }
+        return false;
+    };
+
     useEffect(() => {
         setLoading(true);
         var Api = Connections.api + Connections.eventDetails + eventid;
@@ -82,14 +100,30 @@ const EventDetail = () => {
                     FetchAdditionalInfo();
                 }
             });
-
+        bookmarked();
         return () => {};
     }, [eventid]);
+
+    const bookmarkTheEvent = () => {
+        const find = bookmarks.find((event) => event.id === eventDetail.id);
+        if (find) {
+            setBookmarkBtnColor(theme.palette.grey[500]);
+            setBookmarkBtnBackground(theme.palette.background.default);
+            dispatch(unBookmark(eventDetail.id));
+            setIsMarked(false);
+        } else {
+            dispatch(bookmarkEvent(eventDetail));
+            setBookmarkBtnBackground(theme.palette.primary.light);
+            setBookmarkBtnColor(theme.palette.primary.dark);
+            setIsMarked(true);
+        }
+    };
+
     return (
         <>
             <Box>
                 <IconButton
-                    onClick={() => navigate('/')}
+                    onClick={() => navigate(-1)}
                     color="secondary"
                     aria-label="back"
                     sx={{ background: theme.palette.background.default, color: theme.palette.grey[800] }}
@@ -116,7 +150,7 @@ const EventDetail = () => {
                             </Box>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={4} lg={5} xl={5} marginRight="auto">
+                    <Grid item xs={12} sm={6} md={6} lg={5} xl={5} marginRight="auto">
                         <Box
                             marginY={2}
                             sx={{
@@ -129,9 +163,27 @@ const EventDetail = () => {
                                 }
                             }}
                         >
-                            <Typography gutterBottom variant="h3">
-                                {eventDetail.event_name}
-                            </Typography>
+                            <Grid container>
+                                <Grid item xs={8.5}>
+                                    <Typography gutterBottom variant="h3">
+                                        {eventDetail.event_name}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                    {token && (
+                                        <IconButton onClick={() => bookmarkTheEvent()} style={{ backgroundColor: bookmarkBtnBackground }}>
+                                            {ismarked ? (
+                                                <Bookmark fontSize="small" style={{ color: bookmarkBtnColor }} />
+                                            ) : (
+                                                <BookmarkBorderOutlined fontSize="small" style={{ color: bookmarkBtnColor }} />
+                                            )}
+                                        </IconButton>
+                                    )}
+                                    <IconButton style={{ marginLeft: 4 }}>
+                                        <IconShare size={19} />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
 
                             <Box display="flex" alignItems="center" marginBottom={1} marginTop={3}>
                                 <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
@@ -156,7 +208,7 @@ const EventDetail = () => {
                                 <Box>
                                     {eventDetail.end_date && eventDetail.end_time && (
                                         <Typography variant="body2" className="fw-semibold">
-                                            {new Date(eventDetail.end_date).toDateString()} @{TimeFun(eventDetail.end_time)}
+                                            {new Date(eventDetail.end_date).toDateString()} @ {TimeFun(eventDetail.end_time)}
                                         </Typography>
                                     )}
                                     <Typography variant="subtitle2">End date and time</Typography>

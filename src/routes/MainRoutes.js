@@ -5,8 +5,8 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
-// const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Events = Loadable(lazy(() => import('views/events')));
+const Bookmarks = Loadable(lazy(() => import('views/events/bookmarks')));
 const EventDetail = Loadable(lazy(() => import('views/event-detail')));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -108,6 +108,10 @@ const MainRoutes = {
         {
             path: 'add-event',
             element: <AddEvent />
+        },
+        {
+            path: 'bookmarks',
+            element: <Bookmarks />
         }
     ]
 };
