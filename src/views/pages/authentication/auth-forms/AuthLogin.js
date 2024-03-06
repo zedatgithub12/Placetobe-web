@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -35,6 +35,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Connections from 'api';
 import { useNavigate } from 'react-router';
 import { GoogleLogin } from '@react-oauth/google';
+import { Link } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -45,7 +46,30 @@ const FirebaseLogin = ({ ...others }) => {
     const [checked, setChecked] = useState(true);
 
     const googleHandler = async () => {
-        console.error('Login');
+        window.gapi.load('auth2', () => {
+            window.gapi.auth2
+                .init({
+                    client_id: '799616009286-ck594ue3589h93vq4hlqcsmrg71uuekd.apps.googleusercontent.com'
+                })
+                .then((auth2) => {
+                    const element = document.getElementById('google-signin-btn');
+                    auth2.attachClickHandler(
+                        element,
+                        {},
+                        (googleUser) => {
+                            // Handle the signed-in user here
+                            const profile = googleUser.getBasicProfile();
+                            console.log('ID: ' + profile.getId());
+                            console.log('Name: ' + profile.getName());
+                            console.log('Image URL: ' + profile.getImageUrl());
+                            console.log('Email: ' + profile.getEmail());
+                        },
+                        (error) => {
+                            console.error(error);
+                        }
+                    );
+                });
+        });
     };
 
     const [showPassword, setShowPassword] = useState(false);
@@ -62,26 +86,32 @@ const FirebaseLogin = ({ ...others }) => {
         checked ? localStorage.setItem('user', JSON.stringify(data)) : sessionStorage.setItem('user', JSON.stringify(data));
     };
 
+    const handleLoginSuccess = async (response) => {
+        try {
+            // Access user information after successful login
+            const profileObj = await response.profileObj;
+            console.log(response);
+
+            // Send the user profile to your backend for further processing (optional)
+        } catch (error) {
+            console.error(error);
+            // Handle potential errors during data retrieval
+        }
+    };
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <AnimateButton>
                         <GoogleLogin
-                            onSuccess={(credentialResponse) => {
-                                console.log(credentialResponse);
-                            }}
-                            onError={() => {
-                                console.log('Login Failed');
-                            }}
+                            clientId="799616009286-ck594ue3589h93vq4hlqcsmrg71uuekd.apps.googleusercontent.com"
+                            onSuccess={handleLoginSuccess}
+                            onError={(error) => console.error(error)}
                             useOneTap
-                            ux_mode="popup"
-                            context="signin"
-                            auto_select={false}
                         />
                     </AnimateButton>
-                </Grid>
-                <Grid item xs={12}>
+                </Grid> */}
+                {/* <Grid item xs={12}>
                     <Box
                         sx={{
                             alignItems: 'center',
@@ -109,7 +139,7 @@ const FirebaseLogin = ({ ...others }) => {
 
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
                     </Box>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="subtitle1">Sign in with Email address</Typography>
@@ -238,9 +268,13 @@ const FirebaseLogin = ({ ...others }) => {
                                 }
                                 label="Remember me"
                             />
-                            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                            <Link
+                                to="/forgot-password"
+                                variant="subtitle1"
+                                style={{ textDecoration: 'none', color: '#333', cursor: 'pointer' }}
+                            >
                                 Forgot Password?
-                            </Typography>
+                            </Link>
                         </Stack>
                         {errors.submit && (
                             <Box sx={{ mt: 3 }}>

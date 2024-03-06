@@ -32,7 +32,7 @@ const EditProfile = () => {
                     <IconButton onClick={() => navigate(-1)}>
                         <IconArrowLeft size={20} />
                     </IconButton>
-                    <Typography>Edit profile</Typography>
+                    <Typography variant="h4">Edit profile</Typography>
                 </Box>
 
                 <EditForm />

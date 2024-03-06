@@ -14,6 +14,9 @@ const Connections = {
     MetaData: 'meta-info/',
     updateUserInfo: 'update/',
     ChangePassword: 'changepassword',
+    forgotpassword: 'forgotpassword',
+    resetpassword: 'resetpassword',
+    refresh_token: 'refresh-token',
 
     //event related api's
     events: 'events',

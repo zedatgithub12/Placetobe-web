@@ -67,7 +67,7 @@ const Profile = () => {
                     <IconButton onClick={() => navigate('/')}>
                         <IconArrowLeft size={20} />
                     </IconButton>
-                    <Typography>Profile</Typography>
+                    <Typography variant="h4">Profile</Typography>
                 </Box>
                 <Grid container sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                     <Grid

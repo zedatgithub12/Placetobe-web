@@ -13,6 +13,7 @@ import {
     RadioGroup
 } from '@mui/material';
 import { useFormik } from 'formik';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import Connections from 'api';
 import CategoryDropdown from 'ui-component/Dropdowns/Category';
 import * as Yup from 'yup';
@@ -78,18 +79,21 @@ const EditForm = () => {
             .then((response) => {
                 if (response.success) {
                     setIsSubmitting(false);
-                    console.log(response.message);
+                    handlePrompt(response.message, 'success');
                 } else {
                     setIsSubmitting(false);
-                    console.log(response.message);
+                    handlePrompt(response.message, 'error');
                 }
             })
             .catch((error) => {
                 setIsSubmitting(false);
-                console.log(error.message);
+                handlePrompt(error.message, 'error');
             });
     };
 
+    const handlePrompt = (message, severity) => {
+        enqueueSnackbar(message, { variant: severity });
+    };
     return (
         <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset} style={{ minWidth: '80%' }}>
             <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -257,6 +261,7 @@ const EditForm = () => {
                     </Button>
                 </Grid>
             </Grid>
+            <SnackbarProvider maxSnack={3} />
         </form>
     );
 };

@@ -73,6 +73,7 @@ const ProfileSection = () => {
 
     const handleLogout = (event) => {
         localStorage.clear();
+        location.reload();
         handleClose(event);
     };
 
@@ -140,13 +141,31 @@ const ProfileSection = () => {
                                         <Box sx={{ p: 2 }}>
                                             <Stack>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
-                                                    <Link to="/user/profile" component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        {user?.firstName} {user?.middleName}
+                                                    <Link
+                                                        to="/user/profile"
+                                                        component="span"
+                                                        style={{
+                                                            fontWeight: 400,
+                                                            fontSize: 18,
+                                                            textTransform: 'capitalize',
+                                                            textDecoration: 'none',
+                                                            marginBottom: 3,
+                                                            color: 'black'
+                                                        }}
+                                                    >
+                                                        {user?.first_name} {user?.middle_name}
                                                     </Link>
                                                 </Stack>
-                                                <Link to="/user/profile" variant="subtitle2" style={{ textDecoration: 'none' }}>
-                                                    {user?.email}
-                                                </Link>
+
+                                                {user?.email && (
+                                                    <Link
+                                                        to="/user/profile"
+                                                        variant="subtitle2"
+                                                        style={{ textDecoration: 'none', color: 'grey' }}
+                                                    >
+                                                        {user?.email}
+                                                    </Link>
+                                                )}
                                             </Stack>
                                         </Box>
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
