@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import customizationReducer from './customizationReducer';
 import storage from 'redux-persist/lib/storage';
 import bookmarkSlice from './newstore/bookmarkSlice';
+import Tickets from './slice/Tickets';
 
 const persistConfig = {
     key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     bookmark: bookmarkSlice,
+    ticket: Tickets,
     customization: customizationReducer
 });
 

@@ -200,8 +200,8 @@ const ProfileSection = () => {
 
                                                     <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                        selected={selectedIndex === 0}
-                                                        onClick={(event) => handleListItemClick(event, 0, '/bookmarks')}
+                                                        selected={selectedIndex === 1}
+                                                        onClick={(event) => handleListItemClick(event, 1, '/bookmarks')}
                                                     >
                                                         <ListItemIcon>
                                                             <IconBookmarks stroke={1.5} size="1.3rem" />

@@ -35,9 +35,9 @@ const EventCard = ({ events }) => {
                         item
                         xs={12}
                         sm={6}
-                        md={4}
-                        lg={3}
-                        xl={2.4}
+                        md={6}
+                        lg={4}
+                        xl={3}
                         key={index}
                         onClick={() =>
                             navigate('/event-detail', {

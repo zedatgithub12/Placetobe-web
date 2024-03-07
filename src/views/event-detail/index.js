@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid, Box, IconButton, Typography, ListItemIcon, Skeleton } from '@mui/material';
 import { Card, CardContent, CardActionArea } from '@mui/material';
-import { ArrowBack, Bookmark, BookmarkBorderOutlined, Share } from '@mui/icons-material';
+import { ArrowBack, Bookmark, BookmarkBorderOutlined } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import OrgMinicard from 'ui-component/organizer/OrgMinicard';
@@ -17,16 +17,18 @@ import {
     IconLink,
     IconCircleCheck,
     IconCalendarDue,
-    IconCalendarEvent,
-    IconBookmark,
-    IconShare
+    IconCalendarEvent
 } from '@tabler/icons';
 import PropTypes from 'prop-types';
 import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
 import { TimeFun, renderStatus } from 'utils/function';
 import { useSelector, useDispatch } from 'react-redux';
 import { bookmarkEvent, unBookmark } from 'store/newstore/bookmarkSlice';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import EventTicket from './components/EventTicket';
+import BuyTicket from './components/Tickets/BuyTicket';
 
+const domain = 'https://placetobeethiopia.com/';
 const EventDetail = () => {
     const theme = useTheme();
     const navigate = useNavigate();
@@ -78,6 +80,7 @@ const EventDetail = () => {
         const found = bookmarks.some((event) => event.id === state.id);
         if (found) {
             setBookmarkBtnColor(theme.palette.primary.dark);
+            setBookmarkBtnBackground(theme.palette.primary.light);
             setIsMarked(true);
             return true;
         }
@@ -111,12 +114,42 @@ const EventDetail = () => {
             setBookmarkBtnBackground(theme.palette.background.default);
             dispatch(unBookmark(eventDetail.id));
             setIsMarked(false);
+            handlePrompt('Unbookmarked the event', 'info');
         } else {
             dispatch(bookmarkEvent(eventDetail));
             setBookmarkBtnBackground(theme.palette.primary.light);
             setBookmarkBtnColor(theme.palette.primary.dark);
             setIsMarked(true);
+            handlePrompt('Bookmarked the event', 'info');
         }
+    };
+
+    const handleCopyLink = () => {
+        let sharedEvent = 'event/' + state.id;
+        let sharedLink = domain + sharedEvent;
+
+        navigator.clipboard
+            .writeText(sharedLink)
+            .then(() => {
+                handlePrompt('Link copied to clipboard', 'info');
+            })
+            .catch(() => {
+                handlePrompt('Failed to copy link to clipboard', 'error');
+            });
+    };
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handlePrompt = (message, severity) => {
+        enqueueSnackbar(message, { variant: severity });
     };
 
     return (
@@ -132,7 +165,7 @@ const EventDetail = () => {
                 </IconButton>
 
                 <Grid container marginX="auto">
-                    <Grid item xs={12} sm={5} md={5} lg={4} xl={4} marginLeft="auto" marginRight="auto">
+                    <Grid item xs={12} sm={5.6} md={5.6} lg={4.6} xl={4.6} marginLeft="auto" marginRight="auto">
                         <Box>
                             <OrgMinicard isLoading={loading} name={organizer.business_name} profile={organizer.business_logo} />
                             <Box>
@@ -147,6 +180,26 @@ const EventDetail = () => {
                                 ) : (
                                     <Skeleton variant="rectangular" height={220} />
                                 )}
+                            </Box>
+
+                            <Box
+                                marginY={2}
+                                sx={{
+                                    background: theme.palette.background.default,
+                                    borderRadius: 3,
+                                    width: '100%',
+                                    padding: 2,
+                                    '& > *': {
+                                        margin: theme.spacing(2)
+                                    }
+                                }}
+                            >
+                                <Typography gutterBottom variant="h5">
+                                    Description
+                                </Typography>
+                                <Typography gutterBottom variant="body2" lineHeight={1.5}>
+                                    {eventDetail.event_description}
+                                </Typography>
                             </Box>
                         </Box>
                     </Grid>
@@ -179,8 +232,8 @@ const EventDetail = () => {
                                             )}
                                         </IconButton>
                                     )}
-                                    <IconButton style={{ marginLeft: 4 }}>
-                                        <IconShare size={19} />
+                                    <IconButton style={{ marginLeft: 6 }} onClick={() => handleCopyLink()}>
+                                        <IconLink size={20} />
                                     </IconButton>
                                 </Grid>
                             </Grid>
@@ -294,25 +347,7 @@ const EventDetail = () => {
                             )}
                         </Box>
 
-                        <Box
-                            marginY={2}
-                            sx={{
-                                background: theme.palette.background.default,
-                                borderRadius: 3,
-                                width: '100%',
-                                padding: 2,
-                                '& > *': {
-                                    margin: theme.spacing(2)
-                                }
-                            }}
-                        >
-                            <Typography gutterBottom variant="h5">
-                                Description
-                            </Typography>
-                            <Typography gutterBottom variant="body2" lineHeight={1.5}>
-                                {eventDetail.event_description}
-                            </Typography>
-                        </Box>
+                        <EventTicket onBuyTicket={handleClickOpen} />
                     </Grid>
                 </Grid>
 
@@ -346,6 +381,8 @@ const EventDetail = () => {
                     </Grid>
                 </Grid>
             </Box>
+
+            {eventDetail && <BuyTicket open={open} event={eventDetail && eventDetail} id={state.id} handleClose={handleClose} />}
         </>
     );
 };
@@ -443,6 +480,8 @@ const EventCard = ({ events, onPress }) => {
                         </Card>
                     </Grid>
                 ))}
+
+            <SnackbarProvider maxSnack={3} />
         </Grid>
     );
 };
