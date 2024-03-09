@@ -18,7 +18,6 @@ const EventTicket = ({ onBuyTicket }) => {
                 lg={6}
                 xl={6}
                 sx={{
-                    background: theme.palette.background.default,
                     borderRadius: 3,
                     border: 0.5,
                     borderColor: theme.palette.grey[200],

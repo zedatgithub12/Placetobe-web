@@ -1,16 +1,4 @@
-import {
-    Button,
-    CircularProgress,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    FormLabel,
-    Grid,
-    InputLabel,
-    OutlinedInput,
-    Radio,
-    RadioGroup
-} from '@mui/material';
+import { FormControl, FormHelperText, Grid, InputLabel, OutlinedInput } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -19,7 +7,7 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Phone is required')
 });
 
-const PersonalInfo = ({ handleSubmission }) => {
+const PersonalInfo = ({ handleSubmission, children }) => {
     const formik = useFormik({
         initialValues: {
             full_name: '',
@@ -76,6 +64,8 @@ const PersonalInfo = ({ handleSubmission }) => {
                         )}
                     </FormControl>
                 </Grid>
+
+                {children}
             </Grid>
         </form>
     );
