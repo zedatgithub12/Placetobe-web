@@ -28,7 +28,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 
 // assets
-import { IconBookmarks, IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { IconBookmarks, IconLogout, IconSettings, IconTicket, IconUser } from '@tabler/icons';
 import SigninPrompt from 'ui-component/auth/SigninPrompt';
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -210,8 +210,19 @@ const ProfileSection = () => {
                                                     </ListItemButton>
 
                                                     <ListItemButton
+                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        selected={selectedIndex === 2}
+                                                        onClick={(event) => handleListItemClick(event, 2, '/tickets')}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <IconTicket stroke={1.5} size="1.3rem" />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={<Typography variant="body2">Your tickets</Typography>} />
+                                                    </ListItemButton>
+
+                                                    <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px`, marginTop: 6 }}
-                                                        selected={selectedIndex === 4}
+                                                        selected={selectedIndex === 3}
                                                         onClick={(event) => handleLogout(event)}
                                                     >
                                                         <ListItemIcon>

@@ -19,6 +19,10 @@ const AddEvent = Loadable(lazy(() => import('views/add-event')));
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
+//Tickets routing
+const Tickets = Loadable(lazy(() => import('views/Tickets')));
+const TicketDetail = Loadable(lazy(() => import('views/Tickets/detail')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -112,6 +116,14 @@ const MainRoutes = {
         {
             path: 'bookmarks',
             element: <Bookmarks />
+        },
+        {
+            path: 'tickets',
+            element: <Tickets />
+        },
+        {
+            path: 'ticket/detail',
+            element: <TicketDetail />
         }
     ]
 };
