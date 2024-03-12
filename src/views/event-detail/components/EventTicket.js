@@ -1,9 +1,9 @@
-import { Button, Grid, useTheme } from '@mui/material';
+import { Button, Grid, Skeleton, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import PropTypes from 'prop-types';
 
-const EventTicket = ({ onBuyTicket }) => {
+const EventTicket = ({ isLoading, onBuyTicket }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
@@ -20,39 +20,52 @@ const EventTicket = ({ onBuyTicket }) => {
                 sx={{
                     borderRadius: 3,
                     border: 0.5,
-                    borderColor: theme.palette.grey[200],
-                    width: '100%',
-                    padding: 1.2,
-                    '& > *': {
-                        margin: theme.spacing(2)
-                    }
+                    borderColor: theme.palette.grey[200]
                 }}
             >
-                {!token && (
-                    <AnimateButton>
-                        <Button
-                            variant="outlined"
-                            color="secondary"
-                            fullWidth
-                            sx={{ padding: 1.4, borderRadius: 2 }}
-                            onClick={() => navigate('/signin')}
-                        >
-                            Signin first
-                        </Button>
-                    </AnimateButton>
-                )}
+                {isLoading ? (
+                    <Skeleton
+                        variant="rounded"
+                        height={46}
+                        width="100%"
+                        sx={{ backgroundColor: theme.palette.grey[50], borderRadius: 2 }}
+                    />
+                ) : (
+                    <>
+                        {!token && (
+                            <AnimateButton>
+                                <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    fullWidth
+                                    sx={{ padding: 1.4, borderRadius: 2, marginBottom: 1.4 }}
+                                    onClick={() => navigate('/signin')}
+                                >
+                                    Signin first
+                                </Button>
+                            </AnimateButton>
+                        )}
 
-                <AnimateButton>
-                    <Button variant="contained" fullWidth sx={{ padding: 1.4, borderRadius: 2 }} disabled={!token} onClick={onBuyTicket}>
-                        Buy Ticket
-                    </Button>
-                </AnimateButton>
+                        <AnimateButton>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                sx={{ padding: 1.4, borderRadius: 2 }}
+                                disabled={!token}
+                                onClick={onBuyTicket}
+                            >
+                                Buy Ticket
+                            </Button>
+                        </AnimateButton>
+                    </>
+                )}
             </Grid>
         </Grid>
     );
 };
 
 EventTicket.propTypes = {
+    isLoading: PropTypes.bool,
     onBuyTicket: PropTypes.func
 };
 export default EventTicket;

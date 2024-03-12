@@ -27,6 +27,7 @@ import { bookmarkEvent, unBookmark } from 'store/newstore/bookmarkSlice';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import EventTicket from './components/EventTicket';
 import BuyTicket from './components/Tickets/BuyTicket';
+import DetailContentSkeleton from './components/Skeleton/DetailContent';
 
 const domain = 'https://placetobeethiopia.com/';
 const EventDetail = () => {
@@ -178,7 +179,7 @@ const EventDetail = () => {
                                         className="img-fluid rounded m-auto me-2"
                                     />
                                 ) : (
-                                    <Skeleton variant="rectangular" height={220} />
+                                    <Skeleton variant="rectangular" height={320} />
                                 )}
                             </Box>
 
@@ -204,150 +205,174 @@ const EventDetail = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={6} md={6} lg={5} xl={5} marginRight="auto">
-                        <Box
-                            marginY={2}
-                            sx={{
-                                background: theme.palette.background.default,
-                                borderRadius: 3,
-                                width: '100%',
-                                padding: 2,
-                                '& > *': {
-                                    margin: theme.spacing(2)
-                                }
-                            }}
-                        >
-                            <Grid container>
-                                <Grid item xs={8.5}>
-                                    <Typography gutterBottom variant="h3">
-                                        {eventDetail.event_name}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                    {token && (
-                                        <IconButton onClick={() => bookmarkTheEvent()} style={{ backgroundColor: bookmarkBtnBackground }}>
-                                            {ismarked ? (
-                                                <Bookmark fontSize="small" style={{ color: bookmarkBtnColor }} />
-                                            ) : (
-                                                <BookmarkBorderOutlined fontSize="small" style={{ color: bookmarkBtnColor }} />
-                                            )}
-                                        </IconButton>
-                                    )}
-                                    <IconButton style={{ marginLeft: 6 }} onClick={() => handleCopyLink()}>
-                                        <IconLink size={20} />
-                                    </IconButton>
-                                </Grid>
+                        {loading ? (
+                            <Grid
+                                container
+                                marginY={2}
+                                sx={{
+                                    background: theme.palette.background.default,
+                                    borderRadius: 3,
+                                    width: '100%',
+                                    padding: 2,
+                                    '& > *': {
+                                        margin: theme.spacing(2)
+                                    }
+                                }}
+                            >
+                                <DetailContentSkeleton />
                             </Grid>
-
-                            <Box display="flex" alignItems="center" marginBottom={1} marginTop={3}>
-                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconCalendarEvent />
-                                </ListItemIcon>
-
-                                <Box>
-                                    {eventDetail.start_date && eventDetail.start_time && (
-                                        <Typography variant="body2" className="fw-semibold">
-                                            {new Date(eventDetail.start_date).toDateString()} @ {TimeFun(eventDetail.start_time)}
+                        ) : (
+                            <Box
+                                marginY={2}
+                                sx={{
+                                    background: theme.palette.background.default,
+                                    borderRadius: 3,
+                                    width: '100%',
+                                    padding: 2,
+                                    '& > *': {
+                                        margin: theme.spacing(2)
+                                    }
+                                }}
+                            >
+                                <Grid container>
+                                    <Grid item xs={8.5}>
+                                        <Typography gutterBottom variant="h3">
+                                            {eventDetail.event_name}
                                         </Typography>
-                                    )}
-                                    <Typography variant="subtitle2">Start date and time</Typography>
+                                    </Grid>
+                                    <Grid item xs={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                        {token && (
+                                            <IconButton
+                                                onClick={() => bookmarkTheEvent()}
+                                                style={{ backgroundColor: bookmarkBtnBackground }}
+                                            >
+                                                {ismarked ? (
+                                                    <Bookmark fontSize="small" style={{ color: bookmarkBtnColor }} />
+                                                ) : (
+                                                    <BookmarkBorderOutlined fontSize="small" style={{ color: bookmarkBtnColor }} />
+                                                )}
+                                            </IconButton>
+                                        )}
+                                        <IconButton style={{ marginLeft: 6 }} onClick={() => handleCopyLink()}>
+                                            <IconLink size={20} />
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
+
+                                <Box display="flex" alignItems="center" marginBottom={1} marginTop={3}>
+                                    <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                        <IconCalendarEvent />
+                                    </ListItemIcon>
+
+                                    <Box>
+                                        {eventDetail.start_date && eventDetail.start_time && (
+                                            <Typography variant="body2" className="fw-semibold">
+                                                {new Date(eventDetail.start_date).toDateString()} @ {TimeFun(eventDetail.start_time)}
+                                            </Typography>
+                                        )}
+                                        <Typography variant="subtitle2">Start date and time</Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
 
-                            <Box display="flex" alignItems="center" marginBottom={1}>
-                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconCalendarDue />
-                                </ListItemIcon>
+                                <Box display="flex" alignItems="center" marginBottom={1}>
+                                    <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                        <IconCalendarDue />
+                                    </ListItemIcon>
 
-                                <Box>
-                                    {eventDetail.end_date && eventDetail.end_time && (
+                                    <Box>
+                                        {eventDetail.end_date && eventDetail.end_time && (
+                                            <Typography variant="body2" className="fw-semibold">
+                                                {new Date(eventDetail.end_date).toDateString()} @ {TimeFun(eventDetail.end_time)}
+                                            </Typography>
+                                        )}
+                                        <Typography variant="subtitle2">End date and time</Typography>
+                                    </Box>
+                                </Box>
+                                <Box display="flex" alignItems="center" marginBottom={1}>
+                                    <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                        <IconCircleCheck />
+                                    </ListItemIcon>
+                                    <Box>
                                         <Typography variant="body2" className="fw-semibold">
-                                            {new Date(eventDetail.end_date).toDateString()} @ {TimeFun(eventDetail.end_time)}
+                                            {renderStatus(eventDetail.start_date, eventDetail.end_date)}
                                         </Typography>
-                                    )}
-                                    <Typography variant="subtitle2">End date and time</Typography>
+                                        <Typography variant="subtitle2">Status</Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Box display="flex" alignItems="center" marginBottom={1}>
-                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconCircleCheck />
-                                </ListItemIcon>
-                                <Box>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {renderStatus(eventDetail.start_date, eventDetail.end_date)}
-                                    </Typography>
-                                    <Typography variant="subtitle2">Status</Typography>
+                                <Box display="flex" alignItems="center" marginBottom={1}>
+                                    <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                        <IconMapPin />
+                                    </ListItemIcon>
+
+                                    <Box>
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {eventDetail.event_address}
+                                        </Typography>
+                                        <Typography variant="subtitle2">Event Address</Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Box display="flex" alignItems="center" marginBottom={1}>
-                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconMapPin />
-                                </ListItemIcon>
 
-                                <Box>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {eventDetail.event_address}
-                                    </Typography>
-                                    <Typography variant="subtitle2">Event Address</Typography>
-                                </Box>
-                            </Box>
-
-                            <Box display="flex" alignItems="center">
-                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconCategory />
-                                </ListItemIcon>
-
-                                <Box>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {eventDetail.category}
-                                    </Typography>
-                                    <Typography variant="subtitle2">Category</Typography>
-                                </Box>
-                            </Box>
-
-                            <Box display="flex" alignItems="center">
-                                <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                    <IconTicket />
-                                </ListItemIcon>
-
-                                <Box>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {eventDetail.event_entrance_fee == null ? 'Free' : eventDetail.event_entrance_fee + ' ETB'}
-                                    </Typography>
-
-                                    {eventDetail.event_entrance_fee && <Typography variant="subtitle2">Entrance fee</Typography>}
-                                </Box>
-                            </Box>
-                            {eventDetail.contact_phone && (
                                 <Box display="flex" alignItems="center">
                                     <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                        <IconPhone />
+                                        <IconCategory />
                                     </ListItemIcon>
-                                    <Typography variant="body2" className="fw-semibold">
-                                        {eventDetail.contact_phone}
-                                    </Typography>
-                                </Box>
-                            )}
 
-                            {eventDetail.redirectUrl && (
+                                    <Box>
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {eventDetail.category}
+                                        </Typography>
+                                        <Typography variant="subtitle2">Category</Typography>
+                                    </Box>
+                                </Box>
+
                                 <Box display="flex" alignItems="center">
                                     <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
-                                        <IconLink />
+                                        <IconTicket />
                                     </ListItemIcon>
-                                    <Typography
-                                        variant="body2"
-                                        className="fw-semibold"
-                                        component="a"
-                                        href={eventDetail.redirectUrl}
-                                        target="_blank"
-                                        rel="noopener"
-                                    >
-                                        {eventDetail.redirectUrl}
-                                    </Typography>
-                                </Box>
-                            )}
-                        </Box>
 
-                        <EventTicket onBuyTicket={handleClickOpen} />
+                                    <Box>
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {eventDetail.event_entrance_fee == null ? 'Free' : eventDetail.event_entrance_fee + ' ETB'}
+                                        </Typography>
+
+                                        {eventDetail.event_entrance_fee && <Typography variant="subtitle2">Entrance fee</Typography>}
+                                    </Box>
+                                </Box>
+                                {eventDetail.contact_phone && (
+                                    <Box display="flex" alignItems="center">
+                                        <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                            <IconPhone />
+                                        </ListItemIcon>
+                                        <Box>
+                                            <Typography variant="body2" className="fw-semibold">
+                                                {eventDetail.contact_phone}
+                                            </Typography>
+                                            <Typography variant="subtitle2">Contact phone</Typography>
+                                        </Box>
+                                    </Box>
+                                )}
+
+                                {eventDetail.redirectUrl && (
+                                    <Box display="flex" alignItems="center">
+                                        <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                            <IconLink />
+                                        </ListItemIcon>
+                                        <Typography
+                                            variant="body2"
+                                            className="fw-semibold"
+                                            component="a"
+                                            href={eventDetail.redirectUrl}
+                                            target="_blank"
+                                            rel="noopener"
+                                        >
+                                            {eventDetail.redirectUrl}
+                                        </Typography>
+                                    </Box>
+                                )}
+                            </Box>
+                        )}
+
+                        <EventTicket isLoading={loading} onBuyTicket={handleClickOpen} />
                     </Grid>
                 </Grid>
 

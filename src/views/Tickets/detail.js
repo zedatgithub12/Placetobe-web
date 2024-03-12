@@ -2,8 +2,8 @@ import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import { IconArrowLeft } from '@tabler/icons';
 import { useLocation, useNavigate } from 'react-router';
 import { DateFormatter, StatusText } from 'utils/function';
-
 import InfoCard from './components/InfoCard';
+import QRCode from 'react-qr-code';
 
 const TicketDetail = () => {
     const theme = useTheme();
@@ -31,6 +31,24 @@ const TicketDetail = () => {
                             <IconArrowLeft size={20} />
                         </IconButton>
                         <Typography variant="h4">{state.event_name}</Typography>
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    container
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        backgroundColor: theme.palette.background.default,
+                        border: 0.5,
+                        borderColor: theme.palette.grey[200],
+                        borderRadius: 2,
+                        padding: 2,
+                        marginTop: 2
+                    }}
+                >
+                    <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                        <QRCode size={250} style={{ height: 'auto', maxWidth: '100%', width: '80%' }} value={state.id} />
                     </Grid>
                 </Grid>
 
