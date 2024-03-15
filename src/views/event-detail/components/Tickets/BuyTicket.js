@@ -13,6 +13,7 @@ import Connections from 'api';
 import PropTypes from 'prop-types';
 import ListTicket from './ListTicket';
 import Fallbacks from 'utils/components/Fallbacks';
+import WithMPesa from './withMpesa';
 
 function BuyTicket({ open, event, id, handleClose }) {
     const [loading, setLoading] = useState(true);
@@ -28,6 +29,9 @@ function BuyTicket({ open, event, id, handleClose }) {
     const [selection, setSelection] = useState(null);
     const [gateway, setGateway] = useState();
     const [paymentloader, setPaymentLoader] = useState(false);
+
+    //check if the app is opened in payment processor mini app
+    const agent = sessionStorage.getItem('agent');
 
     const dispatch = useDispatch();
     const { tickets } = useSelector((state) => state.ticket);
@@ -276,6 +280,8 @@ function BuyTicket({ open, event, id, handleClose }) {
                                         <AgreementLinks />
                                     </Grid>
                                 </Grid>
+                            ) : agent === 'mpesa' ? (
+                                <WithMPesa selectedTicket={selectedTicket} amount={amount} price={price} paymentloader={paymentloader} />
                             ) : (
                                 <Grid item xs={12} sx={{ position: 'relative' }}>
                                     <Typography variant="subtitle1" sx={{ marginY: 1.4 }}>

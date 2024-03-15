@@ -7,8 +7,8 @@ export const PaymentGateways = [
     },
     {
         id: 2,
-        label: 'M-Pesa',
-        name: 'Mpesa',
-        logo: require('../assets/images/logo/mpesa.webp')
+        label: 'M-PESA',
+        name: 'M-PESA',
+        logo: require('../assets/images/logo/mpesa.jpg')
     }
 ];

@@ -88,7 +88,6 @@ const Profile = () => {
                             picture={user?.profile}
                             name={`${user?.first_name} ${user?.middle_name} `}
                             email={user?.email}
-                            followers={21}
                             onEdit={() => navigate('/user/profile/edit')}
                         />
                     </Grid>

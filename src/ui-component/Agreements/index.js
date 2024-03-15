@@ -7,7 +7,7 @@ const AgreementLinks = () => {
         <Grid container>
             <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 2 }}>
                 <Link
-                    to="/"
+                    to="/privacy-policy"
                     style={{
                         marginRight: 4,
                         textDecoration: 'none',
@@ -19,7 +19,7 @@ const AgreementLinks = () => {
                 </Link>
                 <Divider orientation="vertical" />
                 <Link
-                    to="/"
+                    to="/terms-of-agreement"
                     style={{
                         marginLeft: 4,
                         textDecoration: 'none',

@@ -18,6 +18,12 @@ const App = () => {
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const agent = urlParams.get('agent');
+    if (agent) {
+        sessionStorage.setItem('agent', agent);
+    }
+
     useEffect(() => {
         const handleUrlChange = () => {
             const url = window.location.href;
