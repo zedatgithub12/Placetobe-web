@@ -2,6 +2,7 @@ import { Box, Button, Divider, Grid, Typography, useTheme } from '@mui/material'
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Gateways from './Gateways';
 import PropTypes from 'prop-types';
+import { call, getSystemInfo } from 'hylid-bridge';
 
 const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
     const theme = useTheme();
@@ -9,26 +10,25 @@ const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
     const makePayWithMPESA = () => {
         try {
             let totalAmount = parseFloat(price * amount).toFixed(2);
-            my.call(
-                'payWithMpesa',
-                {
-                    businessID: '',
-                    billReference: '',
-                    amount: totalAmount,
-                    currency: 'ETB',
-                    reason: `${selectedTicket?.event_name}+ ${selectedTicket?.tickettype} Ticket purchase`
-                },
-                (response) => {
-                    console.log('success', response);
-                },
-                (response) => {
-                    alert(response);
-                    console.log('error', response);
-                }
-            );
+
+            // call(
+            //     'payWithMpesa',
+            //     {
+            //         businessID: '',
+            //         billReference: '243',
+            //         amount: totalAmount,
+            //         currency: 'ETB',
+            //         reason: `${selectedTicket?.event_name}+ ${selectedTicket?.tickettype} Ticket purchase`
+            //     },
+            //     (res) => {
+            //         console.log('success', res);
+            //     },
+            //     (res) => {
+            //         console.log('error', res);
+            //     }
+            // );
         } catch (error) {
             console.log(error);
-            alert(error);
         }
     };
     return (
