@@ -2,7 +2,7 @@ import { Box, Button, Divider, Grid, Typography, useTheme } from '@mui/material'
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Gateways from './Gateways';
 import PropTypes from 'prop-types';
-import { call, getSystemInfo } from 'hylid-bridge';
+import { call } from 'hylid-bridge';
 
 const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
     const theme = useTheme();
@@ -10,23 +10,22 @@ const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
     const makePayWithMPESA = () => {
         try {
             let totalAmount = parseFloat(price * amount).toFixed(2);
-
-            // call(
-            //     'payWithMpesa',
-            //     {
-            //         businessID: '',
-            //         billReference: '243',
-            //         amount: totalAmount,
-            //         currency: 'ETB',
-            //         reason: `${selectedTicket?.event_name}+ ${selectedTicket?.tickettype} Ticket purchase`
-            //     },
-            //     (res) => {
-            //         console.log('success', res);
-            //     },
-            //     (res) => {
-            //         console.log('error', res);
-            //     }
-            // );
+            call(
+                'payWithMpesa',
+                {
+                    businessID: '',
+                    billReference: '243',
+                    amount: totalAmount,
+                    currency: 'ETB',
+                    reason: `${selectedTicket?.event_name}+ ${selectedTicket?.tickettype} Ticket purchase`
+                },
+                (res) => {
+                    console.log('success', res);
+                },
+                (res) => {
+                    console.log('error', res);
+                }
+            );
         } catch (error) {
             console.log(error);
         }
@@ -136,9 +135,10 @@ const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
     );
 };
 
-PropTypes.WithMPesa = {
+WithMPesa.propTypes = {
     selectedTicket: PropTypes.oneOf([PropTypes.object, PropTypes.array]),
     amount: PropTypes.number,
-    price: PropTypes.number
+    price: PropTypes.number,
+    paymentloader: PropTypes.bool
 };
 export default WithMPesa;
