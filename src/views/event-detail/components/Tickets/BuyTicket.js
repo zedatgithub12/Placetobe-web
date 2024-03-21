@@ -243,7 +243,7 @@ function BuyTicket({ open, event, id, handleClose }) {
                                         ))
                                     )}
 
-                                    <Grid container sx={{ position: 'absolute', bottom: 4 }}>
+                                    <Grid container sx={{ marginTop: 6 }}>
                                         <Grid item xs={12}>
                                             <AnimateButton>
                                                 <Button
