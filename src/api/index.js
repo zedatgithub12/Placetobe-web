@@ -1,11 +1,15 @@
 const Connections = {
     // api: 'https://app.p2b-ethiopia.com/placetobe-dev/',
     // api: 'https://app.p2b-ethiopia.com/placetobe/',
-    // api: 'https://backend.placetobeethiopia.com/api/',
+
+    //------------------------development endpoints--------------------
     // api: 'http://localhost:8000/api/',
 
-    //testing endpoints
+    //------------------------testing endpoints------------------------
     api: 'https://test.placetobeethiopia.com/service/api/',
+
+    //------------------------development endpoints--------------------
+    // api: 'https://backend.placetobeethiopia.com/api/',
 
     assets: 'images/',
     signUp: 'signup',
@@ -70,6 +74,7 @@ const Connections = {
     eventTicket: 'eventticket/',
     detailTicket: 'event-detail-ticket/',
     Payment: 'payment',
+    mpesa: 'mpesa',
     Event: 'single-event/', // a file to retrive single event by its event ID
     createReservation: 'create-reservation',
     AvailableTickets: 'tickets',

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -34,16 +34,17 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Connections from 'api';
 import { useNavigate } from 'react-router';
-import { GoogleLogin } from '@react-oauth/google';
 import { Link } from 'react-router-dom';
+import { SET_REMEMBER_ME } from 'store/actions';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const customization = useSelector((state) => state.customization);
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(customization.rememberme);
 
     const googleHandler = async () => {
         window.gapi.load('auth2', () => {
@@ -82,7 +83,7 @@ const FirebaseLogin = ({ ...others }) => {
     };
 
     const handleSessions = (token, data) => {
-        localStorage.setItem('token', token);
+        checked ? localStorage.setItem('token', token) : sessionStorage.setItem('token', token);
         checked ? localStorage.setItem('user', JSON.stringify(data)) : sessionStorage.setItem('user', JSON.stringify(data));
     };
 
@@ -98,6 +99,11 @@ const FirebaseLogin = ({ ...others }) => {
             // Handle potential errors during data retrieval
         }
     };
+
+    useEffect(() => {
+        dispatch({ type: SET_REMEMBER_ME, checked }); //
+    }, [dispatch, checked]);
+
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>

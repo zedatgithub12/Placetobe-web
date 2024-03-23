@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Typography, useTheme } from '@mui/material';
-import { alert, call } from 'hylid-bridge';
+import { alert, call, getAuthCode } from 'hylid-bridge';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Gateways from './Gateways';
 import PropTypes from 'prop-types';
@@ -7,10 +7,17 @@ import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { CheckCircle } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
+import Connections from 'api';
 
 const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const customization = useSelector((state) => state.customization);
+
+    const token = customization.rememberme ? localStorage.getItem('token') : sessionStorage.getItem('token');
+    const user = customization.rememberme ? JSON.parse(localStorage.getItem('user')) : JSON.parse(sessionStorage.getItem('user'));
+
     const [payed, setPayed] = useState(false);
 
     const makePayWithMPESA = () => {
@@ -24,10 +31,13 @@ const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
                 reason: `${selectedTicket?.event_name}+ ${selectedTicket?.tickettype} Ticket purchase`,
 
                 success: function (res) {
-                    setPayed(true);
-                    alert({
-                        content: JSON.stringify(res)
-                    });
+                    const response = JSON.stringify(res);
+                    const txn_id = response.transactionId;
+                    if (user?.id) {
+                        handleSavingMpesaPayment(txn_id);
+                    } else {
+                        handlePrompts('Error, Please contact us', 'error');
+                    }
                 },
                 fail: function () {
                     handlePrompts('Error completing the payment', 'error');
@@ -36,6 +46,44 @@ const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
         } catch (error) {
             handlePrompts(error.message, 'error');
         }
+    };
+
+    const handleSavingMpesaPayment = (txn_id) => {
+        const Api = Connections.api + Connections.mpesa;
+        const headers = {
+            authorization: `Bearer ${token}`,
+            accept: 'application/json',
+            'Content-Type': 'application/json'
+        };
+
+        const data = {
+            ticketid: selectedTicket?.id,
+            userId: user?.id,
+            event_id: selectedTicket?.event_id,
+            event_name: selectedTicket?.event_name,
+            tickettype: selectedTicket?.tickettype,
+            quantity: amount,
+            price: price,
+            transactionId: txn_id
+        };
+
+        fetch(Api, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.success) {
+                    setPayed(true);
+                    handlePrompts(response.message, 'success');
+                } else {
+                    handlePrompts(response.message, 'error');
+                }
+            })
+            .catch((error) => {
+                handlePrompts(error.message, 'error');
+            });
     };
 
     const handlePrompts = (message, severity) => {
