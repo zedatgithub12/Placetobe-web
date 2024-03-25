@@ -19,6 +19,7 @@ const Connections = {
     profile: 'profile/',
     changeprofile: 'changeprofile/',
     userInfo: 'user-info/',
+    deleteAccount: 'delete-user/',
     MetaData: 'meta-info/',
     updateUserInfo: 'update/',
     ChangePassword: 'changepassword',

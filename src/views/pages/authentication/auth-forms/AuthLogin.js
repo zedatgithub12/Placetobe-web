@@ -7,7 +7,6 @@ import {
     Box,
     Button,
     Checkbox,
-    Divider,
     FormControl,
     FormControlLabel,
     FormHelperText,
@@ -17,8 +16,7 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-    Typography,
-    useMediaQuery
+    Typography
 } from '@mui/material';
 
 // third party
@@ -44,34 +42,7 @@ const FirebaseLogin = ({ ...others }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const customization = useSelector((state) => state.customization);
-    const [checked, setChecked] = useState(customization.rememberme);
-
-    const googleHandler = async () => {
-        window.gapi.load('auth2', () => {
-            window.gapi.auth2
-                .init({
-                    client_id: '799616009286-ck594ue3589h93vq4hlqcsmrg71uuekd.apps.googleusercontent.com'
-                })
-                .then((auth2) => {
-                    const element = document.getElementById('google-signin-btn');
-                    auth2.attachClickHandler(
-                        element,
-                        {},
-                        (googleUser) => {
-                            // Handle the signed-in user here
-                            const profile = googleUser.getBasicProfile();
-                            console.log('ID: ' + profile.getId());
-                            console.log('Name: ' + profile.getName());
-                            console.log('Image URL: ' + profile.getImageUrl());
-                            console.log('Email: ' + profile.getEmail());
-                        },
-                        (error) => {
-                            console.error(error);
-                        }
-                    );
-                });
-        });
-    };
+    const [rememberme, setrememberme] = useState(customization.rememberme);
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -83,26 +54,17 @@ const FirebaseLogin = ({ ...others }) => {
     };
 
     const handleSessions = (token, data) => {
-        checked ? localStorage.setItem('token', token) : sessionStorage.setItem('token', token);
-        checked ? localStorage.setItem('user', JSON.stringify(data)) : sessionStorage.setItem('user', JSON.stringify(data));
+        rememberme ? localStorage.setItem('token', token) : sessionStorage.setItem('token', token);
+        rememberme ? localStorage.setItem('user', JSON.stringify(data)) : sessionStorage.setItem('user', JSON.stringify(data));
     };
 
-    const handleLoginSuccess = async (response) => {
-        try {
-            // Access user information after successful login
-            const profileObj = await response.profileObj;
-            console.log(response);
-
-            // Send the user profile to your backend for further processing (optional)
-        } catch (error) {
-            console.error(error);
-            // Handle potential errors during data retrieval
-        }
+    const handleRememberMe = (event) => {
+        setrememberme(event.target.checked);
     };
 
     useEffect(() => {
-        dispatch({ type: SET_REMEMBER_ME, checked }); //
-    }, [dispatch, checked]);
+        dispatch({ type: SET_REMEMBER_ME, rememberme: rememberme }); //
+    }, [dispatch, rememberme]);
 
     return (
         <>
@@ -266,9 +228,9 @@ const FirebaseLogin = ({ ...others }) => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={checked}
-                                        onChange={(event) => setChecked(event.target.checked)}
-                                        name="checked"
+                                        rememberme={rememberme}
+                                        onChange={(event) => handleRememberMe(event)}
+                                        name="rememberme"
                                         color="secondary"
                                     />
                                 }

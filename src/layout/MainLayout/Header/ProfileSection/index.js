@@ -29,7 +29,6 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconBookmarks, IconLogout, IconSettings, IconTicket, IconUser } from '@tabler/icons';
-import SigninPrompt from 'ui-component/auth/SigninPrompt';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -41,7 +40,7 @@ const ProfileSection = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     const [isLogged, setIsLoged] = useState(false);
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = customization.rememberme ? JSON.parse(localStorage.getItem('user')) : JSON.parse(sessionStorage.getItem('user'));
 
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
@@ -71,8 +70,9 @@ const ProfileSection = () => {
         }
     };
 
-    const handleLogout = (event) => {
+    const handleSignout = (event) => {
         localStorage.clear();
+        sessionStorage.clear();
         location.reload();
         handleClose(event);
     };
@@ -87,14 +87,14 @@ const ProfileSection = () => {
     }, [open]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
+        const token = customization.rememberme ? localStorage.getItem('token') : sessionStorage.getItem('token');
+        const user = customization.rememberme ? localStorage.getItem('user') : sessionStorage.getItem('user');
 
         if (token && user) {
             setIsLoged(true);
         }
         return () => {};
-    }, []);
+    }, [customization.rememberme]);
 
     return (
         <>
@@ -223,7 +223,7 @@ const ProfileSection = () => {
                                                     <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px`, marginTop: 6 }}
                                                         selected={selectedIndex === 3}
-                                                        onClick={(event) => handleLogout(event)}
+                                                        onClick={(event) => handleSignout(event)}
                                                     >
                                                         <ListItemIcon>
                                                             <IconLogout stroke={1.5} size="1.3rem" />

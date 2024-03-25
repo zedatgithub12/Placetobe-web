@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Typography, useTheme } from '@mui/material';
-import { alert, call, getAuthCode } from 'hylid-bridge';
+import { call } from 'hylid-bridge';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Gateways from './Gateways';
 import PropTypes from 'prop-types';

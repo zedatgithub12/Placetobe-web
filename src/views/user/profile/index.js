@@ -1,13 +1,29 @@
-import { Box, Divider, Grid, IconButton, Typography, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Box, Button, Divider, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import { IconUser, IconAddressBook, IconArrowLeft, IconAt, IconCalendar, IconCategory, IconPhone } from '@tabler/icons';
 import { useNavigate } from 'react-router';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import Compone from './components/compone';
 import Comptwo from './components/comptwo';
+import Connections from 'api';
+import DeleteAccount from './components/AccountDeletion';
 
 const Profile = () => {
     const theme = useTheme();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
+    const customization = useSelector((state) => state.customization);
+    const [open, setOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const MoreInfo = user && [
         {
@@ -41,6 +57,58 @@ const Profile = () => {
             label: 'Phone'
         }
     ];
+
+    //after the deletion is confirmed by user delete the account from the database
+    const handleAccountDeleting = () => {
+        setIsDeleting(true);
+        const Api = Connections.api + Connections.deleteAccount + user.id;
+        const headers = {
+            accept: 'application/json',
+            'Content-Type': 'application/json'
+        };
+
+        fetch(Api, {
+            method: 'DELETE',
+            headers: headers
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.success) {
+                    setIsDeleting(false);
+                    handlePrompts(response.message, 'success');
+                    handleClose();
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    location.reload();
+                } else {
+                    setIsDeleting(false);
+                    handlePrompts(response.message, 'error');
+                }
+            })
+            .catch((error) => {
+                setIsDeleting(false);
+                handlePrompts(error.message, 'error');
+            });
+    };
+
+    const handlePrompts = (messages, severity) => {
+        enqueueSnackbar(messages, { variant: severity });
+    };
+
+    const handleNavigation = () => {
+        navigate('/signin');
+    };
+
+    useEffect(() => {
+        const token = customization.rememberme ? localStorage.getItem('token') : sessionStorage.getItem('token');
+        const user = customization.rememberme ? localStorage.getItem('user') : sessionStorage.getItem('user');
+
+        if (!token && !user) {
+            handleNavigation();
+        }
+        return () => {};
+    }, [customization.rememberme]);
+
     return (
         <Grid
             container
@@ -115,9 +183,26 @@ const Profile = () => {
                                 )}
                             </Grid>
                         </Grid>
+
+                        <Grid container>
+                            <Grid
+                                item
+                                xs={12}
+                                sx={{
+                                    marginTop: 1,
+                                    padding: 1
+                                }}
+                            >
+                                <Button variant="text" color="error" onClick={() => handleClickOpen()}>
+                                    Delete account
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
+            <DeleteAccount open={open} handleClose={handleClose} onDelete={handleAccountDeleting} isDeleting={isDeleting} />
+            <SnackbarProvider maxSnack={3} />
         </Grid>
     );
 };

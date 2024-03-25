@@ -15,7 +15,7 @@ import ListTicket from './ListTicket';
 import Fallbacks from 'utils/components/Fallbacks';
 import WithMPesa from './withMpesa';
 
-function BuyTicket({ open, event, id, handleClose }) {
+function BuyTicket({ id, open, event, handleClose }) {
     const [loading, setLoading] = useState(true);
     const [amount, setAmount] = useState(0);
     const [ticket, setTickets] = useState([]);
@@ -40,45 +40,6 @@ function BuyTicket({ open, event, id, handleClose }) {
         const newItem = tickets[index];
         const newUpdate = { ...newItem, open: false };
         dispatch(addTicket(newUpdate));
-    };
-
-    /****************************************************** */
-    //featch Tickets
-    /***************************************************** */
-    const FetchTicket = () => {
-        const controller = new AbortController();
-        const signal = controller.signal;
-        const token = localStorage.getItem('token');
-        var Api = Connections.api + Connections.eventTicket + id;
-        var headers = {
-            Authorizatiob: `Bearer ${token}`,
-            accept: 'application/json',
-            'Content-Type': 'application/json'
-        };
-
-        fetch(Api, {
-            method: 'GET',
-            headers: headers,
-            signal: signal
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                if (response.success) {
-                    setTickets(response.data);
-                    setLoading(false);
-                } else {
-                    setLoading(false);
-                    setTickets(response.data);
-                }
-            })
-            .catch((error) => {
-                setLoading(false);
-                handlePrompts(error.message, 'error');
-            });
-
-        return () => {
-            controller.Abort();
-        };
     };
 
     //increase count of an item
@@ -111,15 +72,48 @@ function BuyTicket({ open, event, id, handleClose }) {
     };
 
     useEffect(() => {
-        var isSubcribed = true;
-        if (isSubcribed) {
-            FetchTicket();
-            dispatch(addTicket(ticket));
-        }
-        return () => {
-            isSubcribed = false;
+        /****************************************************** */
+        //featch Tickets
+        /***************************************************** */
+        const FetchTicket = () => {
+            const controller = new AbortController();
+            const signal = controller.signal;
+            const token = localStorage.getItem('token');
+            var Api = Connections.api + Connections.eventTicket + id;
+            var headers = {
+                Authorizatiob: `Bearer ${token}`,
+                accept: 'application/json',
+                'Content-Type': 'application/json'
+            };
+
+            fetch(Api, {
+                method: 'GET',
+                headers: headers,
+                signal: signal
+            })
+                .then((response) => response.json())
+                .then((response) => {
+                    if (response.success) {
+                        setTickets(response.data);
+                        setLoading(false);
+                    } else {
+                        setLoading(false);
+                        setTickets(response.data);
+                    }
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    handlePrompts(error.message, 'error');
+                });
+
+            return () => {
+                controller.Abort();
+            };
         };
-    }, []);
+        FetchTicket();
+
+        return () => {};
+    }, [id]);
 
     const ChooseGateway = (gateway) => {
         if (selection === gateway.name) {
@@ -420,7 +414,9 @@ function BuyTicket({ open, event, id, handleClose }) {
 }
 
 BuyTicket.propTypes = {
+    id: PropTypes.number,
     open: PropTypes.bool,
+    event: PropTypes.any,
     handleClose: PropTypes.func,
     onAdded: PropTypes.func
 };
