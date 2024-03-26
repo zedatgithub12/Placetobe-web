@@ -8,7 +8,7 @@ const Connections = {
     //------------------------testing endpoints------------------------
     api: 'https://test.placetobeethiopia.com/service/api/',
 
-    //------------------------development endpoints--------------------
+    //------------------------production endpoints--------------------
     // api: 'https://backend.placetobeethiopia.com/api/',
 
     assets: 'images/',
@@ -18,6 +18,7 @@ const Connections = {
     googleSignIn: 'signin-with-google',
     profile: 'profile/',
     changeprofile: 'changeprofile/',
+    webprofile: 'webprofile/',
     userInfo: 'user-info/',
     deleteAccount: 'delete-user/',
     MetaData: 'meta-info/',

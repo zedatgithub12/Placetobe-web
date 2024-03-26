@@ -3,6 +3,7 @@ import { IconEdit } from '@tabler/icons';
 import Connections from 'api';
 import Avatar from 'assets/images/avatar.webp';
 import PropTypes from 'prop-types';
+import ProfilePic from './ProfilePic';
 
 //A component created for a profile page it contains, profile picture, name, email and followers
 const Compone = ({ picture, name, email, followers, onEdit }) => {
@@ -28,22 +29,9 @@ const Compone = ({ picture, name, email, followers, onEdit }) => {
                     <IconEdit size={14} style={{ marginRight: 3 }} /> Edit
                 </Button>
             </Grid>
+
             <Grid item xs={12} sx={{ marginTop: -6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                    src={picture ? Connections.api + Connections.assets + picture : Avatar}
-                    alt={name}
-                    style={{
-                        width: 90,
-                        height: 90,
-                        borderRadius: 45,
-                        backgroundColor: theme.palette.background.default,
-                        boxShadow: 2,
-                        border: 1,
-                        aspectRatio: 1,
-                        objectFit: 'contain',
-                        boxShadow: '1px 1px 1px rgba(0, 0, 0, 0.3)'
-                    }}
-                />
+                <ProfilePic profile={picture ? Connections.api + Connections.assets + picture : Avatar} />
             </Grid>
             <Grid
                 item

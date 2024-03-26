@@ -29,19 +29,20 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconBookmarks, IconLogout, IconSettings, IconTicket, IconUser } from '@tabler/icons';
+import Connections from 'api';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
     const theme = useTheme();
-    const customization = useSelector((state) => state.customization);
+    const { rememberme, borderRadius } = useSelector((state) => state.customization);
     const navigate = useNavigate();
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     const [isLogged, setIsLoged] = useState(false);
-    const user = customization.rememberme ? JSON.parse(localStorage.getItem('user')) : JSON.parse(sessionStorage.getItem('user'));
-
+    const user = rememberme ? JSON.parse(localStorage.getItem('user')) : JSON.parse(sessionStorage.getItem('user'));
+    const picturePreview = user?.profile ? Connections.api + Connections.assets + user?.profile : null;
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -73,6 +74,7 @@ const ProfileSection = () => {
     const handleSignout = (event) => {
         localStorage.clear();
         sessionStorage.clear();
+        navigate('/');
         location.reload();
         handleClose(event);
     };
@@ -87,14 +89,14 @@ const ProfileSection = () => {
     }, [open]);
 
     useEffect(() => {
-        const token = customization.rememberme ? localStorage.getItem('token') : sessionStorage.getItem('token');
-        const user = customization.rememberme ? localStorage.getItem('user') : sessionStorage.getItem('user');
+        const token = rememberme ? localStorage.getItem('token') : sessionStorage.getItem('token');
+        const user = rememberme ? localStorage.getItem('user') : sessionStorage.getItem('user');
 
         if (token && user) {
             setIsLoged(true);
         }
         return () => {};
-    }, [customization.rememberme]);
+    }, [rememberme]);
 
     return (
         <>
@@ -108,10 +110,36 @@ const ProfileSection = () => {
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
-                color="inherit"
+                color="secondary"
                 onClick={handleToggle}
             >
-                <IconUser color={theme.palette.warning.dark} />
+                {picturePreview ? (
+                    <img
+                        src={picturePreview}
+                        alt="profile"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            backgroundColor: theme.palette.background.default,
+                            aspectRatio: 1,
+                            objectFit: 'cover'
+                        }}
+                    />
+                ) : (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: '100%'
+                        }}
+                    >
+                        <IconUser size={24} />
+                    </Box>
+                )}
             </Avatar>
 
             <Popper
@@ -147,10 +175,7 @@ const ProfileSection = () => {
                                                         style={{
                                                             fontWeight: 400,
                                                             fontSize: 18,
-                                                            textTransform: 'capitalize',
-                                                            textDecoration: 'none',
-                                                            marginBottom: 3,
-                                                            color: 'black'
+                                                            textTransform: 'capitalize'
                                                         }}
                                                     >
                                                         {user?.first_name} {user?.middle_name}
@@ -160,8 +185,8 @@ const ProfileSection = () => {
                                                 {user?.email && (
                                                     <Link
                                                         to="/user/profile"
-                                                        variant="subtitle2"
-                                                        style={{ textDecoration: 'none', color: 'grey' }}
+                                                        variant="caption"
+                                                        style={{ textDecoration: 'none', color: '#555', marginTop: 2 }}
                                                     >
                                                         {user?.email}
                                                     </Link>
@@ -188,7 +213,7 @@ const ProfileSection = () => {
                                                     }}
                                                 >
                                                     <ListItemButton
-                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        sx={{ borderRadius: `${borderRadius}px` }}
                                                         selected={selectedIndex === 0}
                                                         onClick={(event) => handleListItemClick(event, 0, '/user/profile')}
                                                     >
@@ -199,7 +224,7 @@ const ProfileSection = () => {
                                                     </ListItemButton>
 
                                                     <ListItemButton
-                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        sx={{ borderRadius: `${borderRadius}px` }}
                                                         selected={selectedIndex === 1}
                                                         onClick={(event) => handleListItemClick(event, 1, '/bookmarks')}
                                                     >
@@ -210,7 +235,7 @@ const ProfileSection = () => {
                                                     </ListItemButton>
 
                                                     <ListItemButton
-                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        sx={{ borderRadius: `${borderRadius}px` }}
                                                         selected={selectedIndex === 2}
                                                         onClick={(event) => handleListItemClick(event, 2, '/tickets')}
                                                     >
@@ -221,7 +246,7 @@ const ProfileSection = () => {
                                                     </ListItemButton>
 
                                                     <ListItemButton
-                                                        sx={{ borderRadius: `${customization.borderRadius}px`, marginTop: 6 }}
+                                                        sx={{ borderRadius: `${borderRadius}px`, marginTop: 6 }}
                                                         selected={selectedIndex === 3}
                                                         onClick={(event) => handleSignout(event)}
                                                     >

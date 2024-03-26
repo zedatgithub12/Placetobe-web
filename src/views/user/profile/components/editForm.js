@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import { useSelector } from 'react-redux';
 import Connections from 'api';
 import CategoryDropdown from 'ui-component/Dropdowns/Category';
 import * as Yup from 'yup';
@@ -26,16 +27,18 @@ const validationSchema = Yup.object().shape({
     phone: Yup.string().required('Phone is required')
 });
 const EditForm = () => {
+    const { rememberme } = useSelector((state) => state.customization);
+    const user = JSON.parse(localStorage.getItem('user'));
     const formik = useFormik({
         initialValues: {
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-            gender: '',
-            birthdate: '',
-            address: '',
-            phone: '',
-            category: ''
+            first_name: user?.first_name ? user?.first_name : '',
+            middle_name: user?.middle_name ? user?.middle_name : '',
+            last_name: user?.last_name ? user?.last_name : '',
+            gender: user?.gender ? user?.gender : '',
+            birthdate: user?.birthdate ? user?.birthdate : '',
+            address: user?.address ? user?.address : '',
+            phone: user?.phone ? user?.phone : '',
+            category: user?.category ? user?.category : ''
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -45,10 +48,12 @@ const EditForm = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(formik.isSubmitting);
 
+    const handleSessions = (user) => {
+        rememberme ? localStorage.setItem('user', JSON.stringify(user)) : sessionStorage.setItem('user', JSON.stringify(user));
+    };
     const handleSubmission = (values) => {
         setIsSubmitting(true);
         const token = localStorage.getItem('token');
-        const user = JSON.parse(localStorage.getItem('user'));
 
         const Api = Connections.api + Connections.updateUserInfo + user?.id;
         const headers = {
@@ -64,7 +69,7 @@ const EditForm = () => {
             lastName: values.last_name,
             birthDate: values.birthDate,
             gender: values.gender,
-            living_address: values.living_address,
+            living_address: values.address,
             category: values.category,
             Phone: values.phone
         };
@@ -80,6 +85,7 @@ const EditForm = () => {
                 if (response.success) {
                     setIsSubmitting(false);
                     handlePrompt(response.message, 'success');
+                    handleSessions(response.data);
                 } else {
                     setIsSubmitting(false);
                     handlePrompt(response.message, 'error');
