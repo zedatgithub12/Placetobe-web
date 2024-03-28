@@ -63,6 +63,7 @@ const ProfileSection = () => {
             navigate(route);
         }
     };
+
     const handleToggle = () => {
         if (isLogged) {
             setOpen((prevOpen) => !prevOpen);

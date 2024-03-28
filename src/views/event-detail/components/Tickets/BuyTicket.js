@@ -213,7 +213,7 @@ function BuyTicket({ id, open, event, handleClose }) {
                                         ticket.map((ticket, index) => (
                                             <ListTicket
                                                 key={index}
-                                                name="Regular Ticket"
+                                                name={ticket.tickettype}
                                                 price={ticket.currentprice}
                                                 quantity={amount}
                                                 onDecrement={() => {

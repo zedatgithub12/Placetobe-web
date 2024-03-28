@@ -15,7 +15,9 @@ const ListTicket = ({ name, price, selected, quantity, onSelect, disable, onDecr
             </Grid>
 
             <Grid item xs={6} sm={6} md={4} lg={4} sx={{ display: 'flex', alignItems: 'flex-start', marginTop: 1 }}>
-                <Typography variant="subtitle1">{name}</Typography>
+                <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
+                    {name}
+                </Typography>
             </Grid>
 
             <Grid

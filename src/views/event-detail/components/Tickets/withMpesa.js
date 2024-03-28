@@ -24,7 +24,7 @@ const WithMPesa = ({ selectedTicket, amount, price, paymentloader }) => {
         try {
             let totalAmount = parseFloat(price * amount).toFixed(2);
             call('payWithMpesa', {
-                businessID: '1313',
+                businessID: '2846',
                 billReference: selectedTicket?.id,
                 amount: totalAmount,
                 currency: 'ETB',

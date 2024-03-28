@@ -6,10 +6,10 @@ const Connections = {
     // api: 'http://localhost:8000/api/',
 
     //------------------------testing endpoints------------------------
-    api: 'https://test.placetobeethiopia.com/service/api/',
+    // api: 'https://test.placetobeethiopia.com/service/api/',
 
     //------------------------production endpoints--------------------
-    // api: 'https://backend.placetobeethiopia.com/api/',
+    api: 'https://backend.placetobeethiopia.com/api/',
 
     assets: 'images/',
     signUp: 'signup',
