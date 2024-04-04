@@ -42,6 +42,7 @@ const EventDetail = () => {
     const [loading, setLoading] = useState(false);
     const [eventDetail, setEventDetail] = useState([]);
     const [organizer, setOrganizer] = useState([]);
+    const [ticketFound, setTicketFound] = useState(false);
     const [related, setRelated] = useState([]);
     const [ismarked, setIsMarked] = useState(false);
     const [bookmarkBtnColor, setBookmarkBtnColor] = useState(theme.palette.grey[500]);
@@ -100,6 +101,7 @@ const EventDetail = () => {
                 if (response.success) {
                     setEventDetail(response.data);
                     setOrganizer(response.organizer);
+                    setTicketFound(response.tickets);
                     setLoading(false);
                     FetchAdditionalInfo();
                 }
@@ -372,7 +374,7 @@ const EventDetail = () => {
                             </Box>
                         )}
 
-                        <EventTicket isLoading={loading} onBuyTicket={handleClickOpen} />
+                        {ticketFound && <EventTicket isLoading={loading} onBuyTicket={handleClickOpen} />}
                     </Grid>
                 </Grid>
 

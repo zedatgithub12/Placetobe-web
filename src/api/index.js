@@ -3,13 +3,13 @@ const Connections = {
     // api: 'https://app.p2b-ethiopia.com/placetobe/',
 
     //------------------------development endpoints--------------------
-    // api: 'http://localhost:8000/api/',
+    api: 'http://localhost:8000/api/',
 
     //------------------------testing endpoints------------------------
     // api: 'https://test.placetobeethiopia.com/service/api/',
 
     //------------------------production endpoints--------------------
-    api: 'https://backend.placetobeethiopia.com/api/',
+    // api: 'https://backend.placetobeethiopia.com/api/',
 
     assets: 'images/',
     signUp: 'signup',
