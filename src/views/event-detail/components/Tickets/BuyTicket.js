@@ -3,7 +3,7 @@ import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { Box, Button, CircularProgress, Dialog, Divider, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import { addTicket } from 'store/slice/Tickets';
 import { useDispatch, useSelector } from 'react-redux';
-import { IconArrowLeft } from '@tabler/icons';
+import { IconArrowLeft, IconX } from '@tabler/icons';
 import { PaymentGateways } from 'data/PaymentGateways';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import AgreementLinks from 'ui-component/Agreements';
@@ -130,6 +130,10 @@ function BuyTicket({ id, open, event, handleClose }) {
             handlePrompts('The phone number must start with 09 or 07', 'error');
             return;
         }
+        if (gateway === 'MPesa' && values.phone.charAt(1) != 7) {
+            handlePrompts('Please insert a safaricom number that start with 07', 'error');
+            return;
+        }
         setPaymentLoader(true);
         const user = JSON.parse(localStorage.getItem('user'));
 
@@ -159,7 +163,10 @@ function BuyTicket({ id, open, event, handleClose }) {
         })
             .then((response) => response.json())
             .then((response) => {
-                if (response.success) {
+                if (response.success && gateway === 'MPesa') {
+                    setPaymentLoader(false);
+                    handlePrompts(response.message, 'info');
+                } else if (response.success) {
                     setPaymentLoader(false);
                     handlePrompts(`Redirecting to ${gateway}, please wait...`, 'info');
                     window.location.href = response.data;
@@ -179,20 +186,26 @@ function BuyTicket({ id, open, event, handleClose }) {
             <Dialog open={open} onClose={handleClose} fullWidth>
                 <Grid container sx={{ padding: 2 }}>
                     <Grid item xs={12}>
-                        {activePanel === 'checkout' ? (
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-                                <IconButton onClick={() => setActivePanel('buy')} sx={{ marginRight: 1 }}>
-                                    <IconArrowLeft size={18} />
-                                </IconButton>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            {activePanel === 'checkout' ? (
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                                    <IconButton onClick={() => setActivePanel('buy')} sx={{ marginRight: 1 }}>
+                                        <IconArrowLeft size={18} />
+                                    </IconButton>
+                                    <Typography variant="h3" color="secondary">
+                                        Checkout
+                                    </Typography>
+                                </Box>
+                            ) : (
                                 <Typography variant="h3" color="secondary">
-                                    Checkout
+                                    {event.event_name}
                                 </Typography>
-                            </Box>
-                        ) : (
-                            <Typography variant="h3" color="secondary">
-                                {event.event_name}
-                            </Typography>
-                        )}
+                            )}
+
+                            <IconButton onClick={() => handleClose()}>
+                                <IconX size={20} />
+                            </IconButton>
+                        </Box>
 
                         <Grid container padding={1} sx={{ minHeight: '50dvh' }}>
                             {activePanel === 'buy' ? (
@@ -297,9 +310,7 @@ function BuyTicket({ id, open, event, handleClose }) {
                                             container
                                             sx={{
                                                 marginTop: 6,
-                                                border: 0.5,
-                                                borderColor: theme.palette.primary.light,
-                                                padding: 1.4,
+                                                padding: 2.4,
                                                 borderRadius: 2
                                             }}
                                         >
@@ -356,50 +367,45 @@ function BuyTicket({ id, open, event, handleClose }) {
                                                 <Typography variant="subtitle1"> Total</Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                                     <Typography variant="subtitle1">
-                                                        {' '}
                                                         {parseFloat(price * amount).toFixed(2)} ETB{' '}
                                                     </Typography>
                                                 </Box>
                                             </Grid>
-
-                                            <Grid item xs={12} marginTop={4}>
-                                                <AnimateButton>
-                                                    <Button
-                                                        variant="contained"
-                                                        fullWidth
-                                                        type="submit"
+                                        </Grid>
+                                        <Grid item xs={12} marginTop={4}>
+                                            <AnimateButton>
+                                                <Button
+                                                    variant="contained"
+                                                    fullWidth
+                                                    type="submit"
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'space-around',
+                                                        borderRadius: 2,
+                                                        padding: 1.4
+                                                    }}
+                                                    disabled={amount === 0 || paymentloader}
+                                                >
+                                                    <Box
                                                         sx={{
                                                             display: 'flex',
                                                             alignItems: 'center',
-                                                            justifyContent: 'space-around',
-                                                            borderRadius: 2,
-                                                            padding: 1.4
+                                                            justifyContent: 'space-between'
                                                         }}
-                                                        disabled={amount === 0}
                                                     >
-                                                        <Box
-                                                            sx={{
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'space-between'
-                                                            }}
-                                                        >
-                                                            <Typography variant="subtitle1" marginRight={1}>
-                                                                {paymentloader ? (
-                                                                    <CircularProgress
-                                                                        size={20}
-                                                                        sx={{ color: theme.palette.background.default }}
-                                                                    />
-                                                                ) : gateway ? (
-                                                                    'Pay with ' + gateway
-                                                                ) : (
-                                                                    'Pay'
-                                                                )}
-                                                            </Typography>
-                                                        </Box>
-                                                    </Button>
-                                                </AnimateButton>
-                                            </Grid>
+                                                        <Typography variant="subtitle1" marginRight={1}>
+                                                            {paymentloader ? (
+                                                                <CircularProgress size={18} sx={{ color: theme.palette.grey[800] }} />
+                                                            ) : gateway ? (
+                                                                'Pay with ' + gateway
+                                                            ) : (
+                                                                'Pay'
+                                                            )}
+                                                        </Typography>
+                                                    </Box>
+                                                </Button>
+                                            </AnimateButton>
                                         </Grid>
                                     </PersonalInfo>
                                 </Grid>

@@ -1,7 +1,4 @@
 const Connections = {
-    // api: 'https://app.p2b-ethiopia.com/placetobe-dev/',
-    // api: 'https://app.p2b-ethiopia.com/placetobe/',
-
     //------------------------development endpoints--------------------
     api: 'http://localhost:8000/api/',
 
