@@ -4,7 +4,7 @@ import Connections from 'api';
 import OrganizerMiniSkeleton from 'ui-component/skeleton/organizermini';
 import PropTypes from 'prop-types';
 
-const OrgMinicard = ({ isLoading, profile, name, category }) => {
+const OrgMinicard = ({ isLoading, profile, name }) => {
     const theme = useTheme();
     return (
         <>
@@ -26,8 +26,8 @@ const OrgMinicard = ({ isLoading, profile, name, category }) => {
                 >
                     <Avatar alt="Profile" src={Connections.api + Connections.assets + profile} sx={{ width: 50, height: 50 }} />
                     <div>
+                        <Typography variant="subtitle2">Posted by</Typography>
                         <Typography variant="h4">{name}</Typography>
-                        <Typography variant="subtitle2">{category}</Typography>
                     </div>
                 </Box>
             )}

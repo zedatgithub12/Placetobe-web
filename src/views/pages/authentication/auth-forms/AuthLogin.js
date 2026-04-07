@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -26,26 +26,50 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
-import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
+import Connections from 'api';
+import { useNavigate } from 'react-router';
+import { GoogleLogin } from '@react-oauth/google';
+import { Link } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
-    const scriptedRef = useScriptRef();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+    const navigate = useNavigate();
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
 
     const googleHandler = async () => {
-        console.error('Login');
+        window.gapi.load('auth2', () => {
+            window.gapi.auth2
+                .init({
+                    client_id: '799616009286-ck594ue3589h93vq4hlqcsmrg71uuekd.apps.googleusercontent.com'
+                })
+                .then((auth2) => {
+                    const element = document.getElementById('google-signin-btn');
+                    auth2.attachClickHandler(
+                        element,
+                        {},
+                        (googleUser) => {
+                            // Handle the signed-in user here
+                            const profile = googleUser.getBasicProfile();
+                            console.log('ID: ' + profile.getId());
+                            console.log('Name: ' + profile.getName());
+                            console.log('Image URL: ' + profile.getImageUrl());
+                            console.log('Email: ' + profile.getEmail());
+                        },
+                        (error) => {
+                            console.error(error);
+                        }
+                    );
+                });
+        });
     };
 
     const [showPassword, setShowPassword] = useState(false);
@@ -57,31 +81,37 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
+    const handleSessions = (token, data) => {
+        localStorage.setItem('token', token);
+        checked ? localStorage.setItem('user', JSON.stringify(data)) : sessionStorage.setItem('user', JSON.stringify(data));
+    };
+
+    const handleLoginSuccess = async (response) => {
+        try {
+            // Access user information after successful login
+            const profileObj = await response.profileObj;
+            console.log(response);
+
+            // Send the user profile to your backend for further processing (optional)
+        } catch (error) {
+            console.error(error);
+            // Handle potential errors during data retrieval
+        }
+    };
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            onClick={googleHandler}
-                            size="large"
-                            variant="outlined"
-                            sx={{
-                                color: 'grey.700',
-                                backgroundColor: theme.palette.grey[50],
-                                borderColor: theme.palette.grey[100]
-                            }}
-                        >
-                            <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-                            </Box>
-                            Sign in with Google
-                        </Button>
+                        <GoogleLogin
+                            clientId="799616009286-ck594ue3589h93vq4hlqcsmrg71uuekd.apps.googleusercontent.com"
+                            onSuccess={handleLoginSuccess}
+                            onError={(error) => console.error(error)}
+                            useOneTap
+                        />
                     </AnimateButton>
-                </Grid>
-                <Grid item xs={12}>
+                </Grid> */}
+                {/* <Grid item xs={12}>
                     <Box
                         sx={{
                             alignItems: 'center',
@@ -89,7 +119,6 @@ const FirebaseLogin = ({ ...others }) => {
                         }}
                     >
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
                         <Button
                             variant="outlined"
                             sx={{
@@ -110,7 +139,7 @@ const FirebaseLogin = ({ ...others }) => {
 
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
                     </Box>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="subtitle1">Sign in with Email address</Typography>
@@ -120,8 +149,8 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -129,25 +158,48 @@ const FirebaseLogin = ({ ...others }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
+                    setSubmitting(true);
+                    var Api = Connections.api + Connections.signIn;
+                    var headers = {
+                        accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    };
+
+                    var Data = {
+                        email: values.email,
+                        password: values.password
+                    };
+
+                    fetch(Api, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(Data)
+                    })
+                        .then((response) => response.json())
+                        .then((response) => {
+                            if (response.success) {
+                                setSubmitting(false);
+                                handleSessions(response.access_token, response.data);
+                                navigate('/');
+                            } else {
+                                setStatus({ success: false });
+                                setErrors({ submit: response.message });
+                                setSubmitting(false);
+                            }
+                        })
+                        .catch((err) => {
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
                             setSubmitting(false);
-                        }
-                    }
+                        });
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-login" color="secondary">
+                                Email Address
+                            </InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -155,7 +207,8 @@ const FirebaseLogin = ({ ...others }) => {
                                 name="email"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                label="Email Address / Username"
+                                label="Email Address"
+                                color="secondary"
                                 inputProps={{}}
                             />
                             {touched.email && errors.email && (
@@ -170,7 +223,9 @@ const FirebaseLogin = ({ ...others }) => {
                             error={Boolean(touched.password && errors.password)}
                             sx={{ ...theme.typography.customInput }}
                         >
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-password-login" color="secondary">
+                                Password
+                            </InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
@@ -191,6 +246,7 @@ const FirebaseLogin = ({ ...others }) => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
+                                color="secondary"
                                 label="Password"
                                 inputProps={{}}
                             />
@@ -207,14 +263,18 @@ const FirebaseLogin = ({ ...others }) => {
                                         checked={checked}
                                         onChange={(event) => setChecked(event.target.checked)}
                                         name="checked"
-                                        color="primary"
+                                        color="secondary"
                                     />
                                 }
                                 label="Remember me"
                             />
-                            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                            <Link
+                                to="/forgot-password"
+                                variant="subtitle1"
+                                style={{ textDecoration: 'none', color: '#333', cursor: 'pointer' }}
+                            >
                                 Forgot Password?
-                            </Typography>
+                            </Link>
                         </Stack>
                         {errors.submit && (
                             <Box sx={{ mt: 3 }}>

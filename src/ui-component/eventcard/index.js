@@ -1,10 +1,34 @@
-import { Typography, Grid, Box, Card, CardMedia, CardContent, CardActionArea, ListItemIcon } from '@mui/material';
-import { Event, AccessTime, LocationOn, AttachMoney } from '@mui/icons-material';
+import { Typography, Grid, Box, Card, CardContent, CardActionArea, ListItemIcon, useTheme, Skeleton } from '@mui/material';
+import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Connections from 'api';
+import { IconCalendar, IconTicket, IconClockHour7, IconMapPin, IconSearch } from '@tabler/icons';
 
-function EventCard({ events }) {
+const EventCard = ({ events }) => {
+    const theme = useTheme();
+    const navigate = useNavigate();
+    //a function which arrange a time to human readable format
+    const TimeFun = (eventTime) => {
+        var time = eventTime;
+        var result = time.slice(0, 2);
+        var minute = time.slice(3, 5);
+        var globalTime;
+        var postMeridian;
+        var separator = ':';
+        if (result > 12) {
+            postMeridian = result - 12;
+            globalTime = 'PM';
+        } else {
+            postMeridian = result;
+            globalTime = 'AM';
+        }
+
+        return postMeridian + separator + minute + ' ' + globalTime;
+    };
+
     return (
-        <Grid container spacing={5} alignItems="center" style={{ paddingLeft: 20 }}>
+        <Grid container spacing={2}>
             {events &&
                 events.map((event, index) => (
                     <Grid
@@ -12,11 +36,11 @@ function EventCard({ events }) {
                         xs={12}
                         sm={6}
                         md={6}
-                        lg={3}
+                        lg={4}
                         xl={3}
                         key={index}
                         onClick={() =>
-                            navigate('/view-event', {
+                            navigate('/event-detail', {
                                 state: { ...event }
                             })
                         }
@@ -24,44 +48,54 @@ function EventCard({ events }) {
                     >
                         <Card variant="outlined">
                             <CardActionArea>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={event.event_image ? event.event_image : event.event_image + '646137991fd91.jpg'}
-                                    alt={event.event_name}
-                                />
+                                {event.event_image ? (
+                                    <LazyLoadImage
+                                        component="img"
+                                        effect="blur"
+                                        delayTime={500}
+                                        src={Connections.api + Connections.assets + event.event_image}
+                                        className="img-fluid rounded m-auto me-2"
+                                    />
+                                ) : (
+                                    <Skeleton variant="rectangular" height={220} />
+                                )}
+
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
+                                    <Typography gutterBottom variant="h4">
                                         {event.event_name}
                                     </Typography>
 
-                                    <Box display="flex" alignItems="center" marginBottom={1}>
-                                        <ListItemIcon sx={{ minWidth: 32 }}>
-                                            <Event />
+                                    <Box display="flex" alignItems="center" marginBottom={1} marginTop={2}>
+                                        <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                            <IconCalendar />
                                         </ListItemIcon>
-                                        <Typography variant="body2">
-                                            {event.start_date} - {event.end_date}
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {new Date(event.start_date).toDateString()}
                                         </Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center" marginBottom={1}>
-                                        <ListItemIcon>
-                                            <AccessTime />
+                                        <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                            <IconClockHour7 />
                                         </ListItemIcon>
-                                        <Typography variant="body2">
-                                            {event.start_time} - {event.end_time}
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {TimeFun(event.start_time)}
                                         </Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center" marginBottom={1}>
-                                        <ListItemIcon>
-                                            <LocationOn />
+                                        <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                            <IconMapPin />
                                         </ListItemIcon>
-                                        <Typography variant="body2">{event.event_address}</Typography>
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {event.event_address}
+                                        </Typography>
                                     </Box>
                                     <Box display="flex" alignItems="center">
-                                        <ListItemIcon>
-                                            <AttachMoney />
+                                        <ListItemIcon sx={{ color: theme.palette.warning.dark }}>
+                                            <IconTicket />
                                         </ListItemIcon>
-                                        <Typography variant="body2">{event.event_entrance_fee}</Typography>
+                                        <Typography variant="body2" className="fw-semibold">
+                                            {event.event_entrance_fee == null ? 'Free' : event.event_entrance_fee + ' ETB'}
+                                        </Typography>
                                     </Box>
                                 </CardContent>
                             </CardActionArea>
@@ -70,19 +104,20 @@ function EventCard({ events }) {
                 ))}
         </Grid>
     );
-}
+};
 EventCard.propTypes = {
     events: PropTypes.arrayOf(
         PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            image: PropTypes.string.isRequired,
-            startDate: PropTypes.string.isRequired,
-            endDate: PropTypes.string.isRequired,
-            startTime: PropTypes.string.isRequired,
-            endTime: PropTypes.string.isRequired,
-            venue: PropTypes.string.isRequired,
-            price: PropTypes.string.isRequired
+            event_name: PropTypes.string.isRequired,
+            event_image: PropTypes.string.isRequired,
+            start_date: PropTypes.string.isRequired,
+            end_date: PropTypes.string.isRequired,
+            start_time: PropTypes.string.isRequired,
+            end_time: PropTypes.string.isRequired,
+            event_address: PropTypes.string.isRequired,
+            event_entrance_fee: PropTypes.string.isRequired
         })
-    ).isRequired
+    )
 };
+
 export default EventCard;
