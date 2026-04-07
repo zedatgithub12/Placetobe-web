@@ -32,7 +32,7 @@ const Events = () => {
     const [activeCategory, setActiveCategory] = useState('All');
     const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
-    const [filter, setFilter] = useState('TodayEvents.php');
+    const [filter, setFilter] = useState('today-events');
     const [page] = useState(0);
     const [rowsPerPage] = useState(12);
 
@@ -43,34 +43,33 @@ const Events = () => {
             setActiveCategory(category.title);
         }
     };
+
     const handleSearchTextChange = (event) => {
         setSearchText(event.target.value);
     };
 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
     const handleTabChange = (event, value) => {
         setFilter(value);
         setSearchText('');
     };
 
     useEffect(() => {
-        setLoading(true);
-        fetch('https://app.p2b-ethiopia.com/placetobe/' + filter, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        })
-            .then((response) => response.json())
-            .then((response) => {
-                setEvents(response[0].Events);
-                setLoading(false);
-            });
+        const handleFetchingDetail = () => {
+            setLoading(true);
+            fetch(Connections.api + filter, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then((response) => response.json())
+                .then((response) => {
+                    if (response.success) {
+                        setEvents(response.data);
+                        setLoading(false);
+                    }
+                });
+        };
+
+        handleFetchingDetail();
 
         return () => {};
     }, [filter]);
@@ -202,70 +201,94 @@ const Events = () => {
             </Box>
 
             <Box gutterBottom>
-                <Paper paddingX={3} sx={{ marginBottom: theme.spacing(2) }}>
-                    <Tabs
-                        value={filter}
-                        onChange={handleTabChange}
-                        textColor="inherit"
-                        TabIndicatorProps={{ style: { backgroundColor: '#ffbb00' } }}
-                        centered
-                        xs={6}
-                        sm={6}
-                        lg={6}
-                    >
-                        <Tab label="Today" value="TodayEvents.php" />
-                        <Tab label="This Week" value="WeekEvents.php" />
-                        <Tab label="Upcoming" value="UpcomingEvents.php" />
-                    </Tabs>
-                </Paper>
+                <Grid container marginY={2} justifyContent={'center'}>
+                    <Grid item xs={12} sm={12} md={10} lg={10} xl={10} sx={{ justifyContent: 'center' }}>
+                        <Paper
+                            paddingX={3}
+                            sx={{ marginBottom: theme.spacing(2), display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                        >
+                            <Tabs
+                                value={filter}
+                                onChange={handleTabChange}
+                                textColor="inherit"
+                                TabIndicatorProps={{ style: { backgroundColor: '#ffbb00' } }}
+                                sx={{ paddingTop: 1 }}
+                            >
+                                <Tab label="Today" value="today-events" />
+                                <Tab label="This Week" value="week-events" />
+                                <Tab label="Upcoming" value="upcoming-events" />
+                            </Tabs>
+                        </Paper>
+                    </Grid>
+                </Grid>
                 {loading ? (
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
+                    <Grid container justifyContent="center">
+                        <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
+                            <Grid container spacing={2} alignItems="center">
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 ) : (
-                    <EventCard events={paginatedData.slice(0, 5)} />
+                    <Grid container justifyContent="center">
+                        <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
+                            <EventCard events={paginatedData.slice(0, 5)} />
+                        </Grid>
+                    </Grid>
                 )}
 
                 {paginatedData.length >= 4 && (
                     <Box marginY={4}>
-                        <ImageCarousel />
+                        <Grid container justifyContent="center">
+                            <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
+                                <ImageCarousel />
+                            </Grid>
+                        </Grid>
                     </Box>
                 )}
 
                 {loading ? (
-                    <Grid container spacing={2} alignItems="center" marginTop={1}>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
-                            <ProductPlaceholder />
+                    <Grid container justifyContent="center">
+                        <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
+                            <Grid container spacing={2} alignItems="center">
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} style={{ textDecoration: 'none' }}>
+                                    <ProductPlaceholder />
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 ) : (
-                    <EventCard events={paginatedData.slice(5, paginatedData.length)} />
+                    <Grid container justifyContent="center">
+                        <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
+                            <EventCard events={paginatedData.slice(5, paginatedData.length)} />
+                        </Grid>
+                    </Grid>
                 )}
             </Box>
         </>
@@ -295,7 +318,7 @@ const EventCard = ({ events }) => {
     };
 
     return (
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2}>
             {events &&
                 events.map((event, index) => (
                     <Grid
@@ -328,7 +351,7 @@ const EventCard = ({ events }) => {
                                 )}
 
                                 <CardContent>
-                                    <Typography gutterBottom variant="h3">
+                                    <Typography gutterBottom variant="h4">
                                         {event.event_name}
                                     </Typography>
 
@@ -361,7 +384,7 @@ const EventCard = ({ events }) => {
                                             <IconTicket />
                                         </ListItemIcon>
                                         <Typography variant="body2" className="fw-semibold">
-                                            {event.event_entrance_fee === '0' ? 'Free' : event.event_entrance_fee + ' ETB'}
+                                            {event.event_entrance_fee == null ? 'Free' : event.event_entrance_fee + ' ETB'}
                                         </Typography>
                                     </Box>
                                 </CardContent>

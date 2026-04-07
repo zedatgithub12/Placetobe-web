@@ -9,11 +9,10 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
-import AuthFooter from 'ui-component/cards/AuthFooter';
 
 // assets
 
-// ===============================|| AUTH3 - REGISTER ||=============================== //
+// ===============================|| AUTH - REGISTER ||=============================== //
 
 const Register = () => {
     const theme = useTheme();
@@ -42,7 +41,7 @@ const Register = () => {
                                             <Grid item>
                                                 <Stack alignItems="center" justifyContent="center" spacing={1}>
                                                     <Typography
-                                                        color={theme.palette.secondary.main}
+                                                        color={theme.palette.primary.dark}
                                                         gutterBottom
                                                         variant={matchDownSM ? 'h3' : 'h2'}
                                                     >
@@ -67,12 +66,7 @@ const Register = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid item container direction="column" alignItems="center" xs={12}>
-                                            <Typography
-                                                component={Link}
-                                                to="/pages/login/login3"
-                                                variant="subtitle1"
-                                                sx={{ textDecoration: 'none' }}
-                                            >
+                                            <Typography component={Link} to="/signin" variant="subtitle1" sx={{ textDecoration: 'none' }}>
                                                 Already have an account?
                                             </Typography>
                                         </Grid>
@@ -81,9 +75,6 @@ const Register = () => {
                             </AuthCardWrapper>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
-                    <AuthFooter />
                 </Grid>
             </Grid>
         </AuthWrapper1>
