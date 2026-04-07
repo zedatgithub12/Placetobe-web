@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { Card, CardContent, Typography, CardActionArea, Grid, Box, useTheme } from '@mui/material';
 import { TicketName } from 'data/TicketIcon';
 import { DateFormatter } from 'utils/function';
+import PropTypes from 'prop-types';
 
 function TicketCard({ onPress, event, type, quantity, iconName, iconColor, price, date, status, textColor }) {
     const theme = useTheme();
@@ -59,5 +59,18 @@ function TicketCard({ onPress, event, type, quantity, iconName, iconColor, price
         </Grid>
     );
 }
+
+TicketCard.propTypes = {
+    onPress: PropTypes.func,
+    event: PropTypes.string,
+    type: PropTypes.string,
+    quantity: PropTypes.number,
+    iconName: PropTypes.string,
+    iconColor: PropTypes.string,
+    price: PropTypes.number,
+    date: PropTypes.string,
+    status: PropTypes.string,
+    textColor: PropTypes.string
+};
 
 export default TicketCard;

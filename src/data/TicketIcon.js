@@ -1,4 +1,5 @@
-import { IconAward, IconIdBadge2, IconMoodKid, IconSchool, IconStar, IconTicket, IconTrophy, IconUser, IconVip } from '@tabler/icons';
+import PropTypes from 'prop-types';
+import { IconAward, IconIdBadge2, IconMoodKid, IconSchool, IconTicket, IconTrophy, IconUser, IconVip } from '@tabler/icons';
 
 export const TicketName = ({ iconname, sx }) => {
     switch (iconname) {
@@ -37,4 +38,9 @@ export const TicketName = ({ iconname, sx }) => {
         default:
             return <IconTicket size={50} style={{ ...sx }} />;
     }
+};
+
+TicketName.propTypes = {
+    iconname: PropTypes.string,
+    sx: PropTypes.object
 };

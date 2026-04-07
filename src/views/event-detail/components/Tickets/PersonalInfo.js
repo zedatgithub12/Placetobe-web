@@ -1,6 +1,7 @@
 import { FormControl, FormHelperText, Grid, InputLabel, OutlinedInput } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 
 const validationSchema = Yup.object().shape({
     full_name: Yup.string().required('Full name is required'),
@@ -69,6 +70,11 @@ const PersonalInfo = ({ handleSubmission, children }) => {
             </Grid>
         </form>
     );
+};
+
+PersonalInfo.propTypes = {
+    handleSubmission: PropTypes.func,
+    children: PropTypes.node
 };
 
 export default PersonalInfo;

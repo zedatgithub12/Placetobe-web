@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Connections from 'api';
-import { IconCalendar, IconTicket, IconClockHour7, IconMapPin, IconSearch } from '@tabler/icons';
+import { IconCalendar, IconTicket, IconClockHour7, IconMapPin } from '@tabler/icons';
 
 const EventCard = ({ events }) => {
     const theme = useTheme();

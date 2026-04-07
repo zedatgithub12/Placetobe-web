@@ -1,6 +1,6 @@
-//import liraries
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { IconCircleCheck } from '@tabler/icons';
+import PropTypes from 'prop-types';
 
 // payemnt gateway selection component a component
 const Gateways = ({ logo, name, isChecked, onPress }) => {
@@ -50,6 +50,13 @@ const Gateways = ({ logo, name, isChecked, onPress }) => {
             </Box>
         </Grid>
     );
+};
+
+Gateways.propTypes = {
+    logo: PropTypes.string,
+    name: PropTypes.string,
+    isChecked: PropTypes.bool,
+    onPress: PropTypes.func
 };
 
 export default Gateways;

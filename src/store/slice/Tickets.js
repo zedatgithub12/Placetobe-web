@@ -14,7 +14,7 @@ const ticketSlice = createSlice({
                 state.tickets = action.payload;
             }
         },
-        getTicketTotal: (state, action) => {
+        getTicketTotal: (state) => {
             let { totalAmount, totalCount } = state.tickets.reduce(
                 (cartTotal, cartItem) => {
                     const { price, amount } = cartItem;
