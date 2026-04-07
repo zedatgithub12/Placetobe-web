@@ -29,7 +29,6 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconBookmarks, IconLogout, IconSettings, IconTicket, IconUser } from '@tabler/icons';
-import SigninPrompt from 'ui-component/auth/SigninPrompt';
 
 // ==============================|| PROFILE MENU ||============================== //
 

@@ -1,32 +1,29 @@
-import { useState, useEffect } from 'react';
-import { Grid, Box, IconButton, Typography, ListItemIcon, Skeleton } from '@mui/material';
-import { Card, CardContent, CardActionArea } from '@mui/material';
 import { ArrowBack, Bookmark, BookmarkBorderOutlined } from '@mui/icons-material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Card, CardActionArea, CardContent, Grid, IconButton, ListItemIcon, Skeleton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import OrgMinicard from 'ui-component/organizer/OrgMinicard';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import Connections from 'api';
 import {
     IconCalendar,
-    IconTicket,
-    IconClockHour7,
-    IconMapPin,
-    IconCategory,
-    IconPhone,
-    IconLink,
-    IconCircleCheck,
     IconCalendarDue,
-    IconCalendarEvent
+    IconCalendarEvent,
+    IconCategory,
+    IconCircleCheck,
+    IconClockHour7,
+    IconLink,
+    IconMapPin,
+    IconPhone,
+    IconTicket
 } from '@tabler/icons';
-import PropTypes from 'prop-types';
-import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
-import { TimeFun, renderStatus } from 'utils/function';
-import { useSelector, useDispatch } from 'react-redux';
-import { bookmarkEvent, unBookmark } from 'store/newstore/bookmarkSlice';
+import Connections from 'api';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
-import EventTicket from './components/EventTicket';
-import BuyTicket from './components/Tickets/BuyTicket';
+import PropTypes from 'prop-types';
+import { useCallback, useEffect, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { bookmarkEvent, unBookmark } from 'store/newstore/bookmarkSlice';
+import ProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
+import OrgMinicard from 'ui-component/organizer/OrgMinicard';
+import { TimeFun, renderStatus } from 'utils/function';
 import DetailContentSkeleton from './components/Skeleton/DetailContent';
 
 const domain = 'https://placetobeethiopia.com/';
@@ -77,7 +74,7 @@ const EventDetail = () => {
         };
     };
 
-    const bookmarked = () => {
+    const bookmarked = useCallback(() => {
         const found = bookmarks.some((event) => event.id === state.id);
         if (found) {
             setBookmarkBtnColor(theme.palette.primary.dark);
@@ -86,7 +83,7 @@ const EventDetail = () => {
             return true;
         }
         return false;
-    };
+    }, [bookmarks, state.id, theme.palette.primary.dark, theme.palette.primary.light]);
 
     useEffect(() => {
         setLoading(true);
@@ -106,7 +103,7 @@ const EventDetail = () => {
             });
         bookmarked();
         return () => {};
-    }, [eventid]);
+    }, [eventid, bookmarked]);
 
     const bookmarkTheEvent = () => {
         const find = bookmarks.find((event) => event.id === eventDetail.id);
@@ -139,15 +136,15 @@ const EventDetail = () => {
             });
     };
 
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
     const handlePrompt = (message, severity) => {
         enqueueSnackbar(message, { variant: severity });
@@ -372,7 +369,7 @@ const EventDetail = () => {
                             </Box>
                         )}
 
-                        <EventTicket isLoading={loading} onBuyTicket={handleClickOpen} />
+                        {/* <EventTicket isLoading={loading} onBuyTicket={handleClickOpen} /> */}
                     </Grid>
                 </Grid>
 
@@ -407,7 +404,7 @@ const EventDetail = () => {
                 </Grid>
             </Box>
 
-            {eventDetail && <BuyTicket open={open} event={eventDetail && eventDetail} id={state.id} handleClose={handleClose} />}
+            {/* {eventDetail && <BuyTicket open={open} event={eventDetail && eventDetail} id={state.id} handleClose={handleClose} />} */}
         </>
     );
 };

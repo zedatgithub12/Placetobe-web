@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect } from 'react';
+import { useState, Fragment, useEffect, useCallback } from 'react';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { Box, Button, CircularProgress, Dialog, Divider, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import { addTicket } from 'store/slice/Tickets';
@@ -33,6 +33,10 @@ function BuyTicket({ open, event, id, handleClose }) {
     //check if the app is opened in payment processor mini app
     const agent = sessionStorage.getItem('agent');
 
+        const handlePrompts = (message, severity) => {
+        enqueueSnackbar(message, { variant: severity });
+    };
+    
     const dispatch = useDispatch();
     const { tickets } = useSelector((state) => state.ticket);
 
@@ -45,7 +49,7 @@ function BuyTicket({ open, event, id, handleClose }) {
     /****************************************************** */
     //featch Tickets
     /***************************************************** */
-    const FetchTicket = () => {
+    const FetchTicket = useCallback(() => {
         const controller = new AbortController();
         const signal = controller.signal;
         const token = localStorage.getItem('token');
@@ -77,9 +81,9 @@ function BuyTicket({ open, event, id, handleClose }) {
             });
 
         return () => {
-            controller.Abort();
+            controller.abort(); // Changed to abort()
         };
-    };
+    }, [id, handlePrompts]);
 
     //increase count of an item
     const handleIncrement = (identity) => {
@@ -106,9 +110,7 @@ function BuyTicket({ open, event, id, handleClose }) {
         });
     };
 
-    const handlePrompts = (message, severity) => {
-        enqueueSnackbar(message, { variant: severity });
-    };
+
 
     useEffect(() => {
         var isSubcribed = true;
@@ -119,7 +121,7 @@ function BuyTicket({ open, event, id, handleClose }) {
         return () => {
             isSubcribed = false;
         };
-    }, []);
+    }, [FetchTicket, dispatch, ticket]);
 
     const ChooseGateway = (gateway) => {
         if (selection === gateway.name) {
@@ -421,6 +423,8 @@ function BuyTicket({ open, event, id, handleClose }) {
 
 BuyTicket.propTypes = {
     open: PropTypes.bool,
+    event: PropTypes.object,
+    id: PropTypes.string,
     handleClose: PropTypes.func,
     onAdded: PropTypes.func
 };
